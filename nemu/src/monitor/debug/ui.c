@@ -44,6 +44,7 @@ static int cmd_si(char *args){
     // TODO: 利用 strtok 读取出 N
     char*p;
     p=strtok(args," ");
+    p=strtok(NULL, " ");
     if(p)
       Log("too much argument '%s', ignored", p);
     // TODO: 然后根据 N 来执行对应的 cpu_exec(N) 操作
