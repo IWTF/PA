@@ -14,7 +14,7 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  * For more details about the register encoding scheme, see i386 manual.
  */
 
-typedef struct {
+typedef union {
   union {
     uint32_t _32;
     uint16_t _16;
@@ -26,19 +26,12 @@ typedef struct {
   /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
    * in PA2 able to directly access these registers.
    */
-  rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 
-  // eax = gpr[0]._32;
-  // ecx = gpr[1]._32;
-  // edx = gpr[2]._32;
-  // ebx = gpr[3]._32;
-  // esx = gpr[4]._32;
-  // edp = gpr[5]._32;
-  // esi = gpr[6]._32;
-  // edi = gpr[7]._32;
+  struct {
+    rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 
-  vaddr_t eip;
-
+    vaddr_t eip;
+  };
 } CPU_state;
 
 extern CPU_state cpu;
