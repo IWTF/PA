@@ -4,6 +4,7 @@
 #include "nemu.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -38,6 +39,27 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+// my own function
+static int cmd_si(char *args){
+    // TODO: 利用 strtok 读取出 N
+    char *myp = strtok("fdasf fdfa dff", " ");
+    Log("too much argument '%s', ignored", myp);
+    // TODO: 然后根据 N 来执行对应的 cpu_exec(N) 操作
+    // cpu_exec(...);
+    return 0;
+}
+
+static int cmd_info(char *args) {
+  cpu_exec(-1);
+  return 0;
+}
+
+static int cmd_x(char *args) {
+  cpu_exec(-1);
+  return 0;
+} // end
+
+
 static struct {
   char *name;
   char *description;
@@ -46,6 +68,9 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si", "Single step execution", cmd_si },
+  { "info", "Printer status", cmd_info },
+  { "x", "Scan memory", cmd_x }
 
   /* TODO: Add more commands */
 
