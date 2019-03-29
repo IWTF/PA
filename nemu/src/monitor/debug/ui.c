@@ -41,11 +41,13 @@ static int cmd_help(char *args);
 
 // my own function
 static int cmd_si(char *args){
+  cpu_exec(-1);
+  
     // TODO: 利用 strtok 读取出 N
-    char *myp = strtok("fdasf fdfa dff", " ");
-    Log("too much argument '%s', ignored", myp);
+    // char *myp = strtok("fdasf fdfa dff", " ");
+    // Log("too much argument '%s', ignored", myp);
     // TODO: 然后根据 N 来执行对应的 cpu_exec(N) 操作
-    cpu_exec(-1);
+    // cpu_exec(-1);
     return 0;
 }
 
