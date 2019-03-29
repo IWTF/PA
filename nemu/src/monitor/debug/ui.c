@@ -45,7 +45,7 @@ static int cmd_si(char *args){
     char *myp = strtok("fdasf fdfa dff", " ");
     Log("too much argument '%s', ignored", myp);
     // TODO: 然后根据 N 来执行对应的 cpu_exec(N) 操作
-    // cpu_exec(...);
+    cpu_exec(-1);
     return 0;
 }
 
