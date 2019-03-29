@@ -43,7 +43,9 @@ static int cmd_help(char *args);
 static int cmd_si(char *args){
     // TODO: 利用 strtok 读取出 N
     char *arg = strtok(NULL, " ");
-    printf("参数为：%s\n", arg);
+
+    int N = (int)*arg; 
+    printf("参数为：%d\n", N);
     // Log("too much argument '%s', ignored", args);
     // TODO: 然后根据 N 来执行对应的 cpu_exec(N) 操作
     cpu_exec(-1);
