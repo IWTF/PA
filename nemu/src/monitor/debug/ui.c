@@ -42,7 +42,9 @@ static int cmd_help(char *args);
 // my own function
 static int cmd_si(char *args){
     // TODO: 利用 strtok 读取出 N
-      Log("too much argument '%s', ignored", args);
+    char *arg = strtok(NULL, " ");
+    printf("参数为：%s\n", arg);
+    // Log("too much argument '%s', ignored", args);
     // TODO: 然后根据 N 来执行对应的 cpu_exec(N) 操作
     cpu_exec(-1);
     return 0;
@@ -80,7 +82,7 @@ static struct {
 static int cmd_help(char *args) {
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
-  printf("参数为： %s\n", args);
+  printf("参数为： %s\n", arg);
   int i;
 
   if (arg == NULL) {
