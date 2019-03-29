@@ -45,6 +45,7 @@ static int cmd_si(char *args){
     char *arg = strtok(NULL, " ");
 
     int N = *arg - '0'; 
+    printf("阐述为%d\n", N);
     // Log("too much argument '%s', ignored", args);
     // TODO: 然后根据 N 来执行对应的 cpu_exec(N) 操作
     cpu_exec(N);
