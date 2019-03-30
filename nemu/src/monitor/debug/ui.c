@@ -78,14 +78,50 @@ static int cmd_info(char *args) {
   return 0;
 }
 
+/*
+ * 将字符转换为数值
+ * */
+int c2i(char ch) {
+        if(isdigit(ch))
+                return ch - 48;
+ 
+        if( ch < 'A' || (ch > 'F' && ch < 'a') || ch > 'z' )
+                return -1;
+
+        if(isalpha(ch))
+                return isupper(ch) ? ch - 55 : ch - 87;
+ 
+        return -1;
+}
+ 
+/*
+ * 功能：将十六进制字符串转换为整型(int)数值
+ * */
+int hex2dec(char *hex) {
+        int len;
+        int num = 0;
+        int temp;
+        int bits;
+        int i;
+        
+        len = strlen(hex);
+ 
+        for (i=0, temp=0; i<len; i++, temp=0) {
+                temp = c2i( *(hex + i) );
+                bits = (len - i - 1) * 4;
+                temp = temp << bits;
+ 
+                num = num | temp;
+        }
+ 
+        return num;
+}
+
 static int cmd_x(char *args) {
   //分割字符串，得到起始位置和要读取的次数
   // uint32_t addr = (uint32_t)atoi(strtok(NULL, " "));
   char *addr_char = strtok(NULL, " ");
-  uint32_t addr = 0;
-  for (int i=0; i<strlen(addr_char); i++) {
-    addr += addr_char[i]<<4*(32-i-1);
-  }
+  uint32_t addr = hex2dec(addr_char);
   int count = atoi(strtok(NULL, " "));
   printf("addr is %u\n", addr);
   printf("count is %d\n", count);
