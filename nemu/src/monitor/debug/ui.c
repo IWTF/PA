@@ -138,7 +138,7 @@ static int cmd_x(char *args) {
 
 
       //每次循环将读取到的数据用 printf 打印出来
-      printf("%.8x\t0x%.8x ... Byte sequence0x\n", addr, a);
+      printf("%.8x\t0x%8x ... Byte sequence0x\n", addr, a);
   }
   return 0;
 } // my function end
