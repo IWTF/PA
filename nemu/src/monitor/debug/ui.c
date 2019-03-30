@@ -106,7 +106,7 @@ int hex2dec(char *hex) {
         
         len = strlen(hex);
  
-        for (i=0, temp=0; i<len; i++, temp=0) {
+        for (i=2, temp=0; i<len; i++, temp=0) {
                 temp = c2i( *(hex + i) );
                 bits = (len - i - 1) * 4;
                 temp = temp << bits;
@@ -122,14 +122,14 @@ static int cmd_x(char *args) {
   int count = atoi(strtok(NULL, " "));
 
   char *addr_char = strtok(NULL, " ");
-  uint32_t addr = hex2dec(addr_char + 2);
+  uint32_t addr = hex2dec(addr_char);
 
   printf("addr is %u\n", addr);
   printf("count is %d\n", count);
 
   // 循环使用 vaddr_read 函数来读取内存
   for(int i=0; i<count; i++) {
-      uint32_t a = vaddr_read(addr, count);    //如何调用，怎么传递参数，请阅读代码
+      uint32_t a = vaddr_read(addr, 1);    //如何调用，怎么传递参数，请阅读代码
       //每次循环将读取到的数据用 printf 打印出来
       printf("get data is %u", a);    //如果你不知道应该打印什么，可以参考参考输出形式
   }
