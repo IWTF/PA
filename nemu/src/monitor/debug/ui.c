@@ -129,18 +129,27 @@ static int cmd_x(char *args) {
   printf("count is %d\n", count);
 
   // 输入提示信息
-  printf("Address\t\tDword block ... Byte sequence0x\n");
-  uint32_t aflag = vaddr_read(addr, 4);
-  printf("%.8x\t0x%.8x ... Byte sequence0x\n", addr, aflag);
+  printf("Address\t\tDword block ... Byte sequence\n");
+  // uint32_t aflag = vaddr_read(addr, 4);
+  // printf("%.8x\t0x%.8x ... Byte sequence0x\n", addr, aflag);
   // 循环使用 vaddr_read 函数来读取内存
   for(int i=0; i<count; i++) {
-      uint32_t addr_n = addr + 1*i;
-      uint32_t a = vaddr_read(addr_n, 1);
+      uint32_t addr_n = addr + 4*i;
+      uint32_t a = vaddr_read(addr_n, 4);
       // uint32_t a = vaddr_read(addr, 1 + i);
 
+      //每次循环将读取到的数据(Dword block)用 printf 打印出来
+      printf("%.8x\t0x%.8x\t", addr_n, a);
 
-      //每次循环将读取到的数据用 printf 打印出来
-      printf("%.8x\t 0x%.8x ... Byte sequence0x\n", addr_n, a);
+      //通过循环将Byte sequence打印出来
+      for (int j=0; j<4; j++) {
+        uint32_t byte_addr = addr + j;
+        uint32_t byte = vaddr_read(byte_addr, 1);
+
+        printf("%x ", byte);
+      }
+
+      printf("\n");
   }
   return 0;
 } // my function end
