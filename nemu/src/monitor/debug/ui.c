@@ -80,7 +80,7 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char *args) {
   //分割字符串，得到起始位置和要读取的次数
-  int addr = atoi(strtok(NULL, " "));
+  uint32_t addr = (uint32_t)atoi(strtok(NULL, " "));
   int count = atoi(strtok(NULL, " "));
   printf("addr is %u\n", addr);
   printf("count is %d\n", count);
