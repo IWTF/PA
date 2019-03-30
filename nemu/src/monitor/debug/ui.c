@@ -64,6 +64,7 @@ static int cmd_si(char *args){
 static int cmd_info(char *args) {
   // 分割字符串
   char *arg = strtok(NULL, " ");
+  printf("获取对参数为%s\n", arg);
 
   // 判断子命令类型
   if (strcmp(arg, "r")) {
@@ -72,7 +73,7 @@ static int cmd_info(char *args) {
     }
   } else {
     if (strcmp(arg, "w")) {
-      printf("尚未实现...");
+      printf("尚未实现...\n");
     }
   }
   return 0;
