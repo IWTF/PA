@@ -129,9 +129,9 @@ static int cmd_x(char *args) {
 
   // 循环使用 vaddr_read 函数来读取内存
   for(int i=0; i<count; i++) {
-      uint32_t a = vaddr_read(addr, 1);    //如何调用，怎么传递参数，请阅读代码
+      uint32_t a = vaddr_read(addr, i);    //如何调用，怎么传递参数，请阅读代码
       //每次循环将读取到的数据用 printf 打印出来
-      printf("get data is %u", a);    //如果你不知道应该打印什么，可以参考参考输出形式
+      printf("get data is %.2x\n", a);    //如果你不知道应该打印什么，可以参考参考输出形式
   }
   return 0;
 } // my function end
