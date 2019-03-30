@@ -146,7 +146,7 @@ static int cmd_x(char *args) {
         uint32_t byte_addr = addr + j;
         uint32_t byte = vaddr_read(byte_addr, 1);
 
-        printf("%x ", byte);
+        printf("%.2x ", byte);
       }
 
       printf("\n");
