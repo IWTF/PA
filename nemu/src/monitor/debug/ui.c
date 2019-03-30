@@ -129,7 +129,7 @@ static int cmd_x(char *args) {
   printf("count is %d\n", count);
 
   // 输入提示信息
-  printf("Address\t\t\t\t\t\t\tDword block ... Byte sequence0x\n");
+  printf("Address\t\t\tDword block ... Byte sequence0x\n");
   // 循环使用 vaddr_read 函数来读取内存
   for(int i=0; i<count; i++) {
       uint32_t addr_n = addr + 4*i;
