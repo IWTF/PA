@@ -119,10 +119,11 @@ int hex2dec(char *hex) {
 
 static int cmd_x(char *args) {
   //分割字符串，得到起始位置和要读取的次数
-  // uint32_t addr = (uint32_t)atoi(strtok(NULL, " "));
-  char *addr_char = strtok(NULL, " ");
-  uint32_t addr = hex2dec(addr_char);
   int count = atoi(strtok(NULL, " "));
+
+  char *addr_char = strtok(NULL, " ");
+  uint32_t addr = hex2dec(addr_char + 2);
+
   printf("addr is %u\n", addr);
   printf("count is %d\n", count);
 
