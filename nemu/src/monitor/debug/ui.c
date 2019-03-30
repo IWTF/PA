@@ -62,7 +62,19 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args) {
-  cpu_exec(-1);
+  // 分割字符串
+  char *arg = strtok(NULL, " ");
+
+  // 判断子命令类型
+  if (strcmp(arg, "r")) {
+    for (int i=0; i<8; i++) {
+       printf("%s:\t%8x\t", regsl[0], cpu.gpr[0]._32);
+    }
+  } else {
+    if (strcmp(arg, "w")) {
+      printf("尚未实现...");
+    }
+  }
   return 0;
 }
 
