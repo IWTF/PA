@@ -80,10 +80,10 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char *args) {
   //分割字符串，得到起始位置和要读取的次数
-  char *addr = strtok(NULL, " ");
-  char *count = strtok(NULL, " ");
-  printf("addr is %s\n", addr);
-  printf("count is %s\n", count);
+  uint32_t addr = atoi(strtok(NULL, " "));
+  int count = atoi(strtok(NULL, " "));
+  printf("addr is %u\n", addr);
+  printf("count is %d\n", count);
 
   //循环使用 vaddr_read 函数来读取内存
   // for(???){
