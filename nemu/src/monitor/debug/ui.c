@@ -125,6 +125,7 @@ static int cmd_x(char *args) {
   uint32_t addr = hex2dec(addr_char);
 
   printf("addr is %u\n", addr);
+  printf("addr hex is %.8x\n", addr);
   printf("count is %d\n", count);
 
   // 输入提示信息
@@ -135,7 +136,7 @@ static int cmd_x(char *args) {
       uint32_t a = vaddr_read(addr_n, i);
 
       //每次循环将读取到的数据用 printf 打印出来
-      printf("%x\t0x%8x\t\n", addr_n, a);
+      printf("%.8x\t0x%8x\t\n", addr_n, a);
   }
   return 0;
 } // my function end
