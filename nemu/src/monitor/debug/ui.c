@@ -108,7 +108,7 @@ int hex2dec(char *hex) {
  
         for (i=2, temp=0; i<len; i++, temp=0) {
                 temp = c2i( *(hex + i) );
-                bits = (len - i - 3) * 4;
+                bits = (len - i - 1) * 4;
                 temp = temp << bits;
  
                 num = num | temp;
