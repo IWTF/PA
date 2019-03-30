@@ -43,15 +43,21 @@ static int cmd_help(char *args);
 static int cmd_si(char *args){
     // TODO: 利用 strtok 读取出 N
     char *arg = strtok(NULL, " ");
+
     uint64_t N;
     if (arg == NULL) {
-      N = -1;
+      N = 1;
     } else {
       N = strtoul(arg, NULL, 0);   // strtoul将字符串转化为无符号长整形
     }
     printf("参数为%lu\n", N);
+
     // TODO: 然后根据 N 来执行对应的 cpu_exec(N) 操作
-    cpu_exec(N);
+    if (N == 0xffffffff) {
+      cpu_exec(-1);
+    } else {
+      cpu_exec(N);
+    }
     return 0;
 }
 
