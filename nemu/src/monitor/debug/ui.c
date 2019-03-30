@@ -50,7 +50,7 @@ static int cmd_si(char *args){
     } else {
       N = strtoul(arg, NULL, 0);   // strtoul将字符串转化为无符号长整形
     }
-    printf("参数为%lu\n", N);
+    // printf("参数为%lu\n", N);
 
     // TODO: 然后根据 N 来执行对应的 cpu_exec(N) 操作
     if (N == 0xffffffff) {
@@ -79,9 +79,20 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args) {
-  cpu_exec(-1);
+  //分割字符串，得到起始位置和要读取的次数
+  char *addr = strtok(NULL, " ");
+  char *count = strtok(NULL, " ");
+  printf("addr is %s\n", addr);
+  printf("count is %s\n", count);
+
+  //循环使用 vaddr_read 函数来读取内存
+  // for(???){
+  //     vaddr_read(...);    //如何调用，怎么传递参数，请阅读代码
+  // //每次循环将读取到的数据用 printf 打印出来
+  //     printf(...);    //如果你不知道应该打印什么，可以参考参考输出形式
+  // }
   return 0;
-} // end
+} // my function end
 
 
 static struct {
@@ -105,7 +116,6 @@ static struct {
 static int cmd_help(char *args) {
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
-  printf("参数为： %s\n", arg);
   int i;
 
   if (arg == NULL) {
