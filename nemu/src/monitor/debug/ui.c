@@ -130,6 +130,8 @@ static int cmd_x(char *args) {
 
   // 输入提示信息
   printf("Address\t\tDword block ... Byte sequence0x\n");
+  uint32_t aflag = vaddr_read(addr, 4);
+  printf("%.8x\t0x%.8x ... Byte sequence0x\n", addr, aflag);
   // 循环使用 vaddr_read 函数来读取内存
   for(int i=0; i<count; i++) {
       uint32_t addr_n = addr + 8*i;
