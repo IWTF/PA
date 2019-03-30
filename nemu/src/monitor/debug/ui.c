@@ -68,7 +68,7 @@ static int cmd_info(char *args) {
   // 判断子命令类型
   if (strcmp(arg, "r") == 0) {
     for (int i=0; i<8; i++) {
-       printf("%s:\t%8x\t", regsl[0], cpu.gpr[0]._32);
+       printf("%s:\t%8x\t\n", regsl[0], cpu.gpr[0]._32);
     }
   } else {
     if (strcmp(arg, "w") == 0) {
