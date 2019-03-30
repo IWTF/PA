@@ -81,17 +81,20 @@ static int cmd_info(char *args) {
 static int cmd_x(char *args) {
   //分割字符串，得到起始位置和要读取的次数
   // uint32_t addr = (uint32_t)atoi(strtok(NULL, " "));
-  char *addr = strtok(NULL, " ");
-  int a = atoi(addr);
+  char *addr_char = strtok(NULL, " ");
+  uint32_t addr = 0;
+  for (int i=0; i<strlen(addr_char); i++) {
+    addr += addr_char[i]<<4*(32-i-1);
+  }
   int count = atoi(strtok(NULL, " "));
-  printf("addr is %d\n", a);
+  printf("addr is %u\n", addr);
   printf("count is %d\n", count);
 
-  //循环使用 vaddr_read 函数来读取内存
-  // for(???){
-  //     vaddr_read(...);    //如何调用，怎么传递参数，请阅读代码
-  // //每次循环将读取到的数据用 printf 打印出来
-  //     printf(...);    //如果你不知道应该打印什么，可以参考参考输出形式
+  // 循环使用 vaddr_read 函数来读取内存
+  // for(int i=0; i<count; i++) {
+  //     uint32_t a = vaddr_read(addr, count);    //如何调用，怎么传递参数，请阅读代码
+  //     //每次循环将读取到的数据用 printf 打印出来
+  //     printf("get data is %u", a);    //如果你不知道应该打印什么，可以参考参考输出形式
   // }
   return 0;
 } // my function end
