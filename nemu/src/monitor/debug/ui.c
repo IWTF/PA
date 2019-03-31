@@ -78,6 +78,7 @@ static int cmd_info(char *args) {
   return 0;
 }
 
+// 将16进制字符串转uint32_t函数
 static int hexToUint32_t(char *hex) {
   uint32_t num = 0;
   for (int i=strlen(hex)-1; i>=0; i--) {
@@ -94,11 +95,8 @@ static int cmd_x(char *args) {
   int count = atoi(strtok(NULL, " "));
 
   char *addr_char = strtok(NULL, " ");
-  uint32_t addr = hexToUint32_t(addr_char);
-  printf("addr is %u\n", addr);
-  printf("addr hex is %.8x\n", addr);
-  return 0;
   // 字符串转数字
+  uint32_t addr = hexToUint32_t(addr_char);
 
   // 验证获取数据对正确性
   // printf("addr is %u\n", addr);
