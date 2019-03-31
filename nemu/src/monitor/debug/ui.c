@@ -78,43 +78,15 @@ static int cmd_info(char *args) {
   return 0;
 }
 
-/*
- * 将字符转换为数值
- * */
-int c2i(char ch) {
-        if(isdigit(ch))
-                return ch - 48;
- 
-        if( ch < 'A' || (ch > 'F' && ch < 'a') || ch > 'z' )
-                return -1;
-
-        if(isalpha(ch))
-                return isupper(ch) ? ch - 55 : ch - 87;
- 
-        return -1;
-}
- 
-/*
- * 功能：将十六进制字符串转换为整型(int)数值
- * */
-int hex2dec(char *hex) {
-        int len;
-        int num = 0;
-        int temp;
-        int bits;
-        int i;
-        
-        len = strlen(hex);
- 
-        for (i=2, temp=0; i<len; i++, temp=0) {
-                temp = c2i( *(hex + i) );
-                bits = (len - i - 1) * 4;
-                temp = temp << bits;
- 
-                num = num | temp;
-        }
- 
-        return num;
+static int hexToUint32_t(char *hex) {
+  uint32_t num = 0;
+  for (int i=strlen(hex)-1; i>=0; i--) {
+    if(hex[i] == 'x')
+      break;
+    int a = hex[i] - '0';
+    num += a<<(strlen(hex)-i-1)*4;
+  }
+  return num;
 }
 
 static int cmd_x(char *args) {
@@ -122,18 +94,11 @@ static int cmd_x(char *args) {
   int count = atoi(strtok(NULL, " "));
 
   char *addr_char = strtok(NULL, " ");
-  uint32_t addr = 0;
-  for (int i=strlen(addr_char)-1; i>=0; i--) {
-    if(addr_char[i] == 'x')
-      break;
-    int a = addr_char[i] - '0';
-    addr += a<<(strlen(addr_char)-i-1)*4;
-  }
+  uint32_t addr = hexToUint32_t(addr_char);
   printf("addr is %u\n", addr);
   printf("addr hex is %.8x\n", addr);
   return 0;
   // 字符串转数字
-  // uint32_t addr = hex2dec(addr_char);
 
   // 验证获取数据对正确性
   // printf("addr is %u\n", addr);
