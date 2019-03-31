@@ -137,11 +137,11 @@ static int cmd_x(char *args) {
       // uint32_t a = vaddr_read(addr, 1 + i);
 
       //每次循环将读取到的数据(Dword block)用 printf 打印出来
-      printf("0x%.8x\t0x%.8x ... ", addr_n, a);
+      printf("0x%.8x\t 0x%.8x ... ", addr_n, a);
 
       //通过循环将Byte sequence打印出来
       for (int j=0; j<4; j++) {
-        uint32_t byte_addr = addr + j;
+        uint32_t byte_addr = addr_n + j;
         uint32_t byte = vaddr_read(byte_addr, 1);
 
         printf("%.2x ", byte);
