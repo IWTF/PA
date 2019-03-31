@@ -118,15 +118,27 @@ int hex2dec(char *hex) {
 }
 
 static int cmd_x(char *args) {
-  //分割字符串，得到起始位置和要读取的次数
+  // 分割字符串，得到起始位置和要读取的次数
   int count = atoi(strtok(NULL, " "));
 
   char *addr_char = strtok(NULL, " ");
-  uint32_t addr = hex2dec(addr_char);
-
+  uint32_t addr = 0;
+  for (int i=strlen(addr_char)-1; i>=0; i--) {
+    if(addr_char[i] == 'x')
+      break;
+    int a = addr_char[i] - '0';
+    addr += a<<(strlen(addr_char)-i-1)*4;
+  }
   printf("addr is %u\n", addr);
   printf("addr hex is %.8x\n", addr);
-  printf("count is %d\n", count);
+  return 0;
+  // 字符串转数字
+  // uint32_t addr = hex2dec(addr_char);
+
+  // 验证获取数据对正确性
+  // printf("addr is %u\n", addr);
+  // printf("addr hex is %.8x\n", addr);
+  // printf("count is %d\n", count);
 
   // 输入提示信息
   printf("Address\t\tDword block ... Byte sequence\n");
@@ -136,10 +148,10 @@ static int cmd_x(char *args) {
       uint32_t a = vaddr_read(addr_n, 4);
       // uint32_t a = vaddr_read(addr, 1 + i);
 
-      //每次循环将读取到的数据(Dword block)用 printf 打印出来
+      // 每次循环将读取到的数据(Dword block)用 printf 打印出来
       printf("0x%.8x\t 0x%.8x ... ", addr_n, a);
 
-      //通过循环将Byte sequence打印出来
+      // 通过循环将Byte sequence打印出来
       for (int j=0; j<4; j++) {
         uint32_t byte_addr = addr_n + j;
         uint32_t byte = vaddr_read(byte_addr, 1);
