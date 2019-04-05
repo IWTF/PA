@@ -125,6 +125,13 @@ static int cmd_x(char *args) {
       printf("\n");
   }
   return 0;
+} 
+
+static int cmd_p(char *args) {
+  char *arg = strtok(NULL, " ");
+  printf("p 参数：%s\n", arg);
+
+  return 0;
 } // my function end
 
 
@@ -138,7 +145,8 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single step execution", cmd_si },
   { "info", "Printer status", cmd_info },
-  { "x", "Scan memory", cmd_x }
+  { "x", "Scan memory", cmd_x },
+  { "p", "Solving expression", cmd_p }
 
   /* TODO: Add more commands */
 
