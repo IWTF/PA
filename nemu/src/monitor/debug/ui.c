@@ -128,7 +128,7 @@ static int cmd_x(char *args) {
 } 
 
 static int cmd_p(char *args) {
-  char *arg = strtok(NULL, " ");
+  char *arg = strtok(NULL, "");
   printf("p 参数：%s\n", arg);
 
   return 0;
