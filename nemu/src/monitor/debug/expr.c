@@ -9,7 +9,7 @@
 enum {
   TK_NOTYPE = 256,
   TK_EQ,
-  TK_0x,
+  TK_HEX,
   TK_OCT,
   TK_REG,
   TK_BLANK
@@ -35,7 +35,7 @@ static struct rule {
   {"==", TK_EQ},                           // equal
   {"\\(", '('},                            // Left parenthesis
   {"\\)", ')'},                            // Right parenthesis
-  {"0x[0-9a-f]{1，8}", TK_0x},             // equal
+  {"0x[0-9a-f]{1,8}", TK_HEX},             // equal
   {"[0-9]+", TK_OCT},                      // equal
   {"\\$[e][a-dsi][xpi]", TK_REG},          // equal \\$[e][a-dsi][xpi] | \\$[E][A-DSI][XPI]
   {"", TK_BLANK},                          // equal
