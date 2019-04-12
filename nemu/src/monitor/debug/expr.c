@@ -109,10 +109,7 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          case '+':
-            printf("匹配到+\n");
-            break;
-          default: TODO();
+          // default: TODO();s
         }
 
         break;
@@ -135,7 +132,7 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  // TODO();
 
   return 0;
 }
