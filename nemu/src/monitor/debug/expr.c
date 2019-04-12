@@ -80,7 +80,14 @@ int nr_token;
 static bool make_token(char *e) {
   int position = 0;
   int i;
-  // regmatch_t类型的结构体数组，存放匹配文本串的位置信息。
+  /* regmatch_t类型的结构体数组，存放匹配文本串的位置信息。
+   * typedef struct
+   * {
+   *   regoff_t rm_so;
+   *   regoff_t rm_eo;
+   * } regmatch_t;
+   * 成员rm_so 存放匹配文本串在目标串中的开始位置，rm_eo 存放结束位置
+   */
   regmatch_t pmatch;
 
   nr_token = 0;

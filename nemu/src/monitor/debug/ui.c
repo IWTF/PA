@@ -129,8 +129,10 @@ static int cmd_x(char *args) {
 
 static int cmd_p(char *args) {
   char *arg = strtok(NULL, "");
+  bool success = true;
   printf("p 参数：%s\n", arg);
 
+  expr(arg, &success);
   return 0;
 } // my function end
 
@@ -177,6 +179,7 @@ static int cmd_help(char *args) {
   return 0;
 }
 
+// 循环函数，只有用户输入q，终止循环或报错退出
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
     cmd_c(NULL);
@@ -204,6 +207,7 @@ void ui_mainloop(int is_batch_mode) {
     sdl_clear_event_queue();
 #endif
 
+    // 和已实现的命令进行比较，找到用户输入的指令
     int i;
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
