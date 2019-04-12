@@ -5,6 +5,7 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <stdlib.h>
 
 enum {
   TK_NOTYPE = 256,
@@ -130,6 +131,36 @@ static bool make_token(char *e) {
   return true;
 }
 
+bool check_parentheses(int p, int q) {
+  if(!strcmp(tokens[p].str, "(") && !strcmp(tokens[q].str, ")")) {
+    return true;
+  }
+  return false;
+}
+
+uint32_t eval(int p, int q) {
+    if (p > q) {
+        assert(0);
+    }
+    else if (p == q) {
+        /* Single token.
+        * For now this token should be a number.
+        * Return the value of the number.
+        */
+      return atoi(tokens[p].str);
+    }
+    else if (check_parentheses(p, q) == true) {
+        /* The expression is surrounded by a matched pair of parentheses.
+        * If that is the case, just throw away the parentheses.
+        */
+        return eval(p + 1, q - 1);
+    }
+    else {
+        /* We should do more things here. */
+      return 0;
+    }
+}
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -137,7 +168,6 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  // TODO();
 
-  return 0;
+  return eval(0, strlen(e));
 }
