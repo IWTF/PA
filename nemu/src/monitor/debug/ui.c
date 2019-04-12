@@ -132,7 +132,8 @@ static int cmd_p(char *args) {
   bool success = true;
   // printf("p 参数：%s\n", arg);
 
-  expr(arg, &success);
+  uint32_t result = expr(arg, &success);
+  printf("%d\n", result);
   return 0;
 } // my function end
 
