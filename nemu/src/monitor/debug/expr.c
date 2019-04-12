@@ -37,7 +37,7 @@ static struct rule {
   {"\\)", ')'},                            // Right parenthesis
   {"0x[0-9a-f]{1,8}", TK_HEX},             // equal
   {"[0-9]+", TK_OCT},                      // equal
-  {"$[e][a-dsi][xpi]", TK_REG},          // equal \\$[e][a-dsi][xpi] | \\$[E][A-DSI][XPI]
+  {"\\$[e][a-dsi][xpi]", TK_REG},          // equal \\$[e][a-dsi][xpi] | \\$[E][A-DSI][XPI]
   {"", TK_BLANK},                          // equal
 
 };
@@ -109,7 +109,7 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          // default: TODO();s
+          // default: TODO();
         }
 
         break;
