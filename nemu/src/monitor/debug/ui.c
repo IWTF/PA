@@ -130,7 +130,7 @@ static int cmd_x(char *args) {
 static int cmd_p(char *args) {
   char *arg = strtok(NULL, "");
   bool success = true;
-  printf("p 参数：%s\n", arg);
+  // printf("p 参数：%s\n", arg);
 
   expr(arg, &success);
   return 0;
