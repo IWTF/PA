@@ -221,7 +221,7 @@ uint32_t eval(int p, int q) {
 
       printf("op-p=%d\n", op-p);
       // 判断是否两个运算符相连
-      if ((op-p)%2 == 0) {
+      if ((op-p)%2 == 0 || (!strcmp(tokens[op-1].str,"-") && !strcmp(tokens[op].str,"-"))) {
         // 判断第二个运算符是否为'-',否则报错（KISS）
         if(tokens[op].type != '-') {
           printf("Operator error\n");
