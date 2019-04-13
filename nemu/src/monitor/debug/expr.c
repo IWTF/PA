@@ -175,7 +175,6 @@ uint32_t find_dominated_op(int p, int q) {
 
 uint32_t eval(int p, int q) {
     if (p > q) {
-        printf("断言停止\n");
         assert(0);
     }
     else if (p == q) {
@@ -185,16 +184,16 @@ uint32_t eval(int p, int q) {
         */
       int result = 0;
 
-      if (tokens[p].type == TK_HEX)
+      if (tokens[p].type == TK_HEX)  // 十六进制数
         sscanf(tokens[p].str, "%x", &result);
-      else if (tokens[p].type == TK_OCT)
+      else if (tokens[p].type == TK_OCT)  // 10进制数
         result = atoi(tokens[p].str);
-      else if (tokens[p].type == TK_REG)
+      else if (tokens[p].type == TK_REG)  // 寄存器
         for (int i=0; i<8; i++) {
           char nreg[5];
           strcpy(nreg, tokens[p].str+1);
           if (strcmp(regsl[i], nreg) == 0) {
-            printf("匹配reg is：%s\n", regsl[i]);
+            // printf("匹配reg is：%s\n", regsl[i]);
             result = cpu.gpr[i]._32;
             break;
           }
@@ -206,13 +205,13 @@ uint32_t eval(int p, int q) {
         /* The expression is surrounded by a matched pair of parentheses.
         * If that is the case, just throw away the parentheses.
         */
-      printf("脱括号\n");
-        return eval(p + 1, q - 1);
+      // printf("脱括号\n");
+      return eval(p + 1, q - 1);
     }
     else {
       /* We should do more things here. */
       uint32_t op = find_dominated_op(p, q);
-      printf("dominated operation position at:%d\n", op);
+      // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
       uint32_t val1 = eval(p, op - 1);
       uint32_t val2 = eval(op + 1, q);
       switch (tokens[op].type) {
