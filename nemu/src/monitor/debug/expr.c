@@ -223,6 +223,7 @@ uint32_t eval(int p, int q) {
           printf("Operator error\n");
           assert(0);
         }
+        printf("这一步还right\n");
         int negative = 0;
         if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
           tokens[op].type = tokens[op+1].type;
@@ -234,10 +235,9 @@ uint32_t eval(int p, int q) {
             char nreg[5];
             strcpy(nreg, tokens[p].str+1);
             if (strcmp(regsl[i], nreg) == 0) {
-              // printf("匹配reg is：%s\n", regsl[i]);
               negative = cpu.gpr[i]._32;
               negative = ~negative+1;
-              tokens[op].type = TK_OCT;
+              // tokens[op].type = TK_OCT;
               // itoa(negative, tokens[op].str, 10);
               printf("负数为：%d\n", negative);
               // return eval(p, op);
