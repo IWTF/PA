@@ -219,7 +219,6 @@ uint32_t eval(int p, int q) {
       uint32_t op = find_dominated_op(p, q);
       // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
 
-      printf("op-p=%d\n", op-p);
       // 判断是否两个运算符相连
       if ((op-p)%2 == 0 || (!strcmp(tokens[op-1].str,"-") && !strcmp(tokens[op].str,"-"))) {
         // 判断第二个运算符是否为'-',否则报错（KISS）
@@ -234,7 +233,7 @@ uint32_t eval(int p, int q) {
         if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
           tokens[op].type = tokens[op+1].type;
           strcat(tokens[op].str, tokens[op+1].str);
-          // printf("负数为：%d\n", negative);
+          printf("负数为：%d\n", negative);
           return eval(p, op);
         } else if (tokens[op+1].type == TK_REG) {
           for (int i=0; i<8; i++) {
@@ -246,7 +245,7 @@ uint32_t eval(int p, int q) {
 
               tokens[op].type = TK_OCT;
               sprintf(tokens[op].str, "%d", negative);
-              // printf("负数为：%s\n", tokens[op].str);
+              printf("负数为：%s\n", tokens[op].str);
               return eval(p, op);
             }
           }
