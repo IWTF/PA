@@ -39,7 +39,7 @@ static struct rule {
   {"0x[0-9a-f]{1,8}", TK_HEX},             // equal
   {"[0-9]+", TK_OCT},                      // equal
   {"\\$[e][a-dsi][xpi]", TK_REG},          // equal \\$[e][a-dsi][xpi] | \\$[E][A-DSI][XPI]
-  {"", TK_BLANK},                          // equal
+  // {"", TK_BLANK},                          // equal
 
 };
 
@@ -183,8 +183,24 @@ uint32_t eval(int p, int q) {
         * For now this token should be a number.
         * Return the value of the number.
         */
-      printf("返回数值\n");
-      return atoi(tokens[p].str);
+      int result = 0;
+
+      if (tokens[p].type == TK_HEX)
+        sscanf(tokens[p].str, "%x", &result);
+      else if (tokens[p].type == TK_OCT)
+        result = atoi(tokens[p].str);
+      else if (tokens[p].type == TK_REG)
+        for (int i=0; i<8; i++) {
+          char nreg[5];
+          strcpy(nreg, tokens[p].str+1);
+          if (strcmp(regsl[i], nreg) == 0) {
+            printf("匹配reg is：%s\n", regsl[i]);
+            result = cpu.gpr[i]._32;
+            break;
+          }
+        }
+
+      return result;
     }
     else if (check_parentheses(p, q) == true) {
         /* The expression is surrounded by a matched pair of parentheses.
