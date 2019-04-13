@@ -115,6 +115,7 @@ static bool make_token(char *e) {
           default: 
             tokens[nr_token].type = rules[i].token_type;
             strcpy(tokens[nr_token].str, substr_start);
+            printf("保存的字符串为:%s\n\n", tokens[nr_token].str);
             nr_token++;
         }
 
