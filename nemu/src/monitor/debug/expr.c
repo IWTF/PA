@@ -175,6 +175,7 @@ uint32_t find_dominated_op(int p, int q) {
 
 uint32_t eval(int p, int q) {
     if (p > q) {
+        printf("断言停止\n");
         assert(0);
     }
     else if (p == q) {
@@ -182,18 +183,29 @@ uint32_t eval(int p, int q) {
         * For now this token should be a number.
         * Return the value of the number.
         */
+      printf("返回数值\n");
       return atoi(tokens[p].str);
     }
     else if (check_parentheses(p, q) == true) {
         /* The expression is surrounded by a matched pair of parentheses.
         * If that is the case, just throw away the parentheses.
         */
+      printf("脱括号\n");
         return eval(p + 1, q - 1);
     }
     else {
       /* We should do more things here. */
       uint32_t op = find_dominated_op(p, q);
       printf("dominated operation position at:%d\n", op);
+      uint32_t val1 = eval(p, op - 1);
+      uint32_t val2 = eval(op + 1, q);
+      switch (tokens[op].type) {
+          case '+': return val1 + val2;
+          case '-': return val1 - val2;
+          case '*': return val1 * val2;
+          case '/': return val1 / val2;
+          default: assert(0);
+      }
       return 0;
     }
 }
