@@ -190,6 +190,7 @@ uint32_t eval(int p, int q) {
         */
       int result = 0;
 
+      printf("双取负%s\n", tokens[p].str);
       if (tokens[p].type == TK_HEX)  // 十六进制数
         sscanf(tokens[p].str, "%x", &result);
       else if (tokens[p].type == TK_OCT)  // 10进制数
