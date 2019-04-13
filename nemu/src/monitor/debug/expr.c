@@ -5,6 +5,7 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 enum {
@@ -148,6 +149,7 @@ bool check_parentheses(int p, int q) {
         num++;
       }
       if(num == 1) {
+        printf("Parentheses do not match\n");
         return false;
       }
     }
@@ -216,6 +218,36 @@ uint32_t eval(int p, int q) {
       /* We should do more things here. */
       uint32_t op = find_dominated_op(p, q);
       // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
+      if ((op-p)%2 == 0) {
+        if(tokens[op].type != '-') {
+          printf("Operator error\n");
+          assert(0);
+        }
+        int negative = 0;
+        if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
+          tokens[op].type = tokens[op+1].type;
+          strcat(tokens[op].str, tokens[op+1].str);
+          printf("负数为：%d\n", negative);
+          return eval(p, op);
+        } else if (tokens[op+1].type == TK_REG) {
+          for (int i=0; i<8; i++) {
+            char nreg[5];
+            strcpy(nreg, tokens[p].str+1);
+            if (strcmp(regsl[i], nreg) == 0) {
+              // printf("匹配reg is：%s\n", regsl[i]);
+              negative = cpu.gpr[i]._32;
+              negative = ~negative+1;
+              tokens[op].type = TK_OCT;
+              // itoa(negative, tokens[op].str, 10);
+              printf("负数为：%d\n", negative);
+              // return eval(p, op);
+            }
+          }
+        } else {
+          printf("Operator error\n");
+          assert(0);
+        }
+      }
       uint32_t val1 = eval(p, op - 1);
       uint32_t val2 = eval(op + 1, q);
       switch (tokens[op].type) {
