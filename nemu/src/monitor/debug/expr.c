@@ -239,7 +239,7 @@ uint32_t eval(int p, int q) {
               tokens[op].type = TK_OCT;
               sprintf(tokens[op].str, "%d", negative);
               printf("负数为：%s\n", tokens[op].str);
-              // return eval(p, op);
+              return eval(p, op);
             }
           }
         } else {
