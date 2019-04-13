@@ -227,7 +227,6 @@ uint32_t eval(int p, int q) {
         if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
           tokens[op].type = tokens[op+1].type;
           strcat(tokens[op].str, tokens[op+1].str);
-          sscanf(tokens[op].str, "%x", &negative);
           printf("负数为：%d\n", negative);
           return eval(p, op);
         } else if (tokens[op+1].type == TK_REG) {
