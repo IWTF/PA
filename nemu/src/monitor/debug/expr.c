@@ -221,12 +221,15 @@ uint32_t eval(int p, int q) {
       // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
 
       // 判断是否两个运算符相连
-      if ((op-p)%2 == 0) {
+      if ((op-p)%2 == 0 || (tokens[p].type == '-' && tokens[op].type == '-')) {
         // 判断第二个运算符是否为'-',否则报错（KISS）
         if(tokens[op].type != '-') {
           printf("Operator error\n");
           assert(0);
         }
+
+        if (tokens[p].type == '-' && tokens[op].type == '-')
+          eval(op+1, q);
 
         // 判断'-'后的数据，取反或报错
         int negative = 0;
