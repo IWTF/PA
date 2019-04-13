@@ -227,6 +227,7 @@ uint32_t eval(int p, int q) {
           assert(0);
         }
 
+        printf("执行了取负操作\n");
         // 判断'-'后的数据，取反或报错
         int negative = 0;
         if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
@@ -241,6 +242,7 @@ uint32_t eval(int p, int q) {
             if (strcmp(regsl[i], nreg) == 0) {
               negative = cpu.gpr[i]._32;
               negative = ~negative+1;
+
               tokens[op].type = TK_OCT;
               sprintf(tokens[op].str, "%d", negative);
               // printf("负数为：%s\n", tokens[op].str);
