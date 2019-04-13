@@ -121,6 +121,7 @@ static bool make_token(char *e) {
             tokens[nr_token].type = rules[i].token_type;
             // strcpy(tokens[nr_token].str, substr_start);
             memcpy(tokens[nr_token].str, substr_start, substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
             // printf("保存的字符串为:%s\n\n", tokens[nr_token].str);
             nr_token++;
         }
@@ -220,18 +221,13 @@ uint32_t eval(int p, int q) {
       // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
 
       // 判断是否两个运算符相连
-      if ((op-p)%2 == 0 || (tokens[op-1].type == '-' && tokens[op].type == '-')) {
+      if ((op-p)%2 == 0) {
         // 判断第二个运算符是否为'-',否则报错（KISS）
         if(tokens[op].type != '-') {
           printf("Operator error\n");
           assert(0);
         }
 
-        if (tokens[op-1].type == '-' && tokens[op].type == '-') {
-          eval(op+1, op+1);
-        }
-
-        printf("执行了取负操作\n");
         // 判断'-'后的数据，取反或报错
         int negative = 0;
         if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
