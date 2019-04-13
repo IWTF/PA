@@ -108,6 +108,10 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
+        if (substr_len > 32) {
+          printf("data is too long to calculate\n");
+          return false;
+        }
 
         switch (rules[i].token_type) {
           case TK_NOTYPE:
