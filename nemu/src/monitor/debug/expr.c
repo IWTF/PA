@@ -190,7 +190,6 @@ uint32_t eval(int p, int q) {
         */
       int result = 0;
 
-      printf("双取负%s\n", tokens[p].str);
       if (tokens[p].type == TK_HEX)  // 十六进制数
         sscanf(tokens[p].str, "%x", &result);
       else if (tokens[p].type == TK_OCT)  // 10进制数
@@ -205,6 +204,10 @@ uint32_t eval(int p, int q) {
             break;
           }
         }
+      else {
+        printf("Operator error(p==q)\n");
+        assert(0);
+      }
 
       return result;
     }
@@ -221,11 +224,18 @@ uint32_t eval(int p, int q) {
       // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
 
       // 判断是否两个运算符相连
-      if ((op-p)%2 == 0 || (tokens[op-1].type == '-' && tokens[op-1].type == '-')) {
+      if ((op-p)%2 == 0 || (tokens[op-1].type == '-' && tokens[op].type == '-')) {
         // 判断第二个运算符是否为'-',否则报错（KISS）
         if(tokens[op].type != '-') {
           printf("Operator error\n");
           assert(0);
+        }
+
+        if (tokens[op-1].type == '-' && tokens[op].type == '-') {
+          for (int i=0; tokens[op].str[i] != '\0'; i++) {
+            tokens[op].str[i] = tokens[op].str[i+1];
+          }
+          eval(op, op);
         }
 
         printf("执行了取负操作\n");
