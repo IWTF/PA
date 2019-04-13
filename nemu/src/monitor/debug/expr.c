@@ -39,7 +39,8 @@ static struct rule {
   {"==", TK_EQ},                           // equal
   {"!=", TK_NEQ},                          // not 
   {"&&", TK_AND},                          // and
-  {"\\|\\|", TK_OR},                           // or
+  {"\\|\\|", TK_OR},                       // or
+  {"!", '!'},                              // Non
   {"\\(", '('},                            // Left parenthesis
   {"\\)", ')'},                            // Right parenthesis
   {"0x[0-9a-f]{1,8}", TK_HEX},             // equal
@@ -174,8 +175,11 @@ uint32_t find_dominated_op(int p, int q) {
     else if(tokens[i].type == ')')
       flag = 0;
     else {
-      if(temp == -1 || tokens[temp].type == '*' || tokens[temp].type == '/') {
+      if(temp == -1 || tokens[temp].type == '!') {
         temp = i;
+      } else if (tokens[temp].type == '*' || tokens[temp].type == '/') {
+        if (tokens[i].type != '!')
+          temp = 1;
       } else if(tokens[temp].type == '+' || tokens[temp].type == '-') {
         if (tokens[i].type != '*' || tokens[i].type != '/')
           temp = i;
