@@ -14,7 +14,9 @@ enum {
   TK_HEX,
   TK_OCT,
   TK_REG,
-  TK_BLANK
+  TK_NEQ,
+  TK_AND,
+  TK_OR
 
   /* TODO: Add more token types */
 
@@ -35,12 +37,14 @@ static struct rule {
   {"\\*", '*'},                            // Multiply
   {"/", '/'},                              // except
   {"==", TK_EQ},                           // equal
+  {"!=", TK_NEQ},                          // not 
+  {"&&", TK_AND},                          // and
+  {"||", TK_OR},                           // or
   {"\\(", '('},                            // Left parenthesis
   {"\\)", ')'},                            // Right parenthesis
   {"0x[0-9a-f]{1,8}", TK_HEX},             // equal
   {"[0-9]+", TK_OCT},                      // equal
-  {"\\$[e][a-dsi][xpi]", TK_REG},          // equal \\$[e][a-dsi][xpi] | \\$[E][A-DSI][XPI]
-  // {"", TK_BLANK},                          // equal
+  {"\\$[e][a-dsi][xpi]", TK_REG}          // equal \\$[e][a-dsi][xpi] | \\$[E][A-DSI][XPI]
 
 };
 
@@ -172,7 +176,10 @@ uint32_t find_dominated_op(int p, int q) {
     else {
       if(temp == -1 || tokens[temp].type == '*' || tokens[temp].type == '/') {
         temp = i;
-      } else if(tokens[i].type == '+' || tokens[i].type == '-') {
+      } else if(tokens[temp].type == '+' || tokens[temp].type == '-') {
+        if (tokens[i].type != '*' || tokens[i].type != '/')
+          temp = i;
+      } else if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ || tokens[i].type == TK_AND || tokens[i].type == TK_OR) {
         temp = i;
       }
     }
@@ -218,25 +225,22 @@ uint32_t eval(int p, int q) {
     else {
       /* We should do more things here. */
       uint32_t op = find_dominated_op(p, q);
-      // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
+      printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
 
       // 判断是否两个运算符相连
-      if ((op-p)%2 == 0 || (tokens[p].type == '-' && tokens[op].type == '-')) {
+      if ((op-p)%2 == 0) {
         // 判断第二个运算符是否为'-',否则报错（KISS）
         if(tokens[op].type != '-') {
           printf("Operator error\n");
           assert(0);
         }
 
-        if (tokens[p].type == '-' && tokens[op].type == '-')
-          eval(op+1, q);
-
         // 判断'-'后的数据，取反或报错
         int negative = 0;
         if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
           tokens[op].type = tokens[op+1].type;
           strcat(tokens[op].str, tokens[op+1].str);
-          printf("负数为：%s\n", tokens[op].str);
+          // printf("负数为：%s\n", tokens[op].str);
           return eval(p, op);
         } else if (tokens[op+1].type == TK_REG) {
           for (int i=0; i<8; i++) {
@@ -248,7 +252,7 @@ uint32_t eval(int p, int q) {
 
               tokens[op].type = TK_OCT;
               sprintf(tokens[op].str, "%d", negative);
-              printf("负数为：%s\n", tokens[op].str);
+              // printf("负数为：%s\n", tokens[op].str);
               return eval(p, op);
             }
           }
@@ -265,6 +269,10 @@ uint32_t eval(int p, int q) {
           case '-': return val1 - val2;
           case '*': return val1 * val2;
           case '/': return val1 / val2;
+          case TK_EQ: return val1 == val2;
+          case TK_NEQ: return val1 != val2;
+          case TK_AND: return val1 && val2;
+          case TK_OR: return val1 || val2;
           default: assert(0);
       }
       return 0;
