@@ -220,7 +220,7 @@ uint32_t eval(int p, int q) {
       // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
 
       // 判断是否两个运算符相连
-      if ((op-p)%2 == 0 || (!strcmp(tokens[op-1].str,"-") && !strcmp(tokens[op].str,"-"))) {
+      if ((op-p)%2 == 0 || (tokens[op-1].type == '-' && tokens[op-1].type == '-')) {
         // 判断第二个运算符是否为'-',否则报错（KISS）
         if(tokens[op].type != '-') {
           printf("Operator error\n");
