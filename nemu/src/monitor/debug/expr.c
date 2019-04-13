@@ -204,10 +204,6 @@ uint32_t eval(int p, int q) {
             break;
           }
         }
-      else {
-        printf("Operator error(p==q)\n");
-        assert(0);
-      }
 
       return result;
     }
@@ -232,10 +228,7 @@ uint32_t eval(int p, int q) {
         }
 
         if (tokens[op-1].type == '-' && tokens[op].type == '-') {
-          for (int i=0; tokens[op].str[i] != '\0'; i++) {
-            tokens[op].str[i] = tokens[op].str[i+1];
-          }
-          eval(op, op);
+          eval(op+1, op+1);
         }
 
         printf("执行了取负操作\n");
