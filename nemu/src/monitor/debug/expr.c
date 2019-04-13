@@ -230,10 +230,9 @@ uint32_t eval(int p, int q) {
           printf("负数为：%d\n", negative);
           return eval(p, op);
         } else if (tokens[op+1].type == TK_REG) {
-        printf("这一步还right\n");
           for (int i=0; i<8; i++) {
             char nreg[5];
-            strcpy(nreg, tokens[p].str+1);
+            strcpy(nreg, tokens[op+1].str+1);
             if (strcmp(regsl[i], nreg) == 0) {
               negative = cpu.gpr[i]._32;
               negative = ~negative+1;
