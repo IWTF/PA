@@ -231,6 +231,15 @@ uint32_t eval(int p, int q) {
       uint32_t op = find_dominated_op(p, q);
       printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
 
+      // 判断是否为单目运算符
+      if ((q-p) == 1) {
+        uint32_t val = eval(op+1, q);
+        switch (tokens[op].type) {
+          case '!': return !val;
+          case '*': return vaddr_read(val, 4); // 取地址的数据
+        }
+      } 
+
       // 判断是否两个运算符相连
       if ((op-p)%2 == 0) {
         // 判断第二个运算符是否为'-',否则报错（KISS）
@@ -270,15 +279,6 @@ uint32_t eval(int p, int q) {
       if (tokens[p].type == '-' && tokens[p+1].type == '-') {
         return eval(p+2, q);
       }
-
-      // 判断是否为单目运算符
-      if ((q-p) == 1) {
-        uint32_t val = eval(op+1, q);
-        switch (tokens[op].type) {
-          case '!': return !val;
-          case '*': return vaddr_read(val, 4); // 取地址的数据
-        }
-      } 
 
       uint32_t val1 = eval(p, op - 1);
       uint32_t val2 = eval(op + 1, q);
