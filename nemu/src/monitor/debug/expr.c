@@ -236,9 +236,9 @@ uint32_t eval(int p, int q) {
             if (strcmp(regsl[i], nreg) == 0) {
               negative = cpu.gpr[i]._32;
               negative = ~negative+1;
-              // tokens[op].type = TK_OCT;
-              // itoa(negative, tokens[op].str, 10);
-              printf("负数为：%d\n", negative);
+              tokens[op].type = TK_OCT;
+              sprintf(tokens[op].str, "%d", negative);
+              printf("负数为：%s\n", tokens[op].str);
               // return eval(p, op);
             }
           }
