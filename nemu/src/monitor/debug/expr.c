@@ -116,7 +116,7 @@ static bool make_token(char *e) {
             tokens[nr_token].type = rules[i].token_type;
             // strcpy(tokens[nr_token].str, substr_start);
             memcpy(tokens[nr_token].str, substr_start, substr_len);
-            printf("保存的字符串为:%s\n\n", tokens[nr_token].str);
+            // printf("保存的字符串为:%s\n\n", tokens[nr_token].str);
             nr_token++;
         }
 
@@ -206,5 +206,5 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
 
-  return eval(0, strlen(e)-1);
+  return eval(0, nr_token - 1);
 }
