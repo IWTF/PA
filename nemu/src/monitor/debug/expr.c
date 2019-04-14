@@ -233,8 +233,8 @@ uint32_t eval(int p, int q) {
 
       // 判断是否为单目运算符
       if ((q-p) == 1) {
-        uint32_t val = eval(op+1, q);
-        switch (tokens[op].type) {
+        uint32_t val = eval(p+1, q);
+        switch (tokens[p].type) {
           case '!': return !val;
           case '*': return vaddr_read(val, 4); // 取地址的数据
         }
