@@ -247,6 +247,7 @@ uint32_t eval(int p, int q) {
       // 判断是否两个运算符相连
       if ((op-p)%2 == 0) {
         // 判断第二个运算符是否为'-',否则报错（KISS）
+        printf("operator%s\t%d\n", tokens[op].str, op);
         if(tokens[op].type != '-') {
           printf("Operator error\n");
           assert(0);
