@@ -206,17 +206,21 @@ uint32_t eval(int p, int q) {
         sscanf(tokens[p].str, "%x", &result);
       else if (tokens[p].type == TK_OCT)  // 10进制数
         sscanf(tokens[p].str, "%d", &result);
-      else if (tokens[p].type == TK_REG)  // 寄存器
+      else if (tokens[p].type == TK_REG) {// 寄存器
+        int flag = 0;
         for (int i=0; i<8; i++) {
           char nreg[5];
           strcpy(nreg, tokens[p].str+1);
           if (strcmp(regsl[i], nreg) == 0) {
             // printf("匹配reg is：%s\n", regsl[i]);
             result = cpu.gpr[i]._32;
+            flag = 1;
             break;
           }
         }
-
+        if (flag == 0)
+          result = cpu.eip;
+      }
       return result;
     }
     else if (check_parentheses(p, q) == true) {
