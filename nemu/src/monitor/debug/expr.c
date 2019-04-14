@@ -168,7 +168,7 @@ uint32_t find_dominated_op(int p, int q) {
   int temp = -1;
   int flag = 0;
   for (int i=p; i<=q; i++) {
-    if(tokens[i].type == TK_HEX || tokens[i].type == TK_OCT || (flag&&tokens[i].type != ')')) 
+    if(tokens[i].type == TK_HEX || tokens[i].type == TK_OCT || tokens[i].type == TK_REG || (flag&&tokens[i].type != ')')) 
       continue;
     else if(tokens[i].type == '(')
       flag = 1;
