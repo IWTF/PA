@@ -95,8 +95,15 @@ static int cmd_x(char *args) {
   int count = atoi(strtok(NULL, " "));
 
   char *addr_char = strtok(NULL, " ");
-  // 字符串转数字
-  uint32_t addr = hexToUint32_t(addr_char);
+  uint32_t addr;
+
+  if (addr_char[0] != 0) {
+    bool success = true;
+    addr = expr(addr_char, &success);
+  } else {
+    addr = hexToUint32_t(addr_char);
+  }
+
 
   // 验证获取数据对正确性
   // printf("addr is %u\n", addr);
