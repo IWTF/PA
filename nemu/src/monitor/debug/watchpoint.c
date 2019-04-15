@@ -27,7 +27,7 @@ WP *new_wp(char *e) {
 	}
 
 	// 获取该watchpoint的表达式
-	strcpy(free_->expr, e);
+	// strcpy(free_->expr, e);
 	printf("get expr is %s\n", e);
 
 	// 获取该watchpoint的值
