@@ -48,12 +48,13 @@ void free_wp(int position) {
 }
 
 bool delete_watchpoint(int position) {
+	WP *temp;
+	WP *p = head;
+	WP *pre = head;
+
 	if (head == NULL) {
 		return false;
 	}
-
-	WP *p = head;
-	WP *pre = head;
 	while(p) {
 		if (p->NO == position) {
 			break;
@@ -62,9 +63,14 @@ bool delete_watchpoint(int position) {
 		pre = p; 
 	}
 
-	pre->next = p->next;
+	temp = p->next;
 	p->next = free_->next;
 	free_ = p;
+	if (head == p)
+		head = NULL;
+	else {
+		pre->next = temp;
+	}
 
 	printf("Delete the %s, NO is #%d\n", free_->expr, free_->NO);
 	return true;
@@ -75,7 +81,7 @@ void list_watchpoint() {
 	if (p)
 		printf("NO  Expr\t\tOld Value\n");
 	while(p) {
-		printf("%3d%s\t\t%d\n", p->NO, p->expr, p->old_val);
+		printf("%-4d%s\t\t%d\n", p->NO, p->expr, p->old_val);
 		p = p->next;
 	}
 }
