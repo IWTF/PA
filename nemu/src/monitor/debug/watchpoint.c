@@ -19,5 +19,43 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP *new_wp(char *e) {
+	if (free_ == NULL) {
+		printf("no free watchpoint can be used!\n");
+		assert(0);
+	}
 
+	// 获取该watchpoint的表达式
+	strcpy(free_->expr, e);
+
+	// 获取该watchpoint的值
+	bool success = true;
+    uint32_t value = expr(e, &success);
+    free_->old_val = value;
+
+	WP *temp = head->next;
+	head = free_;
+	free_ = free_->next;
+	head->next = temp;
+
+	return head;
+}
+
+void free_wp(int position) {
+	WP *p = head;
+	WP *pre = head;
+	while(p) {
+		if (p->NO == position) {
+			break;
+		}
+		p = p->next;
+		pre = p; 
+	}
+
+	pre->next = p->next;
+	p->next = free_->next;
+	free_ = p;
+
+	printf("Delete the %s, NO is #%d\n", free_->expr, free_->NO);
+}
 
