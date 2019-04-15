@@ -27,15 +27,15 @@ WP *new_wp(char *e) {
 
 	// 获取该watchpoint的表达式
 	strcpy(free_->expr, e);
-	printf("watchpoint no is%s\n", e);
 
 	// 获取该watchpoint的值
 	bool success = true;
     uint32_t value = expr(e, &success);
-    printf("value is %d\n", value);
     free_->old_val = value;
 
-	WP *temp = head ? head->next : NULL;
+	WP *temp = NULL;
+	if (head)
+		temp = head->next;
 	head = free_;
 	free_ = free_->next;
 	head->next = temp;
