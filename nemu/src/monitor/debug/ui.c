@@ -147,7 +147,6 @@ static int cmd_p(char *args) {
 static int cmd_w(char *args) {
   char *expr = strtok(NULL, "");
   WP *cur_w = new_wp(expr);
-  printf("expr is: %s\n", expr);
 
   // 输入添加成功的提示信息
   printf("Set watchpoint #%d\n", cur_w->NO);

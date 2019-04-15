@@ -30,15 +30,17 @@ void cpu_exec(uint64_t n) {
 
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
-    WP *p = scan_watchpoint();
-    if (p != NULL) {
-      nemu_state = NEMU_STOP;
+    for (int i=0; i<32; i++) {
+      WP *p = scan_watchpoint();
+      if (p != NULL) {
+        nemu_state = NEMU_STOP;
 
-      printf("Hit watchpoint %d at address %d\n", p->NO, cpu.eip);
-      printf("expr\t= %s\n", p->expr);
-      printf("old value = %d\n", p->old_val);
-      printf("new value = %d\n", p->new_val);
-      p->old_val = p->new_val;
+        printf("Hit watchpoint %d at address %d\n", p->NO, cpu.eip);
+        printf("expr\t= %s\n", p->expr);
+        printf("old value = %d\n", p->old_val);
+        printf("new value = %d\n", p->new_val);
+        p->old_val = p->new_val;
+      }
     }
 #endif
 
