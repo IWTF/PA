@@ -91,11 +91,12 @@ WP *scan_watchpoint() {
     while (p) {
       bool success = true;
       uint32_t value = expr(p->expr, &success);
-      printf("%s is %d\n", p->expr, value);
+      // printf("%s is %d\n", p->expr, value);
       p->new_val = value;
       if (p->new_val != p->old_val) {
         return p;
       }
+      p = p->next;
     }
     return NULL;
 }
