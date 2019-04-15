@@ -30,19 +30,16 @@ void cpu_exec(uint64_t n) {
 
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
-    // WP *p = head;
-    // for (p) {
-    //   bool success = true;
-    //   uint32_t value = expr(e, &success);
-    //   printf("%s is %d\n", p->expr, value);
-    //   p->new_val = value;
-    //   if (p->new_val != p->old_val) {
-    //     nemu_state = NEMU_STOP;
-    //   }
+    WP *p = scan_watchpoint();
+    if (p != NULL) {
+      nemu_state = NEMU_STOP;
 
-    //   printf("Hit watchpoint %d at address %s\n", p->NO, cpu.eip);
-    //   p->old_val = p->new_val;
-    // }
+      printf("Hit watchpoint %d at address %d\n", p->NO, cpu.eip);
+      printf("expr\t= %s\n", p->expr);
+      printf("old value = %d\n", p->old_val);
+      printf("new value = %d\n", p->new_val);
+      p->old_val = p->new_val;
+    }
 #endif
 
 #ifdef HAS_IOE

@@ -72,8 +72,7 @@ static int cmd_info(char *args) {
     }
   } else {
     if (strcmp(arg, "w") == 0) {
-      char *arg1 = strtok(NULL, "");
-      printf("the expr is: %s\n", arg1);
+      list_watchpoint();
     }
   }
   return 0;
@@ -164,7 +163,9 @@ static int cmd_d(char *args) {
   printf("arg is:%s\n", arg);
   sscanf(arg, "%d", &NO);
 
-  free_wp(NO);
+  bool result = delete_watchpoint(NO);
+  if (!result)
+    printf("No watchpoints exist\n");
   return 0; 
 }
 // my function end

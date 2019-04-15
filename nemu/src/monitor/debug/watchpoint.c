@@ -44,11 +44,14 @@ WP *new_wp(char *e) {
 }
 
 void free_wp(int position) {
+	printf("未实现\n");
+}
+
+bool delete_watchpoint(int position) {
 	if (head == NULL) {
-		printf("No watchpoints exist\n");
-		return;
+		return false;
 	}
-	
+
 	WP *p = head;
 	WP *pre = head;
 	while(p) {
@@ -64,5 +67,28 @@ void free_wp(int position) {
 	free_ = p;
 
 	printf("Delete the %s, NO is #%d\n", free_->expr, free_->NO);
+	return true;
 }
 
+void list_watchpoint() {
+	WP *p = head;
+	if (p)
+		printf("NO  Expr\t\tOld Value\n");
+	while(p) {
+		printf("%3d%s\t\t%d\n", p->NO, p->expr, p->old_val);
+	}
+}
+
+WP *scan_watchpoint() {
+	WP *p = head;
+    while (p) {
+      bool success = true;
+      uint32_t value = expr(p->expr, &success);
+      printf("%s is %d\n", p->expr, value);
+      p->new_val = value;
+      if (p->new_val != p->old_val) {
+        return p;
+      }
+    }
+    return NULL;
+}
