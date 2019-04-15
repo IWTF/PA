@@ -6,7 +6,7 @@
 
 typedef struct watchpoint {
   int NO;
-  char *expr;
+  char expr[30];
   int new_val;
   int old_val;
   struct watchpoint *next;
