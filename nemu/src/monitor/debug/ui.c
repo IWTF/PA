@@ -147,13 +147,13 @@ static int cmd_p(char *args) {
 
 static int cmd_w(char *args) {
   char *expr = strtok(NULL, "");
-  WP *cur_w = new_wp(expr);
+  // WP *cur_w = new_wp(expr);
   printf("expr is: %s\n", expr);
 
   // 输入添加成功的提示信息
-  printf("Set watchpoint #%d\n", cur_w->NO);
-  printf("expr\t= %s\n", cur_w->expr);
-  printf("old value = %d\n", cur_w->old_val);
+  // printf("Set watchpoint #%d\n", cur_w->NO);
+  // printf("expr\t= %s\n", cur_w->expr);
+  // printf("old value = %d\n", cur_w->old_val);
 
   return 0;
 }
@@ -172,7 +172,7 @@ static struct {
   { "info", "Printer status", cmd_info },
   { "x", "Scan memory", cmd_x },
   { "p", "Solving expression", cmd_p },
-  { "w", "Add watchpoint", cmd_w}
+  { "w", "Add a watchpoint", cmd_w}
 
   /* TODO: Add more commands */
 
