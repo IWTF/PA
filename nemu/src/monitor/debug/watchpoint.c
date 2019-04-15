@@ -20,15 +20,14 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 WP *new_wp(char *e) {
-	printf("dfadfadfad\n");
 	if (free_ == NULL) {
 		printf("no free watchpoint can be used!\n");
 		assert(0);
 	}
 
 	// 获取该watchpoint的表达式
-	strcpy(free_->expr, e);
-	printf("watchpoint no is%s\n", free_->expr);
+	// strcpy(free_->expr, e);
+	printf("watchpoint no is%s\n", e);
 
 	// 获取该watchpoint的值
 	bool success = true;
