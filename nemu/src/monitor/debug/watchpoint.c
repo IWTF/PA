@@ -20,6 +20,7 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 WP *new_wp(char *e) {
+	printf("dfadfadfad\n");
 	if (free_ == NULL) {
 		printf("no free watchpoint can be used!\n");
 		assert(0);
