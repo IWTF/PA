@@ -4,7 +4,7 @@
 #define NR_WP 32
 
 static WP wp_pool[NR_WP];
-static WP *head, *free_;
+static WP *head, *free;
 
 void init_wp_pool() {
   int i;
@@ -15,35 +15,35 @@ void init_wp_pool() {
   wp_pool[NR_WP - 1].next = NULL;
 
   head = NULL;
-  free_ = wp_pool;
+  free = wp_pool;
 }
 
 /* TODO: Implement the functionality of watchpoint */
 WP *new_wp(char *e) {
-	if (free_ == NULL) {
+	if (free == NULL) {
 		printf("no free watchpoint can be used!\n");
 		assert(0);
 	}
 
 	// 获取该watchpoint的表达式
-	strcpy(free_->expr, e);
+	strcpy(free->expr, e);
 
 	// 获取该watchpoint的值
 	bool success = true;
     uint32_t value = expr(e, &success);
-    free_->old_val = value;
+    free->old_val = value;
 
 	WP *temp = NULL;
 	if (head)
 		temp = head->next;
-	head = free_;
-	free_ = free_->next;
+	head = free;
+	free = free->next;
 	head->next = temp;
 
 	return head;
 }
 
-void free_wp(int position) {
+void freewp(int position) {
 	printf("未实现\n");
 }
 
@@ -64,15 +64,15 @@ bool delete_watchpoint(int position) {
 	}
 
 	temp = p->next;
-	p->next = free_->next;
-	free_ = p;
+	p->next = free->next;
+	free = p;
 	if (head == p)
 		head = NULL;
 	else {
 		pre->next = temp;
 	}
 
-	printf("Delete the %s, NO is #%d\n", free_->expr, free_->NO);
+	printf("Delete the %s, NO is #%d\n", free->expr, free->NO);
 	return true;
 }
 

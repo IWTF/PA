@@ -150,7 +150,7 @@ static int cmd_w(char *args) {
 
   // 输入添加成功的提示信息
   printf("Set watchpoint #%d\n", cur_w->NO);
-  printf("expr  \t= %s\n", cur_w->expr);
+  printf("expr   \t = %s\n", cur_w->expr);
   printf("old value = %d\n", cur_w->old_val);
 
   return 0;
@@ -159,7 +159,7 @@ static int cmd_w(char *args) {
 static int cmd_d(char *args) {
   int NO;
   char *arg = strtok(NULL, " ");
-  printf("arg is:%s\n", arg);
+  // printf("arg is:%s\n", arg);
   sscanf(arg, "%d", &NO);
 
   bool result = delete_watchpoint(NO);
