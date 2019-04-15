@@ -152,10 +152,20 @@ static int cmd_w(char *args) {
 
   // 输入添加成功的提示信息
   printf("Set watchpoint #%d\n", cur_w->NO);
-  printf("expr\t= %s\n", cur_w->expr);
+  printf("expr  \t= %s\n", cur_w->expr);
   printf("old value = %d\n", cur_w->old_val);
 
   return 0;
+}
+
+static int cmd_d(char *args) {
+  int NO;
+  char *arg = strtok(NULL, " ");
+  printf("arg is:%s\n", arg);
+  sscanf(arg, "%d", &NO);
+
+  free_wp(NO);
+  return 0; 
 }
 // my function end
 
@@ -172,7 +182,8 @@ static struct {
   { "info", "Printer status", cmd_info },
   { "x", "Scan memory", cmd_x },
   { "p", "Solving expression", cmd_p },
-  { "w", "Add a watchpoint", cmd_w}
+  { "w", "Add a watchpoint", cmd_w},
+  { "d", "Delete a watchpoint,According to it's NO", cmd_d }
 
   /* TODO: Add more commands */
 

@@ -44,6 +44,11 @@ WP *new_wp(char *e) {
 }
 
 void free_wp(int position) {
+	if (head == NULL) {
+		printf("No watchpoints exist\n");
+		return;
+	}
+	
 	WP *p = head;
 	WP *pre = head;
 	while(p) {
