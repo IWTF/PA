@@ -35,7 +35,7 @@ WP *new_wp(char *e) {
     printf("value is %d\n", value);
     free_->old_val = value;
 
-	WP *temp = head->next ? head->next : NULL;
+	WP *temp = head ? head->next : NULL;
 	head = free_;
 	free_ = free_->next;
 	head->next = temp;
