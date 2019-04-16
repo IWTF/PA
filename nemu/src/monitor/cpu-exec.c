@@ -42,10 +42,10 @@ void cpu_exec(uint64_t n) {
           printf("  new value = %d\n", p->new_val);
           p->old_val = p->new_val;
         } else {
-          char *addr = strtok(NULL, " ");
+          char *addr = strtok(p->expr, " ");
           addr = strtok(NULL, " ");
           addr = strtok(NULL, " ");
-          printf("  Breakpoint %d at %s\n", p->NO, addr);
+          printf("Breakpoint %d at %s\n", p->NO, addr);
           p->old_val = p->new_val;
         }
       }
