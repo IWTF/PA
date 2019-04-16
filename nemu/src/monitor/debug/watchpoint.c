@@ -1,6 +1,5 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
-#include <regex.h>
 
 #define NR_WP 32
 
@@ -26,13 +25,14 @@ WP *new_wp(char *e) {
 		assert(0);
 	}
 
-	regex_t *re = NULL;
-	if (regcomp(re, "0x[0-9a-f]{1,8}", REG_EXTENDED) != 0) {
-		printf("  正则表达式编译失败\n");
-		assert(0);
-	}
-	regmatch_t pmatch;
-	if(regexec(re, e, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
+	// regex_t *re = NULL;
+	// if (regcomp(re, "0x[0-9a-f]{1,8}", REG_EXTENDED) != 0) {
+	// 	printf("  正则表达式编译失败\n");
+	// 	assert(0);
+	// }
+	// regmatch_t pmatch;
+	// if(regexec(re, e, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
+	if(e[0]=='0' && e[1]=='x') {
 		printf("  匹配成功\n");
 		free_->type = 1;
 
