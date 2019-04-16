@@ -41,21 +41,22 @@ WP *new_wp(char *e) {
 	return head;
 }
 
-void free_wp(WP *wp) {
-	WP *p = head->next;
-	if (head == wp) {
-		head = wp->next;
+void free_wp(WP *p) {
+	WP *pre = head;
+	
+	if(head == p) {
+		head = p->next;
 	} else {
-		while (p) {
-			if (p == wp) {
-				p = wp->next;
+		while(pre) {
+			if(pre->next == p){
+				pre->next = p->next;
 				break;
 			}
-			p = p->next;
+			pre = pre->next;
 		}
 	}
-	wp->next = free_->next;
-	free_ = wp;
+	p->next = free_->next;
+	free_ = p;
 }
 
 int set_watchpoint(char *e) {
