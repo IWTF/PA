@@ -132,15 +132,15 @@ void list_watchpoint() {
 WP *scan_watchpoint() {
 	WP *p = head;
     while (p) {
-      bool success = true;
-      uint32_t value = expr(p->expr, &success);
-      // printf("%s is %d\n", p->expr, value);
-      p->new_val = value;
-      if (p->new_val != p->old_val) {
-      	printf("变化\n");
-        return p;
-      }
-      p = p->next;
+   		bool success = true;
+  		uint32_t value = expr(p->expr, &success);
+  		// printf("%s is %d\n", p->expr, value);
+  		p->new_val = value;
+
+	    if (p->new_val != p->old_val) {
+	      return p;
+	    }
+	    p = p->next;
     }
     return NULL;
 }

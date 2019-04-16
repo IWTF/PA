@@ -42,6 +42,7 @@ void cpu_exec(uint64_t n) {
           printf("  new value = %d\n", p->new_val);
           p->old_val = p->new_val;
         } else {
+          p->new_val = p->old_val;
           printf("  Breakpoint %d at %x\n", p->NO, p->old_val);
         }
       }
