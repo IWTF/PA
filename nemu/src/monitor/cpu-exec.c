@@ -48,6 +48,7 @@ void cpu_exec(uint64_t n) {
           printf("Breakpoint %d at %s\n", p->NO, addr);
           p->old_val = 0;
           p->new_val = 0;
+          break;
         }
       }
     }
