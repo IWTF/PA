@@ -39,7 +39,6 @@ WP *new_wp(char *e) {
 		strcpy(a, "$eip == ");
 		strcat(a, e);
 		strcpy(free_->expr, e);
-		printf("  匹配成功\n");
 
 		// 将指令取出，存入str
 		// ...
