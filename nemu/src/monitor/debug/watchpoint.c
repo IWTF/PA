@@ -4,7 +4,7 @@
 #define NR_WP 32
 
 static WP wp_pool[NR_WP];
-static WP *head, *free;
+static WP *head, *free_;
 
 void init_wp_pool() {
   int i;
@@ -15,42 +15,64 @@ void init_wp_pool() {
   wp_pool[NR_WP - 1].next = NULL;
 
   head = NULL;
-  free = wp_pool;
+  free_ = wp_pool;
 }
 
 /* TODO: Implement the functionality of watchpoint */
 WP *new_wp(char *e) {
-	if (free == NULL) {
+	if (free_ == NULL) {
 		printf("no free watchpoint can be used!\n");
 		assert(0);
 	}
 
 	// 获取该watchpoint的表达式
-	strcpy(free->expr, e);
+	strcpy(free_->expr, e);
 
 	// 获取该watchpoint的值
 	bool success = true;
     uint32_t value = expr(e, &success);
-    free->old_val = value;
+    free_->old_val = value;
 
 	WP *temp = NULL;
 	if (head)
 		temp = head->next;
-	head = free;
-	free = free->next;
+	head = free_;
+	free_ = free_->next;
 	head->next = temp;
 
 	return head;
 }
 
-void freewp(int position) {
-	printf("未实现\n");
+void free_wp(WP *wp) {
+	WP *p = head->next;
+	if (head == wp) {
+		head = wp->next;
+	} else {
+		while (p) {
+			if (p == wp) {
+				p = wp->next;
+				break;
+			}
+		}
+	}
+	wp->next = free_->next;
+	free_ = wp;
+}
+
+int set_watchpoint(char *e) {
+	WP *cur_w = new_wp(e);
+
+	printf("Set watchpoint #%d\n", cur_w->NO);
+	printf("expr   \t  = %s\n", cur_w->expr);
+	printf("old value = %d\n", cur_w->old_val);
+
+	return cur_w->NO;
 }
 
 bool delete_watchpoint(int position) {
-	WP *temp;
+	// WP *temp;
 	WP *p = head;
-	WP *pre = head;
+	// WP *pre = head;
 
 	if (head == NULL) {
 		return false;
@@ -60,19 +82,20 @@ bool delete_watchpoint(int position) {
 			break;
 		}
 		p = p->next;
-		pre = p; 
+		// pre = p; 
 	}
 
-	temp = p->next;
-	p->next = free->next;
-	free = p;
-	if (head == p)
-		head = NULL;
-	else {
-		pre->next = temp;
-	}
+	free_wp(p);
+	// temp = p->next;
+	// p->next = free_->next;
+	// free_ = p;
+	// if (head == p)
+	// 	head = NULL;
+	// else {
+	// 	pre->next = temp;
+	// }
 
-	printf("Delete the %s, NO is #%d\n", free->expr, free->NO);
+	// printf("Delete the %s, NO is #%d\n", free_->expr, free_->NO);
 	return true;
 }
 
