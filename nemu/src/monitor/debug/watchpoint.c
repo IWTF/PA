@@ -35,7 +35,8 @@ WP *new_wp(char *e) {
 	if(e[0]=='0' && e[1]=='x') {
 		free_->type = 1;
 
-		char *a = "$eip == ";
+		char a[20];
+		strcpy(a, "$eip == ");
 		strcat(a, e);
 		strcpy(free_->expr, e);
 		printf("  匹配成功\n");
