@@ -1,5 +1,6 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
+#include <regex.h>
 
 #define NR_WP 32
 
@@ -25,13 +26,35 @@ WP *new_wp(char *e) {
 		assert(0);
 	}
 
-	// 获取该watchpoint的表达式
-	strcpy(free_->expr, e);
+	regex_t *re = NULL;
+	if (regcomp(re, "0x[0-9a-f]{1,8}", REG_EXTENDED) != 0) {
+		printf("  正则表达式编译失败\n");
+		assert(0);
+	}
+	regmatch_t pmatch;
+	if(regexec(re, e, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
+		printf("  匹配成功\n");
+		free_->type = 1;
 
-	// 获取该watchpoint的值
-	bool success = true;
-    uint32_t value = expr(e, &success);
-    free_->old_val = value;
+		char *a = "$eip == ";
+		strcpy(a, e);
+		strcpy(free_->expr, e);
+
+		// 将指令取出，存入str
+		// ...
+	} else {
+		free_->type = 0;
+
+		// 获取该watchpoint的表达式
+		strcpy(free_->expr, e);
+
+		// 获取该watchpoint的值
+		bool success = true;
+	    uint32_t value = expr(e, &success);
+	    free_->old_val = value;
+	}
+
+	
 
 	WP *temp = head;
 	head = free_;
@@ -62,17 +85,20 @@ void free_wp(WP *p) {
 int set_watchpoint(char *e) {
 	WP *cur_w = new_wp(e);
 
-	printf("Set watchpoint #%d\n", cur_w->NO);
-	printf("expr   \t  = %s\n", cur_w->expr);
-	printf("old value = %d\n", cur_w->old_val);
+	printf("  Set watchpoint #%d\n", cur_w->NO);
+	printf("  expr   \t  = %s\n", cur_w->expr);
+	printf("  old value = %d\n", cur_w->old_val);
 
 	return cur_w->NO;
 }
 
+int set_breakpoint(char *e) {
+	WP *cur_w = new_wp(e);
+	return cur_w->NO;
+}
+
 bool delete_watchpoint(int position) {
-	// WP *temp;
 	WP *p = head;
-	// WP *pre = head;
 
 	if (head == NULL) {
 		return false;
@@ -86,16 +112,7 @@ bool delete_watchpoint(int position) {
 	}
 
 	free_wp(p);
-	// temp = p->next;
-	// p->next = free_->next;
-	// free_ = p;
-	// if (head == p)
-	// 	head = NULL;
-	// else {
-	// 	pre->next = temp;
-	// }
 
-	// printf("Delete the %s, NO is #%d\n", free_->expr, free_->NO);
 	return true;
 }
 
@@ -104,7 +121,8 @@ void list_watchpoint() {
 	if (p)
 		printf("NO  Expr\t\tOld Value\n");
 	while(p) {
-		printf("%-4d%s\t\t%d\n", p->NO, p->expr, p->old_val);
+		if (p->type == 0)
+			printf("%-4d%s\t\t%d\n", p->NO, p->expr, p->old_val);
 		p = p->next;
 	}
 }
