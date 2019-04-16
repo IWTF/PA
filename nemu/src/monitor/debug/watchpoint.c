@@ -35,6 +35,7 @@ WP *new_wp(char *e) {
 	if(e[0]=='0' && e[1]=='x') {
 		free_->type = 1;
 
+		// 构造 $eip == 0x100006表达式，模拟断点
 		char a[20];
 		strcpy(a, "$eip == ");
 		strcat(a, e);
@@ -47,14 +48,14 @@ WP *new_wp(char *e) {
 
 		// 获取该watchpoint的表达式
 		strcpy(free_->expr, e);
-
-		// 获取该watchpoint的值
-		bool success = true;
-	    uint32_t value = expr(e, &success);
-	    free_->old_val = value;
+		
 	}
 
 	
+	// 获取该watchpoint的值 && 储存地址e，方便以后输出
+	bool success = true;
+    uint32_t value = expr(e, &success);
+    free_->old_val = value;
 
 	WP *temp = head;
 	head = free_;
