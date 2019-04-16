@@ -33,11 +33,7 @@ WP *new_wp(char *e) {
     uint32_t value = expr(e, &success);
     free_->old_val = value;
 
-	WP *temp = NULL;
-	if (head) {
-		printf("head 不为NULL\n");
-		temp = head->next;
-	}
+	WP *temp = head;
 	head = free_;
 	free_ = free_->next;
 	head->next = temp;
