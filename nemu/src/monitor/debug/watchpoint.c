@@ -37,7 +37,7 @@ WP *new_wp(char *e) {
 		free_->type = 1;
 
 		char *a = "$eip == ";
-		strcpy(a, e);
+		strcat(a, e);
 		strcpy(free_->expr, e);
 
 		// 将指令取出，存入str
