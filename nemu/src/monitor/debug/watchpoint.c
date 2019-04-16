@@ -33,12 +33,12 @@ WP *new_wp(char *e) {
 	// regmatch_t pmatch;
 	// if(regexec(re, e, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
 	if(e[0]=='0' && e[1]=='x') {
-		printf("  匹配成功\n");
 		free_->type = 1;
 
 		char *a = "$eip == ";
 		strcat(a, e);
 		strcpy(free_->expr, e);
+		printf("  匹配成功\n");
 
 		// 将指令取出，存入str
 		// ...
