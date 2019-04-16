@@ -43,8 +43,7 @@ void cpu_exec(uint64_t n) {
           p->old_val = p->new_val;
         } else {
           printf("  Breakpoint %d at %x\n", p->NO, p->old_val);
-          cpu.eip += 1;
-          break;
+          p->old_val = p->new_val;
         }
       }
     }

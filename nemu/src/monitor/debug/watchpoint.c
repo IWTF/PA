@@ -47,12 +47,14 @@ WP *new_wp(char *e) {
 
 		// 获取该watchpoint的表达式
 		strcpy(free_->expr, e);
-		
 	}
 
 	// 获取该watchpoint的值 && 储存地址e，方便以后输出
 	bool success = true;
-    uint32_t value = expr(e, &success);
+	uint32_t value = 0;
+	if (free_->type == 0) {
+		value = expr(e, &success);
+	}
     free_->old_val = value;
 
 	WP *temp = head;
@@ -134,9 +136,6 @@ WP *scan_watchpoint() {
   		// printf("%s is %d\n", p->expr, value);
   		p->new_val = value;
 
-  		if (value == 1 && p->type == 1)
-  			return p;
-  		
 	    if (p->new_val != p->old_val) {
 	      return p;
 	    }
