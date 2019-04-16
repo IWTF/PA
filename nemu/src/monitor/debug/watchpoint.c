@@ -44,7 +44,7 @@ WP *new_wp(char *e) {
 }
 
 void free_wp(WP *wp) {
-	WP *p = head->next;
+	WP *p = head;
 	if (head == wp) {
 		head = wp->next;
 	} else {
@@ -53,6 +53,7 @@ void free_wp(WP *wp) {
 				p = wp->next;
 				break;
 			}
+			p = p->next;
 		}
 	}
 	wp->next = free_->next;
