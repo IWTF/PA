@@ -160,7 +160,10 @@ static int cmd_w(char *args) {
 
 static int cmd_b(char *args) {
   char *arg = strtok(NULL, " ");
-  return set_breakpoint(arg);
+  int NO = set_breakpoint(arg);
+  printf("Set breakpoint #%d\n", NO);
+
+  return 0;
 }
 
 static int cmd_d(char *args) {
