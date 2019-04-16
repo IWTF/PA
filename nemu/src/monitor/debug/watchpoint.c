@@ -39,7 +39,8 @@ WP *new_wp(char *e) {
 		char a[20];
 		strcpy(a, "$eip == ");
 		strcat(a, e);
-		strcpy(free_->expr, e);
+		strcpy(free_->expr, a);
+		printf("保存值为：%s\n", free_->expr);
 
 		// 将指令取出，存入str
 		// ...
@@ -133,9 +134,10 @@ WP *scan_watchpoint() {
     while (p) {
       bool success = true;
       uint32_t value = expr(p->expr, &success);
-      printf("%s is %d\n", p->expr, value);
+      // printf("%s is %d\n", p->expr, value);
       p->new_val = value;
       if (p->new_val != p->old_val) {
+      	printf("变化\n");
         return p;
       }
       p = p->next;
