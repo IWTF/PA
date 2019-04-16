@@ -34,8 +34,10 @@ WP *new_wp(char *e) {
     free_->old_val = value;
 
 	WP *temp = NULL;
-	if (head)
+	if (head) {
+		printf("head 不为NULL\n");
 		temp = head->next;
+	}
 	head = free_;
 	free_ = free_->next;
 	head->next = temp;
