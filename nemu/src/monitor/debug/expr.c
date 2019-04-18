@@ -177,7 +177,10 @@ uint32_t find_dominated_op(int p, int q) {
     if(flag == 0) {
       if(tokens[temp].type == '!') cur_p = 15;
       if (tokens[temp].type == '*' || tokens[temp].type == '/') cur_p = 14;
-      if(tokens[temp].type == '+' || tokens[temp].type == '-') cur_p = 13;
+      if(tokens[temp].type == '+' || tokens[temp].type == '-') {
+        cur_p = 13;
+        printf("dsafasdfdf\n");
+      }
       if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ) cur_p = 10;
       if (tokens[i].type == TK_AND) cur_p = 6;
       if (tokens[i].type == TK_OR) cur_p = 5;
