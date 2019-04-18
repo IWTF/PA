@@ -50,7 +50,7 @@ WP *new_wp(char *e) {
 	}
     free_->old_val = value;
 
-	WP *temp = head->next;
+	WP *temp = head;
 	head = free_;
 	free_ = free_->next;
 	head->next = temp;
