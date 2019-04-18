@@ -183,7 +183,7 @@ uint32_t find_dominated_op(int p, int q) {
       if (tokens[i].type == TK_OR) cur_p = 5;
 
       if (tokens[i].type != TK_HEX && tokens[i].type != TK_OCT && TK_REG && tokens[i].type != ')') {
-        // printf("NO.%d cur_p is:%d\n", i, cur_p);
+        printf("NO.%d cur_p is:%d\n", i, tokens[i].type);
         if (cur_p <= pre_p) {
           temp = i;
           pre_p = cur_p;
