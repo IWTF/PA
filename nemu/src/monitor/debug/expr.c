@@ -177,16 +177,13 @@ uint32_t find_dominated_op(int p, int q) {
     if(flag == 0) {
       if(tokens[i].type == '!') cur_p = 15;
       if (tokens[i].type == '*' || tokens[i].type == '/') cur_p = 14;
-      if(tokens[i].type == '+' || tokens[i].type == '-') {
-        cur_p = 13;
-        printf("dsafasdfdf\n");
-      }
+      if(tokens[i].type == '+' || tokens[i].type == '-') cur_p = 13;
       if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ) cur_p = 10;
       if (tokens[i].type == TK_AND) cur_p = 6;
       if (tokens[i].type == TK_OR) cur_p = 5;
 
       if (tokens[i].type != TK_HEX && tokens[i].type != TK_OCT && TK_REG && tokens[i].type != ')') {
-        printf("NO.%d cur_p is:%d\n", i, cur_p);
+        // printf("NO.%d cur_p is:%d\n", i, cur_p);
         if (cur_p < pre_p) {
           temp = i;
           pre_p = cur_p;
@@ -254,39 +251,39 @@ uint32_t eval(int p, int q) {
       } 
 
       // 判断是否两个运算符相连
-      // if ((op-p)%2 == 0) {
-      //   // 判断第二个运算符是否为'-',否则报错（KISS）
-      //   if(tokens[op].type != '-') {
-      //     printf("Operator error\n");
-      //     assert(0);
-      //   }
+      if ((op-p)%2 == 0) {
+        // 判断第二个运算符是否为'-',否则报错（KISS）
+        if(tokens[op].type != '-') {
+          printf("Operator error\n");
+          assert(0);
+        }
 
-      //   // 判断'-'后的数据，取反或报错
-      //   int negative = 0;
-      //   if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
-      //     tokens[op].type = tokens[op+1].type;
-      //     strcat(tokens[op].str, tokens[op+1].str);
-      //     // printf("负数为：%s\n", tokens[op].str);
-      //     return eval(p, op);
-      //   } else if (tokens[op+1].type == TK_REG) {
-      //     for (int i=0; i<8; i++) {
-      //       char nreg[5];
-      //       strcpy(nreg, tokens[op+1].str+1);
-      //       if (strcmp(regsl[i], nreg) == 0) {
-      //         negative = cpu.gpr[i]._32;
-      //         negative = ~negative+1;
+        // 判断'-'后的数据，取反或报错
+        int negative = 0;
+        if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
+          tokens[op].type = tokens[op+1].type;
+          strcat(tokens[op].str, tokens[op+1].str);
+          // printf("负数为：%s\n", tokens[op].str);
+          return eval(p, op);
+        } else if (tokens[op+1].type == TK_REG) {
+          for (int i=0; i<8; i++) {
+            char nreg[5];
+            strcpy(nreg, tokens[op+1].str+1);
+            if (strcmp(regsl[i], nreg) == 0) {
+              negative = cpu.gpr[i]._32;
+              negative = ~negative+1;
 
-      //         tokens[op].type = TK_OCT;
-      //         sprintf(tokens[op].str, "%d", negative);
-      //         // printf("负数为：%s\n", tokens[op].str);
-      //         return eval(p, op);
-      //       }
-      //     }
-      //   } else {
-      //     printf("Operator error\n");
-      //     assert(0);
-      //   }
-      // }
+              tokens[op].type = TK_OCT;
+              sprintf(tokens[op].str, "%d", negative);
+              // printf("负数为：%s\n", tokens[op].str);
+              return eval(p, op);
+            }
+          }
+        } else {
+          printf("Operator error\n");
+          assert(0);
+        }
+      }
 
       // 判断是否为--a的情况
       if (tokens[p].type == '-' && tokens[p+1].type == '-') {
