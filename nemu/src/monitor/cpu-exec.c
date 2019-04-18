@@ -55,7 +55,7 @@ void cpu_exec(uint64_t n) {
     WP *p = scan_watchpoint();
     while (p) {
       if (p->type == 0) {
-        printf("  Hit watchpoint %d at address %d\n", p->NO, cpu.eip);
+        printf("  Hit watchpoint %d at address %8x\n", p->NO, cpu.eip);
         printf("  expr \t  = %s\n", p->expr);
         printf("  old value = %d\n", p->old_val);
         printf("  new value = %d\n", p->new_val);
