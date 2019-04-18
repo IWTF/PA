@@ -30,27 +30,46 @@ void cpu_exec(uint64_t n) {
 
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
-    for (int i=0; i<32; i++) {
-      WP *p = scan_watchpoint();
-      if (p != NULL) {
-        nemu_state = NEMU_STOP;
+    // for (int i=0; i<32; i++) {
+    //   WP *p = scan_watchpoint();
+    //   if (p != NULL) {
+    //     nemu_state = NEMU_STOP;
 
-        if (p->type == 0) {
-          printf("  Hit watchpoint %d at address %d\n", p->NO, cpu.eip);
-          printf("  expr \t  = %s\n", p->expr);
-          printf("  old value = %d\n", p->old_val);
-          printf("  new value = %d\n", p->new_val);
-          p->old_val = p->new_val;
-        } else {
-          char *addr = strtok(p->expr, " ");
-          addr = strtok(NULL, " ");
-          addr = strtok(NULL, " ");
-          printf("Breakpoint %d at %s\n", p->NO, addr);
-          p->old_val = 0;
-          p->new_val = 0;
-          break;
-        }
+    //     if (p->type == 0) {
+    //       printf("  Hit watchpoint %d at address %d\n", p->NO, cpu.eip);
+    //       printf("  expr \t  = %s\n", p->expr);
+    //       printf("  old value = %d\n", p->old_val);
+    //       printf("  new value = %d\n", p->new_val);
+    //       p->old_val = p->new_val;
+    //     } else {
+    //       char *addr = strtok(p->expr, " ");
+    //       addr = strtok(NULL, " ");
+    //       addr = strtok(NULL, " ");
+    //       printf("Breakpoint %d at %s\n", p->NO, addr);
+    //       p->old_val = 0;
+    //       p->new_val = 0;
+    //       break;
+    //     }
+    //   }
+    // }
+    WP *p = scan_watchpoint();
+    while (p) {
+      if (p->type == 0) {
+        printf("  Hit watchpoint %d at address %d\n", p->NO, cpu.eip);
+        printf("  expr \t  = %s\n", p->expr);
+        printf("  old value = %d\n", p->old_val);
+        printf("  new value = %d\n", p->new_val);
+        p->old_val = p->new_val;
+      } else {
+        char *addr = strtok(p->expr, " ");
+        addr = strtok(NULL, " ");
+        addr = strtok(NULL, " ");
+        printf("Breakpoint %d at %s\n", p->NO, addr);
+        p->old_val = 0;
+        p->new_val = 0;
+        break;
       }
+      p = p->next;
     }
 #endif
 

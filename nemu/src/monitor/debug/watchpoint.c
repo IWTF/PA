@@ -129,17 +129,39 @@ void list_watchpoint() {
 }
 
 WP *scan_watchpoint() {
-	WP *p = head;
-    while (p) {
-   		bool success = true;
-  		uint32_t value = expr(p->expr, &success);
-  		// printf("%s is %d\n", p->expr, value);
-  		p->new_val = value;
+	// WP *p = head;
+ //    while (p) {
+ //   		bool success = true;
+ //  		uint32_t value = expr(p->expr, &success);
+ //  		// printf("%s is %d\n", p->expr, value);
+ //  		p->new_val = value;
 
-	    if (p->new_val != p->old_val) {
-	      return p;
+	//     if (p->new_val != p->old_val) {
+	//       return p;
+	//     }
+	//     p = p->next;
+ //    }
+ //    return NULL;
+	WP *rehead = NULL;
+	int flag = 0;
+	WP *temp;
+	WP *p = head;
+	WP *pre = head;
+	while (p) {
+		bool success = true;
+  		p->new_val = expr(p->expr, &success);
+
+	    if (p->new_val != p->old_val && flag == 0) {
+	        rehead = p;
+	        flag = 1;
+	    } else if (p->new_val == p->old_val && flag == 1) {
+	    	temp = head->next;
+	    	head = p;
+	    	pre->next = p->next;
+	    	p->next = temp;
 	    }
+	    pre = p;
 	    p = p->next;
-    }
-    return NULL;
+	}
+	return rehead;
 }
