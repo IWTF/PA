@@ -248,39 +248,39 @@ uint32_t eval(int p, int q) {
       } 
 
       // 判断是否两个运算符相连
-      if ((op-p)%2 == 0) {
-        // 判断第二个运算符是否为'-',否则报错（KISS）
-        if(tokens[op].type != '-') {
-          printf("Operator error\n");
-          assert(0);
-        }
+      // if ((op-p)%2 == 0) {
+      //   // 判断第二个运算符是否为'-',否则报错（KISS）
+      //   if(tokens[op].type != '-') {
+      //     printf("Operator error\n");
+      //     assert(0);
+      //   }
 
-        // 判断'-'后的数据，取反或报错
-        int negative = 0;
-        if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
-          tokens[op].type = tokens[op+1].type;
-          strcat(tokens[op].str, tokens[op+1].str);
-          // printf("负数为：%s\n", tokens[op].str);
-          return eval(p, op);
-        } else if (tokens[op+1].type == TK_REG) {
-          for (int i=0; i<8; i++) {
-            char nreg[5];
-            strcpy(nreg, tokens[op+1].str+1);
-            if (strcmp(regsl[i], nreg) == 0) {
-              negative = cpu.gpr[i]._32;
-              negative = ~negative+1;
+      //   // 判断'-'后的数据，取反或报错
+      //   int negative = 0;
+      //   if (tokens[op+1].type == TK_OCT || tokens[op+1].type == TK_HEX) {
+      //     tokens[op].type = tokens[op+1].type;
+      //     strcat(tokens[op].str, tokens[op+1].str);
+      //     // printf("负数为：%s\n", tokens[op].str);
+      //     return eval(p, op);
+      //   } else if (tokens[op+1].type == TK_REG) {
+      //     for (int i=0; i<8; i++) {
+      //       char nreg[5];
+      //       strcpy(nreg, tokens[op+1].str+1);
+      //       if (strcmp(regsl[i], nreg) == 0) {
+      //         negative = cpu.gpr[i]._32;
+      //         negative = ~negative+1;
 
-              tokens[op].type = TK_OCT;
-              sprintf(tokens[op].str, "%d", negative);
-              // printf("负数为：%s\n", tokens[op].str);
-              return eval(p, op);
-            }
-          }
-        } else {
-          printf("Operator error\n");
-          assert(0);
-        }
-      }
+      //         tokens[op].type = TK_OCT;
+      //         sprintf(tokens[op].str, "%d", negative);
+      //         // printf("负数为：%s\n", tokens[op].str);
+      //         return eval(p, op);
+      //       }
+      //     }
+      //   } else {
+      //     printf("Operator error\n");
+      //     assert(0);
+      //   }
+      // }
 
       // 判断是否为--a的情况
       if (tokens[p].type == '-' && tokens[p+1].type == '-') {
