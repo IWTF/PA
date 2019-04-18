@@ -61,12 +61,7 @@ void cpu_exec(uint64_t n) {
         printf("  new value = %d\n", p->new_val);
         p->old_val = p->new_val;
       } else {
-        char *addr = strtok(p->expr, " ");
-        addr = strtok(NULL, " ");
-        addr = strtok(NULL, " ");
-        printf("Breakpoint %d at %s\n", p->NO, addr);
-        p->old_val = 0;
-        p->new_val = 0;
+        printf("Breakpoint %d at %8x\n", p->NO, cpu.eip);
         break;
       }
       p = p->next;
