@@ -236,7 +236,7 @@ uint32_t eval(int p, int q) {
     else {
       /* We should do more things here. */
       uint32_t op = find_dominated_op(p, q);
-      // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
+      printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
 
       // 判断是否为单目运算符
       if ((q-p) == 1) {
