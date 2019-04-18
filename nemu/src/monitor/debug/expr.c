@@ -285,7 +285,7 @@ uint32_t eval(int p, int q) {
         }
       }
 
-      // 判断是否为--a的情况
+      // 判断是否为--a的情况,a的值已在上函数中改变
       if (tokens[p].type == '-' && tokens[p+1].type == '-') {
         return eval(p+2, q);
       }
