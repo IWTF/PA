@@ -167,25 +167,28 @@ bool check_parentheses(int p, int q) {
 uint32_t find_dominated_op(int p, int q) {
   int temp = -1;
   int flag = 0;
+  int cur_p = 0;
+  int pre_p = 17;
   for (int i=p; i<=q; i++) {
-    if(tokens[i].type == TK_HEX || tokens[i].type == TK_OCT || tokens[i].type == TK_REG || (flag&&tokens[i].type != ')')) 
-      continue;
-    else if(tokens[i].type == '(')
-      flag = 1;
+    if(tokens[i].type == '(')
+      flag++;
     else if(tokens[i].type == ')')
-      flag = 0;
-    else {
-      if(temp == -1 || tokens[temp].type == '!') {
+      flag--;
+    if(flag == 0) {
+      if(tokens[temp].type == '!') cur_p = 15;
+      if (tokens[temp].type == '*' || tokens[temp].type == '/') cur_p = 14;
+      if(tokens[temp].type == '+' || tokens[temp].type == '-') cur_p = 13;
+      if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ) cur_p = 10;
+      if (tokens[i].type == TK_AND) cur_p = 6;
+      if (tokens[i].type == TK_OR) cur_p = 5;
+
+      if (cur_p < pre_p) {
         temp = i;
-      } else if (tokens[temp].type == '*' || tokens[temp].type == '/') {
-        if (tokens[i].type != '!')
-          temp = 1;
-      } else if(tokens[temp].type == '+' || tokens[temp].type == '-') {
-        if (tokens[i].type != '*' || tokens[i].type != '/')
-          temp = i;
-      } else if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ || tokens[i].type == TK_AND || tokens[i].type == TK_OR) {
-        temp = i;
+        pre_p = cur_p;
       }
+    }
+    if (flag < 0) {
+      return -2;
     }
   }
   return temp;

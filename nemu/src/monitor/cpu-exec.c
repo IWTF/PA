@@ -54,6 +54,7 @@ void cpu_exec(uint64_t n) {
     // }
     WP *p = scan_watchpoint();
     while (p) {
+      nemu_state = NEMU_STOP;
       if (p->type == 0) {
         printf("  Hit watchpoint %d at address %8x\n", p->NO, cpu.eip);
         printf("  expr \t  = %s\n", p->expr);
