@@ -62,6 +62,10 @@ void cpu_exec(uint64_t n) {
         printf("  new value = %d\n", p->new_val);
         p->old_val = p->new_val;
       } else {
+        unsigned char *bp = (unsigned char *)0x100000;
+        for (int i=0; i<4; i++) {
+          printf("%.2xbp\n", bp[i]);
+        }
         printf("Breakpoint %d at %8x\n", p->NO, cpu.eip);
         break;
       }
