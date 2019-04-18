@@ -183,7 +183,7 @@ uint32_t find_dominated_op(int p, int q) {
       if (tokens[i].type == TK_OR) cur_p = 5;
 
       if (tokens[i].type != TK_HEX && tokens[i].type != TK_OCT && tokens[i].type != TK_REG && tokens[i].type != ')') {
-        printf("NO.%d cur_p is:%d\n", i, tokens[i].type);
+        // printf("NO.%d cur_p is:%d\n", i, tokens[i].type);
         if (cur_p <= pre_p) {
           temp = i;
           pre_p = cur_p;
@@ -239,7 +239,7 @@ uint32_t eval(int p, int q) {
     else {
       /* We should do more things here. */
       uint32_t op = find_dominated_op(p, q);
-      printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
+      // printf("dominated operation position at:%d\n", op);  // 判断匹配位置是否正确
 
       // 判断是否为单目运算符
       if ((q-p) == 1) {

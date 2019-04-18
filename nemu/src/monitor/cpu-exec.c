@@ -66,6 +66,7 @@ void cpu_exec(uint64_t n) {
         for (int i=0; i<4; i++) {
           printf("%.2xbp\n", bp[i]);
         }
+        printf("进入断点....\n");
         printf("Breakpoint %d at %8x\n", p->NO, cpu.eip);
         break;
       }
