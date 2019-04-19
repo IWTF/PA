@@ -34,12 +34,6 @@ WP *new_wp(char *e) {
 		strcat(a, e);
 		strcpy(free_->expr, a);
 		// 将指令取出，存入str
-		
-		int b;
-		sscanf(e, "%8x", &b);
-		unsigned char *bp = (unsigned char *)&b;
-		bp[0] = 0xcc;
-		printf("byte is:%.2x\n", bp[0]);
 	} else {
 		free_->type = 0;
 
