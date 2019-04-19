@@ -62,10 +62,10 @@ void cpu_exec(uint64_t n) {
         printf("  new value = %d\n", p->new_val);
         p->old_val = p->new_val;
       } else {
-        vaddr_write(cpu.eip, 1, p->str);
-        // printf("  Breakpoint %d at %8x\n", p->NO, cpu.eip);
-        printf("  pause at %8x\n", cpu.eip);
-        printf("  %x:\tcc\n", cpu.eip);
+        // vaddr_write(cpu.eip, 1, p->str);
+        printf("  Breakpoint %d at %8x\n", p->NO, cpu.eip);
+        // printf("  pause at %8x\n", cpu.eip);
+        // printf("  %x:\tcc\n", cpu.eip);
         break;
       }
       p = p->next;
