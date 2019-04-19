@@ -34,7 +34,11 @@ WP *new_wp(char *e) {
 		strcat(a, e);
 		strcpy(free_->expr, a);
 		// 将指令取出，存入str
-		// ...
+		
+		int b;
+		sscanf(e, "%8x", &b);
+		unsigned char *bp = (unsigned char *)&b;
+		printf("byte is:%.2x\n", bp[0]);
 	} else {
 		free_->type = 0;
 
@@ -122,19 +126,6 @@ void list_watchpoint() {
 }
 
 WP *scan_watchpoint() {
-	// WP *p = head;
- //    while (p) {
- //   		bool success = true;
- //  		uint32_t value = expr(p->expr, &success);
- //  		// printf("%s is %d\n", p->expr, value);
- //  		p->new_val = value;
-
-	//     if (p->new_val != p->old_val) {
-	//       return p;
-	//     }
-	//     p = p->next;
- //    }
- //    return NULL;
 	WP *rehead = NULL;
 	int flag = 0;
 	WP *temp;
