@@ -1,5 +1,6 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
+#include "memory/memory.h"
 
 #define NR_WP 32
 
@@ -34,6 +35,10 @@ WP *new_wp(char *e) {
 		strcat(a, e);
 		strcpy(free_->expr, a);
 		// 将指令取出，存入str
+		int b;
+		sscanf(e, "%x", &b);
+		free_->str = vaddr_read(b, 1);
+		vaddr_write(b, 1, 0xcc);
 	} else {
 		free_->type = 0;
 
