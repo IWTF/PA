@@ -38,6 +38,7 @@ WP *new_wp(char *e) {
 		int b;
 		sscanf(e, "%8x", &b);
 		unsigned char *bp = (unsigned char *)&b;
+		bp[0] = 0xcc;
 		printf("byte is:%.2x\n", bp[0]);
 	} else {
 		free_->type = 0;
