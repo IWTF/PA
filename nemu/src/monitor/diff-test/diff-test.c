@@ -151,7 +151,7 @@ void difftest_step(uint32_t eip) {
   // Set `diff` as `true` if they are not the same.
   int flag = 0;
   for (int i = 0; i < 8; i ++) {
-    printf("gdb_regs[%d] = %d\n", i, r.array[i]);    
+    // printf("gdb_regs[%d] = %d\n", i, r.array[i]);    
     if (r.array[i] != cpu.gpr[i]._32) {
       printf("NEMU regs is diffirent from QEMU\n");
       flag = 1;

@@ -143,7 +143,9 @@ static inline void rtl_not(rtlreg_t* dest) {
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-
+  int a = src1[width*8 - 1];
+  a = (a<<(32-width*8))>>(32-width*8 + 1);
+  *dest = a + *src1;
   TODO();
 }
 
@@ -153,7 +155,7 @@ static inline void rtl_push(const rtlreg_t* src1) {
   // 括号内4代表esp寄存器的标号， 外面的4表示esp下移
   reg_l(4) = reg_l(4) - 4;
   rtl_sm(&reg_l(4), 4, src1);
-  TODO();
+  // TODO();
 }
 
 static inline void rtl_pop(rtlreg_t* dest) {
@@ -161,22 +163,25 @@ static inline void rtl_pop(rtlreg_t* dest) {
   // esp <- esp + 4
   rtl_lm(dest, &reg_l(4), 4);
   reg_l(4) = reg_l(4) + 4;
-  TODO();
+  // TODO();
 }
 
 static inline void rtl_eq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 == 0 ? 1 : 0)
-  TODO();
+  *dest = *src1 == 0 ? 1 : 0;
+  // TODO();
 }
 
 static inline void rtl_eqi(rtlreg_t* dest, const rtlreg_t* src1, int imm) {
   // dest <- (src1 == imm ? 1 : 0)
-  TODO();
+  *dest = (*src1) == imm ? 1 : 0;
+  // TODO();
 }
 
 static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 != 0 ? 1 : 0)
-  TODO();
+  *dest = (*src1) != 0 ? 1 : 0;
+  // TODO();
 }
 
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
