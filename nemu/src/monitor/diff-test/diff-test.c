@@ -103,11 +103,6 @@ void init_difftest(void) {
 
     union gdb_regs r;
     gdb_getregs(&r);
-    for (int i = 0; i < sizeof(union gdb_regs) / sizeof(uint32_t); i ++) {
-      printf("gdb_regs[%d] = %d\n", i, r.array[i]);    
-
-    }
-
 
     // set cs:eip to 0000:7c00
     r.eip = 0x7c00;
@@ -154,8 +149,25 @@ void difftest_step(uint32_t eip) {
 
   // TODO: Check the registers state with QEMU.
   // Set `diff` as `true` if they are not the same.
-
-  TODO();
+  int flag = 0;
+  for (int i = 0; i < 8; i ++) {
+    printf("gdb_regs[%d] = %d\n", i, r.array[i]);    
+    if (r.array[i] != cpu.gpr[i]._32) {
+      printf("NEMU regs is diffirent from QEMU\n");
+      flag = 1;
+      break;
+    }
+  }
+  if (flag == 0) {
+    if (cpu.eip != r.eip) {
+      diff = true;
+    } else {
+      diff = false;
+    }
+  } else {
+    diff = true;
+  }
+  // TODO();
 
   if (diff) {
     nemu_state = NEMU_END;
