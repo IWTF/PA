@@ -59,14 +59,17 @@ static inline void rtl_idiv(rtlreg_t* q, rtlreg_t* r, const rtlreg_t* src1_hi, c
   asm volatile("idiv %4" : "=a"(*q), "=d"(*r) : "d"(*src1_hi), "a"(*src1_lo), "r"(*src2));
 }
 
+// 从内存中读值
 static inline void rtl_lm(rtlreg_t *dest, const rtlreg_t* addr, int len) {
   *dest = vaddr_read(*addr, len);
 }
 
+// 向内存中写值
 static inline void rtl_sm(rtlreg_t* addr, int len, const rtlreg_t* src1) {
   vaddr_write(*addr, len, *src1);
 }
 
+// 存入dest的各种类型
 static inline void rtl_lr_b(rtlreg_t* dest, int r) {
   *dest = reg_b(r);
 }
@@ -79,6 +82,7 @@ static inline void rtl_lr_l(rtlreg_t* dest, int r) {
   *dest = reg_l(r);
 }
 
+// 存入r的各种类型
 static inline void rtl_sr_b(int r, const rtlreg_t* src1) {
   reg_b(r) = *src1;
 }
@@ -92,7 +96,7 @@ static inline void rtl_sr_l(int r, const rtlreg_t* src1) {
 }
 
 /* RTL psuedo instructions */
-
+// 取出序号为r的寄存器内的值，存入寄存器dest（目的操作数）
 static inline void rtl_lr(rtlreg_t* dest, int r, int width) {
   switch (width) {
     case 4: rtl_lr_l(dest, r); return;
@@ -102,6 +106,7 @@ static inline void rtl_lr(rtlreg_t* dest, int r, int width) {
   }
 }
 
+// 将原操作数所在的寄存器src所在的值存入序号为r的寄存器
 static inline void rtl_sr(int r, int width, const rtlreg_t* src1) {
   switch (width) {
     case 4: rtl_sr_l(r, src1); return;
@@ -126,28 +131,36 @@ make_rtl_setget_eflags(SF)
 
 static inline void rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
   // dest <- src1
-  TODO();
+  *dest = *src1;
+  // TODO();
 }
 
 static inline void rtl_not(rtlreg_t* dest) {
   // dest <- ~dest
-  TODO();
+  *dest = ~*dest;
+  // TODO();
 }
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
+
   TODO();
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
+  // 括号内4代表esp寄存器的标号， 外面的4表示esp下移
+  reg_l(4) = reg_l(4) - 4;
+  rtl_sm(&reg_l(4), 4, src1);
   TODO();
 }
 
 static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4
+  rtl_lm(dest, &reg_l(4), 4);
+  reg_l(4) = reg_l(4) + 4;
   TODO();
 }
 
