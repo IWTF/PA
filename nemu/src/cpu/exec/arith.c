@@ -8,32 +8,16 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
   // TODO();
-  // rtl_sub(&t2, &id_dest->val, &id_src->val);
-  // rtl_sltu(&t3, &id_dest->val, &t2);
-
-  // operand_write(id_dest, &t2);
-
-  // rtl_update_ZFSF(&t2, id_dest->width);
-
-  // rtl_sltu(&t0, &id_dest->val, &t2);
-  // rtl_or(&t0, &t3, &t0);
-  // rtl_set_CF(&t0);
-
-  // rtl_xor(&t0, &id_dest->val, &id_src->val);
-  // rtl_xor(&t1, &id_dest->val, &t2);
-  // rtl_and(&t0, &t0, &t1);
-  // rtl_msb(&t0, &t0, id_dest->width);
-  // rtl_set_OF(&t0);
-
   rtl_sub(&t2, &id_dest->val, &id_src->val);
-  rtl_sltu(&t3, &id_dest->val, &t2);
-  rtl_get_CF(&t1);
-  rtl_sub(&t2, &t2, &t1);
   operand_write(id_dest, &t2);
 
+  // ZF SF
   rtl_update_ZFSF(&t2, id_dest->width);
 
+  // CF  ????????? 减法如何看有没有低位进位？
+  rtl_sltu(&t3, &id_dest->val, &t2);
   rtl_sltu(&t0, &id_dest->val, &t2);
+  // t0储存进位和借位的异或，为什么都是t3和t0表达式一样
   rtl_or(&t0, &t3, &t0);
   rtl_set_CF(&t0);
 
