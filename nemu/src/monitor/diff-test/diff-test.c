@@ -151,12 +151,10 @@ void difftest_step(uint32_t eip) {
   // Set `diff` as `true` if they are not the same.
   int flag = 0;
   for (int i = 0; i < 8; i ++) {
-    printf("gdb_regs[0] = %d\n", r.array[0]);  
-    printf("cpu_eax = %d\n", cpu.gpr[0]._32);  
     if (r.array[i] != cpu.gpr[i]._32) {
       printf("NEMU regs[%d] is diffirent from QEMU\n", i);
-      printf("QEMU data is: %d\n", r.array[i]);
-      printf("NEMU data is: %d\n", cpu.gpr[i]._32);
+      // printf("QEMU data is: %d\n", r.array[i]);
+      // printf("NEMU data is: %d\n", cpu.gpr[i]._32);
       flag = 1;
       break;
     }
