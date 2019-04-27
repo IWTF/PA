@@ -14,14 +14,18 @@ make_EHelper(and) {
 
 make_EHelper(xor) {
   // TODO();
-  // uint32_t a = (rtl_not(&id_dest->val) & id_src->val) | (rtl_not(id_src->val) & (&id_dest->val));
-  // rtl_mv(&id_dest->val, &a);
-  rtl_xor(&t0, &id_dest->val, &id_src->val);
-  operand_write(id_dest, &t0);
-  
-  rtl_update_ZFSF(&t0, id_dest->width);
+  rtl_xor(&t2, &id_dest->val, &id_src->val);
+  operand_write(id_dest, &t2);
+  rtl_update_ZFSF(&t2, id_dest->width);
   rtl_set_CF(&tzero);
   rtl_set_OF(&tzero);
+
+  // rtl_xor(&t0, &id_dest->val, &id_src->val);
+  // operand_write(id_dest, &t0);
+  
+  // rtl_update_ZFSF(&t0, id_dest->width);
+  // rtl_set_CF(&tzero);
+  // rtl_set_OF(&tzero);
   print_asm_template2(xor);
 }
 
