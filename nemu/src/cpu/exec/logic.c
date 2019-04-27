@@ -13,8 +13,10 @@ make_EHelper(and) {
 }
 
 make_EHelper(xor) {
-  TODO();
-
+  // TODO();
+  // uint32_t a = (rtl_not(&id_dest->val) & id_src->val) | (rtl_not(id_src->val) & (&id_dest->val));
+  // rtl_mv(&id_dest->val, &a);
+  rtl_xor(&id_dest->val ,&id_dest->val, &id_src->val);
   print_asm_template2(xor);
 }
 

@@ -129,18 +129,21 @@ make_rtl_setget_eflags(OF)
 make_rtl_setget_eflags(ZF)
 make_rtl_setget_eflags(SF)
 
+// mov
 static inline void rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
   // dest <- src1
   *dest = *src1;
   // TODO();
 }
 
+// 取非
 static inline void rtl_not(rtlreg_t* dest) {
   // dest <- ~dest
   *dest = ~(*dest);
   // TODO();
 }
 
+// 符号扩展
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
   int a = src1[width*8 - 1];
@@ -149,6 +152,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // TODO();
 }
 
+// 入栈
 static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
@@ -157,6 +161,7 @@ static inline void rtl_push(const rtlreg_t* src1) {
   // TODO();
 }
 
+// 出栈
 static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4
@@ -165,24 +170,28 @@ static inline void rtl_pop(rtlreg_t* dest) {
   // TODO();
 }
 
+// 判断是否为0
 static inline void rtl_eq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 == 0 ? 1 : 0)
   *dest = *src1 == 0 ? 1 : 0;
   // TODO();
 }
 
+// 判断是否等于imm
 static inline void rtl_eqi(rtlreg_t* dest, const rtlreg_t* src1, int imm) {
   // dest <- (src1 == imm ? 1 : 0)
   *dest = (*src1) == imm ? 1 : 0;
   // TODO();
 }
 
+// 判断不为0
 static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 != 0 ? 1 : 0)
   *dest = (*src1) != 0 ? 1 : 0;
   // TODO();
 }
 
+// 获得最高位
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]  
   *dest = ((*src1) >> (width * 8 - 1)) & 0x1;
@@ -191,11 +200,21 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-  TODO();
+  switch (width) {
+    case 1:
+      t0 = (*result & 0x000000ff);
+      break;
+    case 2:
+      t0 = (*result & 0x000000ff);
+      break;
+  }
+  cpu.eflags.ZF = (t0 | 0) == 0 ? 1 : 0;
+  // TODO();
 }
 
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
+  cpu.eflags.SF = ((*result) >> (width * 8 - 1)) & 0x1;
   TODO();
 }
 
