@@ -221,7 +221,7 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   else if (width == 4) {
     zf = (*result & 0xffffffff) | 0;
   }
-cpu.eflags.ZF = (zf == 0) ? 1 : 0;
+  cpu.eflags.ZF = (zf == 0) ? 1 : 0;
   // TODO();
 }
 
