@@ -200,7 +200,7 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-  int tmp = 0;
+  int tmp = *result;
   switch (width) {
     case 1:
       tmp = (*result & 0x000000ff);
@@ -208,8 +208,6 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
     case 2:
       tmp = (*result & 0x0000ffff);
       break;
-    case 4:
-      tmp = (*result & 0xffffffff);
   }
   cpu.eflags.ZF = (tmp | 0) == 0 ? 1 : 0;
 
