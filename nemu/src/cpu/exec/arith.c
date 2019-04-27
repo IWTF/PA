@@ -8,8 +8,15 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
   // TODO();
+
   rtl_sub(&t2, &id_dest->val, &id_src->val);
   rtl_sltu(&t3, &id_dest->val, &t2);
+  // rtl_sub(&t2, &t2, &t1);
+
+
+  rtl_sub(&t2, &id_dest->val, &id_src->val);
+  rtl_sltu(&t3, &id_dest->val, &t2);
+  rtl_get_CF(&t1);
   
   operand_write(id_dest, &t2);
 
