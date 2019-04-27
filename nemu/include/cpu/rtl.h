@@ -146,7 +146,7 @@ static inline void rtl_not(rtlreg_t* dest) {
 // 符号扩展
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  int a = 0;
+  int a = ((*src1) >> (width * 8 - 1)) & 0x1;
   a = (a<<31)>>(32-width*8 + 1);
   *dest = a + *src1;
   // TODO();
