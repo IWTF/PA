@@ -200,34 +200,38 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-  int tmp = *result;
-  switch (width) {
-    case 1:
-      tmp = (*result & 0x000000ff);
-      break;
-    case 2:
-      tmp = (*result & 0x0000ffff);
-      break;
-  }
-  cpu.eflags.ZF = (tmp | 0) == 0 ? 1 : 0;
+  // int tmp = *result;
+  // switch (width) {
+  //   case 1:
+  //     tmp = (*result & 0x000000ff);
+  //     break;
+  //   case 2:
+  //     tmp = (*result & 0x0000ffff);
+  //     break;
+  // }
+  // cpu.eflags.ZF = (tmp | 0) == 0 ? 1 : 0;
 
-  // int zf = 0;
-  // if (width == 1) {
-  //   zf = (*result & 0x000000ff) | 0;
-  // }
-  // else if (width == 2) {
-  //   zf = (*result & 0x0000ffff) | 0;
-  // }
-  // else if (width == 4) {
-  //   zf = (*result & 0xffffffff) | 0;
-  // }
-  // cpu.eflags.ZF = (zf == 0) ? 1 : 0;
+  int zf = 0;
+  if (width == 1) {
+    zf = (*result & 0x000000ff) | 0;
+  }
+  else if (width == 2) {
+    zf = (*result & 0x0000ffff) | 0;
+  }
+  else if (width == 4) {
+    zf = (*result & 0xffffffff) | 0;
+}
+ cpu.eflags.ZF = (zf == 0) ? 1 : 0;
   // TODO();
 }
 
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
-  cpu.eflags.SF = ((*result) >> (width * 8 - 1)) & 0x1;
+  // cpu.eflags.SF = ((*result) >> (width * 8 - 1)) & 0x1;
+
+  int sf = 0;
+  sf = (*result >> (width * 8 - 1)) & 0x1;
+  cpu.eflags.SF = sf;
   // TODO();
 }
 
