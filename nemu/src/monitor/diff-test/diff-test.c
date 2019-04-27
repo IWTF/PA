@@ -153,8 +153,8 @@ void difftest_step(uint32_t eip) {
   for (int i = 0; i < 8; i ++) {
     if (r.array[i] != cpu.gpr[i]._32) {
       printf("NEMU regs[%d] is diffirent from QEMU\n", i);
-      // printf("QEMU data is: %d\n", r.array[i]);
-      // printf("NEMU data is: %d\n", cpu.gpr[i]._32);
+      printf("QEMU data is: %d\n", r.array[i]);
+      printf("NEMU data is: %d\n", cpu.gpr[i]._32);
       flag = 1;
       break;
     }
