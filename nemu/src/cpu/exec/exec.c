@@ -92,7 +92,7 @@ opcode_entry opcode_table [512] = {
   /* 0x44 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x48 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x4c */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x50 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x50 */	EMPTY, EMPTY, EMPTY, IDEX(r, push),
   /* 0x54 */	EMPTY, /*IDEX(push_r, push)*/EMPTY, EMPTY, EMPTY,  /* push */
   /* 0x58 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x5c */	EMPTY, /*IDEX(pop_r, pop)*/EMPTY, EMPTY, EMPTY,   /* pop_后面应该加什么。。*/
@@ -219,14 +219,6 @@ make_EHelper(real) {
   idex(eip, &opcode_table[opcode]);
 }
 
-// make_EHelper(call) {
-//   // the target address is calculate at the decode stage
-//   rtl_li(&t2, decoding.seq_eip);
-//   rtl_push(&t2);
-//   decoding.is_jmp = 1;
-
-//   print_asm("call %x", decoding.jmp_eip);
-// }
 
 static inline void update_eip(void) {
   cpu.eip = (decoding.is_jmp ? (decoding.is_jmp = 0, decoding.jmp_eip) : decoding.seq_eip);
