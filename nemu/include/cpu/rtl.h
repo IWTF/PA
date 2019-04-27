@@ -106,7 +106,7 @@ static inline void rtl_lr(rtlreg_t* dest, int r, int width) {
   }
 }
 
-// 将原操作数所在的寄存器src所在的值存入序号为r的寄存器
+// 将原操作数所在的寄存器src1所在的值存入序号为r的寄存器
 static inline void rtl_sr(int r, int width, const rtlreg_t* src1) {
   switch (width) {
     case 4: rtl_sr_l(r, src1); return;
@@ -205,7 +205,7 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
       t0 = (*result & 0x000000ff);
       break;
     case 2:
-      t0 = (*result & 0x000000ff);
+      t0 = (*result & 0x0000ffff);
       break;
   }
   cpu.eflags.ZF = (t0 | 0) == 0 ? 1 : 0;
