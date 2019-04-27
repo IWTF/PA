@@ -210,9 +210,9 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   //     break;
   // }
   // cpu.eflags.ZF = (tmp | 0) == 0 ? 1 : 0;
-  rtl_eq0(&t0, result);
-  printf("result = %d ZF = %d\n", *result, t0);
-  cpu.eflags.ZF = t0;
+  uint32_t a = 0;
+  rtl_eq0(&a, result);
+  cpu.eflags.ZF = a;
   // TODO();
 }
 
