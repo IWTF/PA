@@ -130,7 +130,7 @@ opcode_entry opcode_table [512] = {
   /* 0xdc */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe4 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0xe8 */	/*IDEX(J, call)*/EMPTY, EMPTY, EMPTY, EMPTY,   /* call */
+  /* 0xe8 */	IDEXW(J, call, 0), EMPTY, EMPTY, EMPTY,   /* call */
   /* 0xec */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf4 */	EMPTY, EMPTY, IDEXW(E, gp3, 1), IDEX(E, gp3),
@@ -219,6 +219,15 @@ make_EHelper(real) {
   idex(eip, &opcode_table[opcode]);
 }
 
+// make_EHelper(call) {
+//   // the target address is calculate at the decode stage
+//   rtl_li(&t2, decoding.seq_eip);
+//   rtl_push(&t2);
+//   decoding.is_jmp = 1;
+
+//   print_asm("call %x", decoding.jmp_eip);
+// }
+
 static inline void update_eip(void) {
   cpu.eip = (decoding.is_jmp ? (decoding.is_jmp = 0, decoding.jmp_eip) : decoding.seq_eip);
 }
@@ -253,12 +262,3 @@ void exec_wrapper(bool print_flag) {
   difftest_step(eip);
 #endif
 }
-
-// static make_EHelper(call) {
-//   // the target address is calculate at the decode stage
-//   rtl_li(&t2, decoding.seq_eip);
-//   rtl_push(&t2);
-//   decoding.is_jmp = 1;
-
-//   print_asm("call %x", decoding.jmp_eip);
-// }
