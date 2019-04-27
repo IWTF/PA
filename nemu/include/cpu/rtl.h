@@ -208,6 +208,8 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
     case 2:
       tmp = (*result & 0x0000ffff);
       break;
+    default: 
+      tmp = *result;
   }
   cpu.eflags.ZF = (tmp | 0) == 0 ? 1 : 0;
 
