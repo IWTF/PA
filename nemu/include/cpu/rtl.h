@@ -156,7 +156,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
-  cpu.esp -= 4;
+  rtl_subi(&cpu.esp,&cpu.esp,4);
   rtl_sm(&cpu.esp, 4, src1);
   // TODO();
 }
@@ -166,7 +166,7 @@ static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4
   rtl_lm(dest, &cpu.esp, 4);
-  cpu.esp += 4;
+  rtl_addi(&cpu.esp, &cpu.esp, 4);
   // TODO();
 }
 
@@ -194,7 +194,7 @@ static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
 // 获得最高位
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]  
-  *dest = ((*src1) >> (width * 8 - 1)) & 0x1;
+  rtl_shri(dest, src1, width*8-1);
   // TODO();
 }
 
@@ -211,14 +211,14 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // }
   // cpu.eflags.ZF = (tmp | 0) == 0 ? 1 : 0;
   rtl_eq0(&t0, result);
-  cpu.eflags.ZF = t0;
+  rtl_set_ZF(&t0);
   // TODO();
 }
 
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
-  rtl_msb( &t1, result,width);
-  rtl_set_SF( &t1);
+  rtl_msb( &t1, result, width);
+  rtl_set_SF(&t1);
   // TODO();
 }
 
