@@ -173,6 +173,7 @@ static inline void rtl_pop(rtlreg_t* dest) {
 // 判断是否为0
 static inline void rtl_eq0(rtlreg_t* dest, const rtlreg_t* src1) {
   // dest <- (src1 == 0 ? 1 : 0)
+  // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   *dest = (*src1) == 0 ? 1 : 0;
   // TODO();
 }
@@ -199,19 +200,18 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 }
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
-  // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-  // int tmp = *result;
-  // switch (width) {
-  //   case 1:
-  //     tmp = (*result & 0x000000ff);
-  //     break;
-  //   case 2:
-  //     tmp = (*result & 0x0000ffff);
-  //     break;
-  // }
-  // cpu.eflags.ZF = (tmp | 0) == 0 ? 1 : 0;
-  rtl_eq0(&t0, result);
-  rtl_set_ZF(&t0);
+
+  t0 = *result;
+  switch (width) {
+    case 1:
+      t0 = (*result & 0x000000ff);
+      break;
+    case 2:
+      t0 = (*result & 0x0000ffff);
+      break;
+  }
+  rtl_eq0(&t1, &t0);
+  rtl_set_ZF(&t1);
   // TODO();
 }
 
