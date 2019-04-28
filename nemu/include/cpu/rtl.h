@@ -200,7 +200,6 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 }
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
-
   t0 = *result;
   switch (width) {
     case 1:
