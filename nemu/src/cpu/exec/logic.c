@@ -7,6 +7,7 @@ make_EHelper(test) {
 }
 
 make_EHelper(and) {
+  printf("%#x\n", id_dest->val);
   rtl_and(&t0,&id_dest->val,&id_src->val);
   operand_write(id_dest,&t0);
   rtl_update_ZFSF(&id_dest->val,id_dest->width);
