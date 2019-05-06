@@ -43,6 +43,7 @@ static inline make_DopHelper(SI) {
     op->simm = instr_fetch(eip, op->width);
   }
   else if (op->width == 2) {
+    // 进行截断和类型转换
     op->simm = (int16_t)((uint16_t)instr_fetch(eip, op->width));
   }
   else {
