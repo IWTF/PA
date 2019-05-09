@@ -3,6 +3,10 @@
 /* Condition Code */
 
 void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
+  /* subcode
+  00000000  00000001  00000010 00000011
+  00000100  00000101  00000110 00000111
+  */
   bool invert = subcode & 0x1;
   enum {
     CC_O, CC_NO, CC_B,  CC_NB,
@@ -13,15 +17,34 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
 
   // TODO: Query EFLAGS to determine whether the condition code is satisfied.
   // dest <- ( cc is satisfied ? 1 : 0)
+  /* 0xe   00001110   */
+
+  // rtl_get_CF(&t0)
   switch (subcode & 0xe) {
-    case CC_O:
-    case CC_B:
-    case CC_E:
+    case CC_O:rtl_get_OF(dest);break;
+    case CC_B:rtl_get_CF(dest);break;
+    case CC_E:rtl_get_ZF(dest);break;
     case CC_BE:
-    case CC_S:
+      rtl_get_CF(&t0);
+      rtl_get_ZF(&t1);
+      *dest = t0|t1;
+      break;
+    case CC_S:rtl_get_SF(dest);break;
     case CC_L:
+      rtl_get_OF(&t0);
+      rtl_get_SF(&t1);
+      *dest = t0==t1 ? 0 : 1;
+      break;
     case CC_LE:
-      TODO();
+      rtl_get_SF(&t0);
+      rtl_get_OF(&t1);
+      rtl_get_ZF(&t2);
+      if (t2==1 && t0!=t1)
+        *dest = 1;
+      else
+        *dest = 0;
+      break;
+      // TODO();
     default: panic("should not reach here");
     case CC_P: panic("n86 does not have PF");
   }
