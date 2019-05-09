@@ -6,11 +6,12 @@ make_EHelper(test) {
   printf("src2 val:%d\n", id_src2->val);
   rtl_and(&t0, &id_src->val, &id_src2->val);
   operand_write(id_dest, &t0);
-
-  printf("id_dest val%d\n", id_dest->val);
-  rtl_update_ZFSF(&t0, id_dest->width);
+  printf("id_dest val:%d\n", id_dest->val);
+  
+  // rtl_update_ZFSF(&t0, id_dest->width);
   rtl_set_OF(&tzero);
   rtl_set_CF(&tzero);
+
   print_asm_template2(test);
 }
 
