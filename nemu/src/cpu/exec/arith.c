@@ -2,12 +2,22 @@
 
 make_EHelper(add) {
   // TODO();
-  printf("id_dest value:%d\n", id_dest->val);
-  printf("id_src value:%d\n", id_src->val);
   rtl_add(&t0, &id_dest->val, &id_src->val);
+  rtl_sltu(&t3, &t2, &id_dest->val);
   operand_write(id_dest, &t0);
-  printf("%d\n", t0);
+
   rtl_update_ZFSF(&t0, id_dest->width);
+
+  rtl_sltu(&t0, &t2, &id_dest->val);
+  rtl_or(&t0, &t3, &t0);
+  rtl_set_CF(&t0);
+
+  rtl_xor(&t0, &id_dest->val, &id_src->val);
+  rtl_not(&t0);
+  rtl_xor(&t1, &id_dest->val, &t2);
+  rtl_and(&t0, &t0, &t1);
+  rtl_msb(&t0, &t0, id_dest->width);
+  rtl_set_OF(&t0);
 
   print_asm_template2(add);
 }
