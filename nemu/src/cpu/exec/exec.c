@@ -239,6 +239,7 @@ void exec_wrapper(bool print_flag) {
   strcat(decoding.asm_buf, decoding.assembly);
   Log_write("%s\n", decoding.asm_buf);
   if (print_flag) {
+    // 打印输出机器指令和汇编代码
     puts(decoding.asm_buf);
   }
 #endif
