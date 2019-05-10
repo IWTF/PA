@@ -29,6 +29,7 @@ char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
+  // 传参类型为无符号数，所以传入-1(0xffffffff)时，转换为无符号数，即为能表示的最大整数
   cpu_exec(-1);
   return 0;
 }
