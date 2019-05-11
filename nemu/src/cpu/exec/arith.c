@@ -70,7 +70,15 @@ make_EHelper(inc) {
 }
 
 make_EHelper(dec) {
-  TODO();
+  // TODO();
+  t0 = id_dest->val - 1;
+  operand_write(id_dest, &t0);
+
+  rtl_update_ZFSF(&t0, id_dest->width);
+
+  rtl_xor(&t1, &id_dest->val, &t0);
+  rtl_msb(&t1, &t1, id_dest->width);
+  rtl_set_OF(&t1);
 
   print_asm_template1(dec);
 }
