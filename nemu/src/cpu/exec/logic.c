@@ -39,7 +39,7 @@ make_EHelper(xor) {
 
   for (int i = 0; i < 7; ++i)
   {
-    printf("reg[0] is: %d\n", cpu.gpr->_32);
+    printf("reg[%d] is: %d\n", i, cpu.gpr[i]._32);
   }
 
 
