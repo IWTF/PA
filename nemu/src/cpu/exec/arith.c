@@ -6,6 +6,10 @@ make_EHelper(add) {
   rtl_sltu(&t3, &t2, &id_dest->val);
   operand_write(id_dest, &t2);
 
+  printf("***************add*****************\n");
+  printf("id_dest val: 0x%8x\n", id_dest->val);
+  printf("R[edx] is 0x%8x\n", cpu.edx);
+
   rtl_update_ZFSF(&t2, id_dest->width);
 
   rtl_sltu(&t0, &t2, &id_dest->val);
@@ -27,6 +31,10 @@ make_EHelper(sub) {
   rtl_sub(&t2, &id_dest->val, &id_src->val);
   rtl_sltu(&t3, &id_dest->val, &t2);
   operand_write(id_dest, &t2);
+
+  printf("***************add*****************\n");
+  printf("id_dest val: 0x%8x\n", id_dest->val);
+  printf("R[edx] is 0x%8x\n", cpu.edx);
 
   rtl_update_ZFSF(&t2, id_dest->width);
 
