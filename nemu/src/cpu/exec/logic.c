@@ -31,16 +31,16 @@ make_EHelper(xor) {
   rtl_set_OF(&tzero);
   rtl_set_CF(&tzero);
 
-  printf("ZF is: %d\n", cpu.eflags.ZF);
-  printf("SF is: %d\n", cpu.eflags.SF);
-  printf("CF is: %d\n", cpu.eflags.CF);
-  printf("OF is: %d\n", cpu.eflags.OF);
+  // printf("ZF is: %d\n", cpu.eflags.ZF);
+  // printf("SF is: %d\n", cpu.eflags.SF);
+  // printf("CF is: %d\n", cpu.eflags.CF);
+  // printf("OF is: %d\n", cpu.eflags.OF);
 
 
-  for (int i = 0; i < 7; ++i)
-  {
-    printf("reg[%d] is: %d\n", i, cpu.gpr[i]._32);
-  }
+  // for (int i = 0; i < 7; ++i)
+  // {
+  //   printf("reg[%d] is: %d\n", i, cpu.gpr[i]._32);
+  // }
 
 
   print_asm_template2(xor);
