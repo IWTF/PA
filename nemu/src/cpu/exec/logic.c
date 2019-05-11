@@ -37,6 +37,12 @@ make_EHelper(xor) {
   printf("OF is: %d\n", cpu.eflags.OF);
 
 
+  for (int i = 0; i < 7; ++i)
+  {
+    printf("reg[0] is: %d\n", cpu.gpr->_32);
+  }
+
+
   print_asm_template2(xor);
 }
 
