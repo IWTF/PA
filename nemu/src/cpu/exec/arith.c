@@ -2,7 +2,7 @@
 
 make_EHelper(add) {
   // TODO();
-  rtl_add(&t0, &id_dest->val, &id_src->val);
+  rtl_add(&t2, &id_dest->val, &id_src->val);
   rtl_sltu(&t3, &t2, &id_dest->val);
   operand_write(id_dest, &t0);
 
