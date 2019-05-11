@@ -44,6 +44,8 @@ make_EHelper(or) {
   rtl_or(&t0, &id_dest->val, &id_src->val);
   operand_write(id_dest, &t0);
 
+  printf("id_dest->width: %d\n", id_dest->width);
+
   rtl_update_ZFSF(&t0, id_dest->width);
   rtl_set_OF(&tzero);
   rtl_set_CF(&tzero);
