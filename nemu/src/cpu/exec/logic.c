@@ -4,9 +4,9 @@ make_EHelper(test) {
   // TODO();
   // printf("scr1 val:%d\n", id_src->val);
   // printf("src2 val:%d\n", id_src2->val);
-  rtl_and(&t0, &id_src->val, &id_src2->val);
+  rtl_and(&t0, &id_dest->val, &id_src->val);
 
-  // printf("result val:%d\n", t0);
+  printf("id_dest->width: %d\n", id_dest->val);
   
   rtl_update_ZFSF(&t0, id_dest->width);
   rtl_set_OF(&tzero);
