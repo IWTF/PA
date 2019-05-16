@@ -161,6 +161,9 @@ void difftest_step(uint32_t eip) {
   }
   if (flag == 0) {
     if (cpu.eip != r.eip) {
+      printf("NEMU eip is deffirent from QEMU\n");
+      printf("QEMU data is: %x\n", r.eip);
+      printf("NEMU data is: %x\n", cpu.eip);
       diff = true;
     } else {
       diff = false;

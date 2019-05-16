@@ -30,7 +30,7 @@ make_EHelper(sub) {
   rtl_sltu(&t0, &id_dest->val, &t2);
   rtl_set_CF(&t0);
 
-  printf("sub's CF is: %d\n", cpu.eflags.CF);
+  // printf("sub's CF is: %d\n", cpu.eflags.CF);
 
   rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_xor(&t1, &id_dest->val, &t2);
