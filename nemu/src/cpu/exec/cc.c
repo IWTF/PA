@@ -35,10 +35,11 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
       *dest = t0==t1 ? 0 : 1;
       break;
     case CC_LE:
-      rtl_get_SF(&t0);
-      rtl_get_OF(&t1);
-      rtl_get_ZF(&t3);
-      *dest = t3 || (t0!=t1);
+      // rtl_get_SF(&t0);
+      // rtl_get_OF(&t1);
+      // rtl_get_ZF(&t3);
+      // *dest = t3 || (t0!=t1);
+      *dest = ((cpu.eflags.ZF) || (cpu.eflags.SF != cpu.eflags.OF));
       break;
       // TODO();
     default: panic("should not reach here");
