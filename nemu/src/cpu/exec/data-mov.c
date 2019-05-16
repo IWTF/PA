@@ -2,6 +2,7 @@
 
 make_EHelper(mov) {
   operand_write(id_dest, &id_src->val);
+  printf("mov CF is: %d\n", cpu.eflags.CF);
   print_asm_template2(mov);
 }
 

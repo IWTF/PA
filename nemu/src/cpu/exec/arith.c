@@ -10,6 +10,8 @@ make_EHelper(add) {
   rtl_sltu(&t0, &t2, &id_dest->val);
   rtl_set_CF(&t0);
 
+  printf("add CF is: %d\n", cpu.eflags.CF);
+
   rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_not(&t0);
   rtl_xor(&t1, &id_dest->val, &t2);
@@ -29,6 +31,8 @@ make_EHelper(sub) {
 
   rtl_sltu(&t0, &id_dest->val, &t2);
   rtl_set_CF(&t0);
+
+  printf("sub's CF is: %d\n", cpu.eflags.CF);
 
   rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_xor(&t1, &id_dest->val, &t2);
@@ -94,9 +98,13 @@ make_EHelper(adc) {
 
   rtl_update_ZFSF(&t2, id_dest->width);
 
+  printf("before CF is: %d\n", cpu.eflags.CF);
+
   rtl_sltu(&t0, &t2, &id_dest->val);
   rtl_or(&t0, &t3, &t0);
   rtl_set_CF(&t0);
+
+  printf("After CF is: %d\n", cpu.eflags.CF);
 
   rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_not(&t0);
