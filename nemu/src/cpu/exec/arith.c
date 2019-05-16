@@ -7,16 +7,8 @@ make_EHelper(add) {
 
   rtl_update_ZFSF(&t2, id_dest->width);
 
-  printf("before CF is: %d\n", cpu.eflags.CF);
-
   rtl_sltu(&t0, &t2, &id_dest->val);
   rtl_set_CF(&t0);
-
-  printf("After CF is: %d\n", cpu.eflags.CF);
-
-  // 进行 addl 0x1002e0(%ebx),%eax 时，
-  // CF会设置为1 ！！！
-  // 不对吧？
 
   rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_not(&t0);
@@ -104,13 +96,9 @@ make_EHelper(adc) {
 
   rtl_update_ZFSF(&t2, id_dest->width);
 
-  printf("before CF is: %d\n", cpu.eflags.CF);
-
   rtl_sltu(&t0, &t2, &id_dest->val);
   rtl_or(&t0, &t3, &t0);
   rtl_set_CF(&t0);
-
-  printf("After CF is: %d\n", cpu.eflags.CF);
 
   rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_not(&t0);
