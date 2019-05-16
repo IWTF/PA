@@ -200,23 +200,23 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 }
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
-  t1 = *result;
+  t0 = *result;
   switch (width) {
     case 1:
-      t1 = (*result & 0x000000ff);
+      t0 = (*result & 0x000000ff);
       break;
     case 2:
-      t1 = (*result & 0x0000ffff);
+      t0 = (*result & 0x0000ffff);
       break;
   }
-  rtl_eq0(&t2, &t1);
-  rtl_set_ZF(&t2);
+  rtl_eq0(&t1, &t0);
+  rtl_set_ZF(&t1);
   // TODO();
 }
 
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
-  rtl_msb( &t1, result, width);
+  rtl_msb( &t0, result, width);
   rtl_set_SF(&t1);
   // TODO();
 }

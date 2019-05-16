@@ -14,6 +14,10 @@ make_EHelper(add) {
 
   printf("After CF is: %d\n", cpu.eflags.CF);
 
+  // 进行 addl 0x1002e0(%ebx),%eax 时，
+  // CF会设置为1 ！！！
+  // 不对吧？
+
   rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_not(&t0);
   rtl_xor(&t1, &id_dest->val, &t2);
