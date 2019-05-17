@@ -220,7 +220,7 @@ static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
   rtl_msb(&t0, result, width);
   printf("SF is: %d\n", t0);
-  rtl_set_SF(&t1);
+  rtl_set_SF(&t0);
   // TODO();
 }
 
