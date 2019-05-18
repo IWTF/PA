@@ -20,7 +20,7 @@ make_EHelper(and) {
   printf("t2 val: %d\n", t2);
 
   operand_write(id_dest,&t2);
-  rtl_update_ZFSF(&id_dest->val,id_dest->width);
+  rtl_update_ZFSF(&t2,id_dest->width);
   rtl_set_OF(&tzero);
   rtl_set_CF(&tzero);
 
