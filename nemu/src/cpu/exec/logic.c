@@ -68,10 +68,16 @@ make_EHelper(or) {
 make_EHelper(sar) {
   // TODO();
   // unnecessary to update CF and OF in NEMU
-  t0 = ((int)id_dest->val)>>(id_src->val);
-  operand_write(id_dest, &t0);
-
-  rtl_update_ZFSF(&t0, id_dest->width);
+  if (id_dest->width == 1) {
+    id_dest->val = (int8_t)id_dest->val;
+  }
+  else if (id_dest->width == 2) {
+    id_dest->val = (int16_t)id_dest->val;
+  }
+  rtl_sar(&t2, &id_dest->val, &id_src->val);
+  operand_write(id_dest, &t2);
+  
+  rtl_update_ZFSF(&t2, id_dest->width);
 
   print_asm_template2(sar);
 }
