@@ -105,6 +105,20 @@ make_EHelper(shr) {
   print_asm_template2(shr);
 }
 
+make_EHelper(rol) {
+  t0 = (id_dest->val>>(id_dest->width * 8 - id_src->val));
+  t1 = (id_dest->val<<id_src->val);
+  t1 = t1 + t0;
+  operand_write(id_dest, &t1);
+
+  rtl_update_ZFSF(&t1, id_dest->width);
+
+  t2 = t0 & 0x1;
+  rtl_set_CF(&t2);
+
+  print_asm_template2(rol);
+}
+
 make_EHelper(setcc) {
   uint8_t subcode = decoding.opcode & 0xf;
   rtl_setcc(&t2, subcode);
