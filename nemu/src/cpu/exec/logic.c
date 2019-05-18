@@ -106,10 +106,10 @@ make_EHelper(shr) {
 }
 
 make_EHelper(rol) {
-  t0 = (id_dest->val>>(id_dest->width * 8 - id_src->val));
-  t1 = (id_dest->val<<id_src->val);
-  t1 = t1 + t0;
-  operand_write(id_dest, &t1);
+  rtl_shl(&t0, &id_dest->val, &id_src->val);
+  rtl_shri(&t1, &id_dest->val, id_dest->width);
+  rtl_or(&t2, &t0, &t1);
+  operand_write(id_dest, &t2);
 
   rtl_update_ZFSF(&t1, id_dest->width);
 
