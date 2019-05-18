@@ -111,10 +111,10 @@ make_EHelper(rol) {
   rtl_or(&t2, &t0, &t1);
   operand_write(id_dest, &t2);
 
-  rtl_update_ZFSF(&t1, id_dest->width);
+  // rtl_update_ZFSF(&t1, id_dest->width);
 
-  t2 = t0 & 0x1;
-  rtl_set_CF(&t2);
+  // t2 = t0 & 0x1;
+  // rtl_set_CF(&t2);
 
   print_asm_template2(rol);
 }
