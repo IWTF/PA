@@ -39,4 +39,6 @@ make_EHelper(movsx);
 make_EHelper(jmp_rm);
 make_EHelper(leave);
 make_EHelper(div);
+make_EHelper(imul1);
+
 
