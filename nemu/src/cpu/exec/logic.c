@@ -2,9 +2,9 @@
 
 make_EHelper(test) {
   // TODO();
-  rtl_and(&t0, &id_dest->val, &id_src->val);
+  rtl_and(&t2, &id_dest->val, &id_src->val);
 
-  rtl_update_ZFSF(&t0, id_dest->width);
+  rtl_update_ZFSF(&t2, id_dest->width);
   rtl_set_OF(&tzero);
   rtl_set_CF(&tzero);
 
