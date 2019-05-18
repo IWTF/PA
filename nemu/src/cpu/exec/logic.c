@@ -38,7 +38,7 @@ make_EHelper(xor) {
 
   // printf("ZF is: %d\n", cpu.eflags.ZF);
   // printf("SF is: %d\n", cpu.eflags.SF);
-  printf("CF is: %d\n", cpu.eflags.CF);
+  // printf("CF is: %d\n", cpu.eflags.CF);
   // printf("OF is: %d\n", cpu.eflags.OF);
 
 
