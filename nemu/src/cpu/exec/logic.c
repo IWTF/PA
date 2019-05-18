@@ -15,9 +15,9 @@ make_EHelper(and) {
 
   rtl_and(&t2,&id_dest->val,&id_src->val);
 
-  printf("id_dest val: %d\n", id_dest->val);
-  printf("id_dest val: %d\n", id_src->val);
-  printf("t2 val: %d\n", t2);
+  // printf("id_dest val: %d\n", id_dest->val);
+  // printf("id_dest val: %d\n", id_src->val);
+  // printf("t2 val: %d\n", t2);
 
   operand_write(id_dest,&t2);
   rtl_update_ZFSF(&t2,id_dest->width);
