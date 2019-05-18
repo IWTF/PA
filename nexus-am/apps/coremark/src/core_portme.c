@@ -47,7 +47,6 @@ unsigned long start_time_val, stop_time_val;
 */
 void start_time(void) {
   start_time_val = _uptime();
-  printf("start_time is: %d\n", __TIME__);
 }
 /* Function : stop_time
 	This function will be called right after ending the timed portion of the benchmark.
