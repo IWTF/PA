@@ -41,5 +41,7 @@ make_EHelper(leave);
 make_EHelper(div);
 make_EHelper(imul1);
 make_EHelper(call_rm);
+make_EHelper(shr);
+
 
 
