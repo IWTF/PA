@@ -1,4 +1,4 @@
-#ifndef __COMMON_H__
+#ifndef __COMMON_H_
 #define __COMMON_H__
 
 // #define DEBUG
