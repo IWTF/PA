@@ -42,9 +42,8 @@ void _draw_sync() {
 }
 
 int _read_key() {
-  uint32_t keyStatus = inl(I8042_STATUS_PORT);
-  // printf("data potr return value is: %d\n", keyStatus);
-  if (keyStatus)
+  uint8_t impressKey = inb(I8042_STATUS_PORT);
+  if(impressKey)
     return inl(I8042_DATA_PORT);
   return _KEY_NONE;
 }
