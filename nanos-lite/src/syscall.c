@@ -38,7 +38,7 @@ _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
   a[0] = SYSCALL_ARG1(r);
 
-  printf("switch 判断类型是什么： %s\n", a[0]);
+  Log("switch 判断条件:  = %s", &a[0]);
   
   switch (a[0]) {
     default: panic("Unhandled syscall ID = %d", a[0]);
