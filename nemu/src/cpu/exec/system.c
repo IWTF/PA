@@ -8,10 +8,9 @@ void diff_test_skip_nemu();
 make_EHelper(lidt) {
   // TODO();
   // 在 IDTR 中设置好 IDT 的首地址和长度
-  printf("%8x\n", id_dest->val);
   cpu.IDTR.IDT_LIMIT = vaddr_read(id_dest->addr, 2);
   if (decoding.is_operand_size_16) {
-    cpu.IDTR.IDT_BASE = vaddr_read(id_dest->addr + 2, 4) & 0x00ffffff;
+    cpu.IDTR.IDT_BASE = vaddr_read(id_dest->addr + 2, 4) & 0x0000ffff;
   }
   else {
     cpu.IDTR.IDT_BASE = vaddr_read(id_dest->addr + 2, 4); 

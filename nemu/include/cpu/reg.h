@@ -49,8 +49,8 @@ typedef union {
     uint16_t CS;
     struct 
     {
-        uint16_t IDT_LIMIT;  // 首址
-        uint32_t IDT_BASE;   // 长度
+        uint16_t IDT_LIMIT;  // 长度
+        uint32_t IDT_BASE;   // 首址
     }IDTR;
   };
   
