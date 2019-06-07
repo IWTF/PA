@@ -7,8 +7,10 @@ void diff_test_skip_nemu();
 
 make_EHelper(lidt) {
   // TODO();
-  // 在 IDTR 中设置好 IDT 的首地址和长度
+  // 在 IDTR 中设置好 IDT 的长度
   cpu.IDTR.IDT_LIMIT = vaddr_read(id_dest->addr, 2);
+
+  // 判断操作数size，若为16位，则取(&data[1])起低16位，否则取32位
   if (decoding.is_operand_size_16) {
     cpu.IDTR.IDT_BASE = vaddr_read(id_dest->addr + 2, 4) & 0x00ffffff;
   }
@@ -47,7 +49,11 @@ make_EHelper(int) {
 }
 
 make_EHelper(iret) {
-  TODO();
+  // TODO();
+  rtl_pop(&decoding.jmp_eip);
+  rtl_pop(&cpu.CS);
+  rtl_pop(&cpu.eflags.init);
+  decoding.is_jmp = 1;
 
   print_asm("iret");
 }

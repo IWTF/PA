@@ -46,7 +46,7 @@ typedef union {
         unsigned :20;
       };
     }eflags;
-    uint16_t CS;
+    unsigned int CS;
     struct 
     {
         uint16_t IDT_LIMIT;  // 长度
