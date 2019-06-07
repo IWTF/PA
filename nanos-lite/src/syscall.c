@@ -5,7 +5,8 @@
 int mm_brk(uint32_t new_brk);
 
 static inline uintptr_t sys_open(uintptr_t pathname, uintptr_t flags, uintptr_t mode) {
-  TODO();
+  // TODO();
+  // 我们约定，这个系统调用什么都不用做，直接返回 1
   return 1;
 }
 
@@ -38,7 +39,9 @@ _RegSet* do_syscall(_RegSet *r) {
   a[0] = SYSCALL_ARG1(r);
 
   switch (a[0]) {
-    default: panic("Unhandled syscall ID = %d", a[0]);
+    default: 
+      printf("switch 判断类型是什么： %s\n", a[0]);
+      panic("Unhandled syscall ID = %d", a[0]);
   }
 
   return NULL;
