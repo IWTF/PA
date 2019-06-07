@@ -46,6 +46,12 @@ typedef union {
         unsigned :20;
       };
     }eflags;
+    uint16_t CS;
+    struct 
+    {
+        uint16_t IDT_LIMIT;  // 首址
+        uint32_t IDT_BASE;   // 长度
+    }IDTR;
   };
   
 } CPU_state;

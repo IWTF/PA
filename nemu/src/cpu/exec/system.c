@@ -1,10 +1,21 @@
 #include "cpu/exec.h"
 
+extern void raise_intr(uint8_t NO, vaddr_t ret_addr);
+
 void diff_test_skip_qemu();
 void diff_test_skip_nemu();
 
 make_EHelper(lidt) {
-  TODO();
+  // TODO();
+  // 在 IDTR 中设置好 IDT 的首地址和长度
+  printf("%8x\n", id_dest->val);
+  cpu.IDTR.IDT_LIMIT = vaddr_read(id_dest->addr, 2);
+  if (decoding.is_operand_size_16) {
+    cpu.IDTR.IDT_BASE = vaddr_read(id_dest->addr + 2, 4) & 0x00ffffff;
+  }
+  else {
+    cpu.IDTR.IDT_BASE = vaddr_read(id_dest->addr + 2, 4); 
+  }
 
   print_asm_template1(lidt);
 }
@@ -26,7 +37,8 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int) {
-  TODO();
+  // TODO();
+  raise_intr(id_dest->val, decoding.seq_eip);
 
   print_asm("int %s", id_dest->str);
 
