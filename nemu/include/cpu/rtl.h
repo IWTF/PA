@@ -218,8 +218,8 @@ static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
       break;
   }
   rtl_eq0(&t1, &t0);
-  printf("According to %d set the ZF\n", t0);
-  printf("ZF is: %d\n", t1);
+  // printf("According to %d set the ZF\n", t0);
+  // printf("ZF is: %d\n", t1);
   rtl_set_ZF(&t1);
   // TODO();
 }
