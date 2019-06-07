@@ -10,7 +10,7 @@ make_EHelper(lidt) {
   // 在 IDTR 中设置好 IDT 的首地址和长度
   cpu.IDTR.IDT_LIMIT = vaddr_read(id_dest->addr, 2);
   if (decoding.is_operand_size_16) {
-    cpu.IDTR.IDT_BASE = vaddr_read(id_dest->addr + 2, 3);
+    cpu.IDTR.IDT_BASE = vaddr_read(id_dest->addr + 2, 4) & 0x00ffffff;
   }
   else {
     cpu.IDTR.IDT_BASE = vaddr_read(id_dest->addr + 2, 4); 
