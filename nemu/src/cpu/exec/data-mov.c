@@ -81,18 +81,12 @@ make_EHelper(cltd) {
 make_EHelper(cwtl) {
   if (decoding.is_operand_size_16) {
     // TODO();
-    // rtl_lr(&t0, R_AL, 1);
-    // t0 = (int16_t)(int8_t)(uint8_t)t0;
-    // rtl_sr(R_AX, 2, &t0);
     rtl_lr_b(&t0, R_AX);
     rtl_sext(&t0, &t0, 1);
     rtl_sr_w(R_AX, &t0);
   }
   else {
     // TODO();
-    // rtl_lr(&t0, R_AX, 2);
-    // t0 = (int32_t)(int16_t)(uint16_t)t0;
-    // rtl_sr(R_EAX, 4, &t0);
     rtl_lr_w(&t0, R_AX);
     rtl_sext(&t0, &t0, 2);
     rtl_sr_l(R_EAX, &t0);
@@ -107,9 +101,6 @@ make_EHelper(movsx) {
   rtl_sext(&t2, &id_src->val, id_src->width);
   operand_write(id_dest, &t2);
 
-#ifdef DEBUG
-  sprintf(id_dest->str, "%%%s", reg_name(id_dest->reg, id_dest->width));
-#endif
 
   print_asm_template2(movsx);
 }
