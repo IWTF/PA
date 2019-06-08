@@ -24,8 +24,6 @@ void cpu_exec(uint64_t n) {
   bool print_flag = n < MAX_INSTR_TO_PRINT;
   if((int)n == -1)
     print_flag = 1;
-  if (n>0 && n<MAX_INSTR_TO_PRINT)
-    print_flag = 0;
 
   for (; n > 0; n --) {
     /* Execute one instruction, including instruction fetch,

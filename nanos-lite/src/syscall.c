@@ -56,7 +56,8 @@ _RegSet* do_syscall(_RegSet *r) {
   uintptr_t ret = -1;
   switch (a[0]) {
     case SYS_none:  ret = 1; break;
-    case SYS_exit:  _halt(0); break;
+    // case SYS_exit:  _halt(0); break;
+    case SYS_exit:  _halt(a[1]); break;
     case SYS_write: ret = sys_write(a[1], a[2], a[3]); break;
     case SYS_brk:   ret = 0; break;
     case SYS_open:  ret = sys_open(a[1], a[2], a[3]); break;

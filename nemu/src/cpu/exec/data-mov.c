@@ -81,15 +81,19 @@ make_EHelper(cltd) {
 make_EHelper(cwtl) {
   if (decoding.is_operand_size_16) {
     // TODO();
-    rtl_lr(&t0, R_AL, 1);
-    t0 = (int16_t)(int8_t)(uint8_t)t0;
-    rtl_sr(R_AX, 2, &t0);
+    // rtl_lr(&t0, R_AL, 1);
+    // t0 = (int16_t)(int8_t)(uint8_t)t0;
+    // rtl_sr(R_AX, 2, &t0);
+    rtl_shli(&reg_l(R_EAX), &reg_l(R_EAX), 24);
+    rtl_sari(&reg_l(R_EAX), &reg_l(R_EAX), 8);
+    rtl_shri(&reg_l(R_EAX), &reg_l(R_EAX), 16);
   }
   else {
     // TODO();
-    rtl_lr(&t0, R_AX, 2);
-    t0 = (int32_t)(int16_t)(uint16_t)t0;
-    rtl_sr(R_EAX, 4, &t0);
+    // rtl_lr(&t0, R_AX, 2);
+    // t0 = (int32_t)(int16_t)(uint16_t)t0;
+    // rtl_sr(R_EAX, 4, &t0);
+    rtl_sext(&reg_l(R_EAX), &reg_l(R_EAX), 2);
   }
 
   print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
@@ -98,11 +102,13 @@ make_EHelper(cwtl) {
 make_EHelper(movsx) {
   id_dest->width = decoding.is_operand_size_16 ? 2 : 4;
 
-  // printf("operand_size is 16? :  %d\n", decoding.is_operand_size_16);
-  // printf("id_dest size: %d\n", id_dest->width);
-
   rtl_sext(&t2, &id_src->val, id_src->width);
   operand_write(id_dest, &t2);
+
+#ifdef DEBUG
+  sprintf(id_dest->str, "%%%s", reg_name(id_dest->reg, id_dest->width));
+#endif
+  
   print_asm_template2(movsx);
 }
 
