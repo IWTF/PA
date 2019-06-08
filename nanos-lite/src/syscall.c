@@ -46,7 +46,8 @@ _RegSet* do_syscall(_RegSet *r) {
   uintptr_t ret = -1;
   switch (a[0]) {
     case SYS_none: ret = 1; break;
-    case SYS_exit: _halt(a[1]); break;
+    case SYS_exit: _halt(0); break;
+    case SYS_write: ret = fs_write(a[1], (void *)a[2], a[3]); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
   SYSCALL_ARG1(r) = ret;
