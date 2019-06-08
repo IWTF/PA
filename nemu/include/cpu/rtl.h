@@ -199,19 +199,20 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 }
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
-  t0 = *result;
   switch (width) {
     case 1:
-      t0 = (*result & 0x000000ff);
+      t0 = (*result & 0x000000ff) | 0;
       break;
     case 2:
-      t0 = (*result & 0x0000ffff);
+      t0 = (*result & 0x0000ffff) | 0;
       break;
+    case 4:
+      t0 = (*result & 0xffffffff) | 0;
   }
-  rtl_eq0(&t1, &t0);
+  cpu.eflags.ZF = (t0 == 0) ? 1:0;
   // printf("According to %d set the ZF\n", t0);
   // printf("ZF is: %d\n", t1);
-  rtl_set_ZF(&t1);
+  // rtl_set_ZF(&t1);
   // TODO();
 }
 
