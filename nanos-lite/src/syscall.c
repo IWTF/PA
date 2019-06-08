@@ -41,7 +41,7 @@ _RegSet* do_syscall(_RegSet *r) {
   a[2] = SYSCALL_ARG3(r);
   a[3] = SYSCALL_ARG4(r);
 
-  printf("a[1] = %d\n", a[1]);
+  // printf("a[1] = %d\n", a[1]);
   
   uintptr_t ret = -1;
   switch (a[0]) {
