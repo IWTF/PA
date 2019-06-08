@@ -84,16 +84,18 @@ make_EHelper(cwtl) {
     // rtl_lr(&t0, R_AL, 1);
     // t0 = (int16_t)(int8_t)(uint8_t)t0;
     // rtl_sr(R_AX, 2, &t0);
-    rtl_shli(&reg_l(R_EAX), &reg_l(R_EAX), 24);
-    rtl_sari(&reg_l(R_EAX), &reg_l(R_EAX), 8);
-    rtl_shri(&reg_l(R_EAX), &reg_l(R_EAX), 16);
+    rtl_lr_b(&t0, R_AX);
+    rtl_sext(&t0, &t0, 1);
+    rtl_sr_w(R_AX, &t0);
   }
   else {
     // TODO();
     // rtl_lr(&t0, R_AX, 2);
     // t0 = (int32_t)(int16_t)(uint16_t)t0;
     // rtl_sr(R_EAX, 4, &t0);
-    rtl_sext(&reg_l(R_EAX), &reg_l(R_EAX), 2);
+    rtl_lr_w(&t0, R_AX);
+    rtl_sext(&t0, &t0, 2);
+    rtl_sr_l(R_EAX, &t0);
   }
 
   print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
@@ -108,7 +110,7 @@ make_EHelper(movsx) {
 #ifdef DEBUG
   sprintf(id_dest->str, "%%%s", reg_name(id_dest->reg, id_dest->width));
 #endif
-  
+
   print_asm_template2(movsx);
 }
 
