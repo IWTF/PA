@@ -102,22 +102,23 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write) {
   assert(pte_val & 0x1);
 
   // 获取accessed位
-  // uint32_t pde_accessed = (pte_base>>5) & 0x1;
+  uint32_t pde_accessed = (pte_base>>5) & 0x1;
   uint32_t pte_accessed = (pte_val>>5) & 0x1;
   uint32_t pte_dirty = (pte_val>>6) & 0x1;
 
   // 检验 PDE 的 accessed 位
-  // if (pde_accessed == 0) {
-  //   pde_accessed = 1;
-  //   paddr_write(pde, 4, pde_base + (pde_accessed<<5));
-  // }
+  if (pde_accessed == 0) {
+    pde_accessed = 1;
+    uint32_t new_pde = (pde_base | (pde_accessed<<5));
+    paddr_write(pde, 4, new_pde);
+  }
 
   // // 检验 PTE 的 accessed 位
   if (pte_accessed == 0 || (pte_dirty == 0 && is_write)) {
     pte_accessed = 1;
     pte_dirty = 1;
-    pte_val = pte_val + pte_accessed + pte_dirty;
-    paddr_write(pte, 4, pte_val);
+    uint32_t new_val = pte_val | (pte_accessed<<5) | (pte_dirty<<6);
+    paddr_write(pte, 4, new_val);
   }
 
   uint32_t paddr = (pte_val & 0xfffff000) + off;
