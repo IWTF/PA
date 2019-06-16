@@ -129,25 +129,21 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write) {
   // Log("pte is 0x%x,  pte val is: 0x%x", pte, pte_val.val);
   assert(pte_val.present);
 
-  // 获取accessed位
-  uint32_t pde_accessed = pte_base.accessed;
-  uint32_t pte_accessed = pte_val.accessed;
-  uint32_t pte_dirty = pte_val.dirty;
 
   // 检验 PDE 的 accessed 位
-  if (pde_accessed == 0) {
+  if (!pte_base.accessed) {
     pte_base.accessed = 1;
     paddr_write(pde, 4, pte_base.val);
   }
 
   // // 检验 PTE 的 accessed 位
-  if (pte_accessed == 0 || (pte_dirty == 0 && is_write)) {
+  if (!pte_val.accessed || (!pte_val.dirty == 0 && is_write)) {
     pte_val.accessed = 1;
     pte_val.dirty = 1;
     paddr_write(pte, 4, pte_val.val);
   }
 
-  uint32_t paddr = (pte_val.val & 0xfffff000) + off;
+  uint32_t paddr = (pte_val.val & 0xfffff000) | off;
   // Log("paddr is: 0x%x", paddr);
 
   return paddr;
