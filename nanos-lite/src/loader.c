@@ -21,8 +21,8 @@ uintptr_t loader(_Protect *as, const char *filename) {
   // 打开待装入的文件后，还需要获取文件大小
   int fd = fs_open(filename, 0, 0);
   uint32_t file_size = fs_filesz(fd);
-  Log("file size is: ", file_size);
-  Log("PGSIZE is: ", PGSIZE);
+  Log("file size is: %d", file_size);
+  Log("PGSIZE is: %d", PGSIZE);
 
   void *pa;
   void *va = DEFAULT_ENTRY;
