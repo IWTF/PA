@@ -21,8 +21,6 @@ uintptr_t loader(_Protect *as, const char *filename) {
   // 打开待装入的文件后，还需要获取文件大小
   int fd = fs_open(filename, 0, 0);
   int file_size = fs_filesz(fd);
-  // Log("file size is: %d", file_size);
-  // Log("PGSIZE is: %d", PGSIZE);
 
   void *pa;
   void *va = DEFAULT_ENTRY;
@@ -39,20 +37,18 @@ uintptr_t loader(_Protect *as, const char *filename) {
 	va += PGSIZE;
 
 	// 当file_size不足一页大小时，跳出循环处理
-	if ((file_size - PGSIZE) < 0)
-		break;
+	// if ((file_size - PGSIZE) < 0)
+	// 	break;
 	file_size = file_size - PGSIZE;
-    Log("file size is: %d", file_size);
-
   }
 
-  if (file_size > 0) {
-  	pa = new_page();
+ //  if (file_size > 0) {
+ //  	pa = new_page();
 
-  	Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
-	_map(as, va, pa);
-	fs_read(fd, pa, file_size);
-  }
+ //  	Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
+	// _map(as, va, pa);
+	// fs_read(fd, pa, file_size);
+ //  }
   fs_close(fd);
 
   return (uintptr_t)DEFAULT_ENTRY;
