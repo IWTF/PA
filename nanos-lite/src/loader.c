@@ -14,42 +14,42 @@ uintptr_t loader(_Protect *as, const char *filename) {
   // TODO();
   // ramdisk_read(DEFAULT_ENTRY, 0, (ramdisk_end-ramdisk_start));
 
-  int fd = fs_open(filename, 0, 0);
-  fs_read(fd, DEFAULT_ENTRY, fs_filesz(fd)); 
-  fs_close(fd); 
+  // int fd = fs_open(filename, 0, 0);
+  // fs_read(fd, DEFAULT_ENTRY, fs_filesz(fd)); 
+  // fs_close(fd); 
 
   // 打开待装入的文件后，还需要获取文件大小
- //  int fd = fs_open(filename, 0, 0);
- //  int file_size = fs_filesz(fd);
+  int fd = fs_open(filename, 0, 0);
+  int file_size = fs_filesz(fd);
 
- //  void *pa;
- //  void *va = DEFAULT_ENTRY;
+  void *pa;
+  void *va = DEFAULT_ENTRY;
 
- //  while (file_size > 0) {
- //  	// 获取一个空闲物理页
-	// pa = new_page();
+  while (file_size > 0) {
+  	// 获取一个空闲物理页
+	pa = new_page();
 
- //  	Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
-	// _map(as, va, pa);
-	// fs_read(fd, pa, PGSIZE);
+  	Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
+	_map(as, va, pa);
+	fs_read(fd, pa, PGSIZE);
 
-	// // 更新虚拟地址
-	// va += PGSIZE;
+	// 更新虚拟地址
+	va += PGSIZE;
 
-	// // 当file_size不足一页大小时，跳出循环处理
-	// if ((file_size - PGSIZE) < 0)
-	// 	break;
-	// file_size = file_size - PGSIZE;
- //  }
+	// 当file_size不足一页大小时，跳出循环处理
+	if ((file_size - PGSIZE) < 0)
+		break;
+	file_size = file_size - PGSIZE;
+  }
 
- //  if (file_size > 0) {
- //  	pa = new_page();
+  if (file_size > 0) {
+  	pa = new_page();
 
- //  	Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
-	// _map(as, va, pa);
-	// fs_read(fd, pa, file_size);
- //  }
- //  fs_close(fd);
+  	Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
+	_map(as, va, pa);
+	fs_read(fd, pa, file_size);
+  }
+  fs_close(fd);
 
   return (uintptr_t)DEFAULT_ENTRY;
 }
