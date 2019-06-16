@@ -29,16 +29,19 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
   	memcpy(guest_to_host(addr), &data, len);
 }
 
+
 uint32_t vaddr_read(vaddr_t addr, int len) {
   if(cpu.cr0.paging) {            // 判断是否开启了分页机制
-      if (PT_SIZE < len) {        // 特殊情况： 数据位于两个页
-          /* this is a special case, you can handle it later. */
-          assert(0);
-      }
-      else {                      // 虚拟地址到物理地址的转换，返回
-          paddr_t paddr = page_translate(addr, false);
-          return paddr_read(paddr, len);
-      }
+    bool overflow_page = (addr >> 12) != ((addr + len - 1) >> 12);
+    if (overflow_page) {        // 特殊情况： 数据位于两个页
+       // this is a special case, you can handle it later. 
+      assert(0);
+      // cross_page_rw(addr, len, 0);
+    }
+    else {                      // 虚拟地址到物理地址的转换，返回
+      paddr_t paddr = page_translate(addr, false);
+      return paddr_read(paddr, len);
+    }
   }
   else
       return paddr_read(addr, len);
@@ -47,18 +50,25 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   // paddr_write(addr, len, data);
   if(cpu.cr0.paging) {            // 判断是否开启了分页机制
-      if (PT_SIZE < len) {        // 特殊情况： 数据位于两个页
-          /* this is a special case, you can handle it later. */
-          assert(0);
-      }
-      else {                      // 虚拟地址到物理地址的转换，返回
-          paddr_t paddr = page_translate(addr, true);
-          return paddr_write(paddr, len, data);
-      }
+
+    // 判断首尾是否在一页内
+    bool overflow_page = (addr >> 12) != ((addr + len - 1) >> 12);
+    
+    if (overflow_page) {        // 特殊情况： 数据位于两个页
+      /* this is a special case, you can handle it later. */
+      assert(0);
+      // cross_page_rw(addr, len, data);
+    }
+    else {                      // 虚拟地址到物理地址的转换，返回
+      paddr_t paddr = page_translate(addr, true);
+      return paddr_write(paddr, len, data);
+    }
   }
   else
-      return paddr_write(addr, len, data);
+    return paddr_write(addr, len, data);
 }
+
+
 
 // 自定义page_translate()函数
 paddr_t page_translate(vaddr_t vaddr, bool is_write) {

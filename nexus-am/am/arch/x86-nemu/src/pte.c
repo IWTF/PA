@@ -14,8 +14,8 @@ _Area segments[] = {      // Kernel memory mappings
 #define NR_KSEG_MAP (sizeof(segments) / sizeof(segments[0]))
 
 void _pte_init(void* (*palloc)(), void (*pfree)(void*)) {
-  palloc_f = palloc;
-  pfree_f = pfree;
+  palloc_f = palloc;  // 分配一个物理页的函数
+  pfree_f = pfree;    // 释放一个物理页的函数
 
   int i;
 
