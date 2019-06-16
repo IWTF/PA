@@ -21,12 +21,13 @@ uintptr_t loader(_Protect *as, const char *filename) {
   // 打开待装入的文件后，还需要获取文件大小
   int fd = fs_open(filename, 0, 0);
   uint32_t file_size = fs_filesz(fd);
-  uint32_t page_num = ((file_size - 1)>>12) + 1;
+  // uint32_t page_num = ((file_size - 1)>>12) + 1;
 
   void *pa;
   void *va = DEFAULT_ENTRY;
 
-  for (; page_num; page_num--) {
+  // for (; page_num; page_num--) {
+  while (file_size > 0) {
   	// 获取一个空闲物理页
 	pa = new_page();
 
@@ -36,6 +37,7 @@ uintptr_t loader(_Protect *as, const char *filename) {
 
 	// 更新虚拟地址
 	va += PGSIZE;
+	file_size -= PGSIZE;
   }
   fs_close(fd);
 
