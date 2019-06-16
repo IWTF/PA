@@ -91,37 +91,37 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write) {
   // 查页目录,获取页表基址
   uint32_t pde_base = cpu.cr3.page_directory_base;
   uint32_t pde = (pde_base<<12) + (pde_index<<2);
-  uint32_t pte_base = paddr_read(pde, 4);
-  assert(pte_base & 0x1);
+  PDE pte_base;
+  pte_base.val = paddr_read(pde, 4);
+  assert(pte_base.present);
   // Log("pde is 0x%x,  pde val is: 0x%x", pde, pte_base);
 
   // 查页表，获取页框号
-  uint32_t pte = (pte_base & 0xfffff000) + (pte_index<<2);
-  uint32_t pte_val = paddr_read(pte, 4);
+  uint32_t pte = (pte_base.val & 0xfffff000) + (pte_index<<2);
+  PTE pte_val;
+  pte_val.val = paddr_read(pte, 4);
   // Log("pte is 0x%x,  pte val is: 0x%x", pte, pte_val);
-  assert(pte_val & 0x1);
+  assert(pte_val.present);
 
   // 获取accessed位
-  uint32_t pde_accessed = (pte_base>>5) & 0x1;
-  uint32_t pte_accessed = (pte_val>>5) & 0x1;
-  uint32_t pte_dirty = (pte_val>>6) & 0x1;
+  uint32_t pde_accessed = pte_base.accessed;
+  uint32_t pte_accessed = pte_val.accessed;
+  uint32_t pte_dirty = pte_val.dirty;
 
   // 检验 PDE 的 accessed 位
   if (pde_accessed == 0) {
-    pde_accessed = 1;
-    uint32_t new_pde = (pde_base | (pde_accessed<<5));
-    paddr_write(pde, 4, new_pde);
+    pte_base.accessed = 1;
+    paddr_write(pde, 4, pte_base.val);
   }
 
   // // 检验 PTE 的 accessed 位
   if (pte_accessed == 0 || (pte_dirty == 0 && is_write)) {
-    pte_accessed = 1;
-    pte_dirty = 1;
-    uint32_t new_val = pte_val | (pte_accessed<<5) | (pte_dirty<<6);
-    paddr_write(pte, 4, new_val);
+    pte_val.accessed = 1;
+    pte_val.dirty = 1;
+    paddr_write(pte, 4, pte_val.val);
   }
 
-  uint32_t paddr = (pte_val & 0xfffff000) + off;
+  uint32_t paddr = (pte_val.val & 0xfffff000) + off;
   // Log("paddr is: 0x%x", paddr);
 
   return paddr;
