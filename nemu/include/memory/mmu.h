@@ -56,8 +56,8 @@ typedef union PageTableEntry {
     uint32_t user_supervisor     : 1;
     uint32_t page_write_through  : 1;
     uint32_t page_cache_disable  : 1;
-    uint32_t accessed            : 1;
-    uint32_t dirty               : 1;
+    uint32_t accessed            : 1;       // 访问位
+    uint32_t dirty               : 1;       // 修改
     uint32_t pad0                : 1;
     uint32_t global              : 1;
     uint32_t pad1                : 3;

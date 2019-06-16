@@ -30,13 +30,13 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  if(cpu.cr0.paging) {   // 判断是否开启了分页机制
-      if (PT_SIZE < len) {   // 特殊情况： 数据位于两个页
+  if(cpu.cr0.paging) {            // 判断是否开启了分页机制
+      if (PT_SIZE < len) {        // 特殊情况： 数据位于两个页
           /* this is a special case, you can handle it later. */
           assert(0);
       }
-      else {      // 虚拟地址到物理地址的转换，返回
-          paddr_t paddr = page_translate(addr);
+      else {                      // 虚拟地址到物理地址的转换，返回
+          paddr_t paddr = page_translate(addr, false);
           return paddr_read(paddr, len);
       }
   }
@@ -46,13 +46,13 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   // paddr_write(addr, len, data);
-  if(cpu.cr0.paging) {   // 判断是否开启了分页机制
-      if (PT_SIZE < len) {   // 特殊情况： 数据位于两个页
+  if(cpu.cr0.paging) {            // 判断是否开启了分页机制
+      if (PT_SIZE < len) {        // 特殊情况： 数据位于两个页
           /* this is a special case, you can handle it later. */
           assert(0);
       }
-      else {      // 虚拟地址到物理地址的转换，返回
-          paddr_t paddr = page_translate(addr);
+      else {                      // 虚拟地址到物理地址的转换，返回
+          paddr_t paddr = page_translate(addr, true);
           return paddr_write(paddr, len, data);
       }
   }
@@ -61,7 +61,7 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 }
 
 // 自定义page_translate()函数
-paddr_t page_translate(vaddr_t vaddr) {
+paddr_t page_translate(vaddr_t vaddr， bool is_write) {
   // 若没有开启分页机制，直接返回
   if (cpu.cr0.paging == 0)
     return vaddr;
@@ -91,7 +91,25 @@ paddr_t page_translate(vaddr_t vaddr) {
   Log("pte is 0x%x,  pte val is: 0x%x", pte, pte_val);
   assert(pte_val & 0x1);
 
-  // 检验assern位
+  // 获取accessed位
+  uint32_t pde_accessed = (pte_base>>5) & 0x1;
+  uint32_t pte_accessed = (pte_val>>5) & 0x1;
+  uint32_t pte_dirty = (pte_val>>6) & 0x1;
+
+  // 检验 PDE 的 accessed 位
+  if (pde_accessed == 0) {
+    pde_accessed = 1;
+    pde_base = pde_base + (pde_accessed<<5);
+    paddr_write(pde, 4, pde_base);
+  }
+
+  // 检验 PTE 的 accessed 位
+  if (pte_accessed == 0 || (pte_dirty == 0 && is_write)) {
+    pte_accessed = 1;
+    pte_dirty = 1;
+    pte_val = pte_val + pte_accessed + pte_dirty;
+    paddr_write(pte, 4, pte_val);
+  }
 
   uint32_t paddr = (pte_val & 0xfffff000) + off;
   Log("paddr is: 0x%x", paddr);
