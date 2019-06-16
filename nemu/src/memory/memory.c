@@ -61,21 +61,21 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 }
 
 // 自定义page_translate()函数
-paddr_t page_translate(vaddr_t vaddr， bool is_write) {
+paddr_t page_translate(vaddr_t vaddr, bool is_write) {
   // 若没有开启分页机制，直接返回
   if (cpu.cr0.paging == 0)
     return vaddr;
 
-  Log("vaddr is: 0x%x", vaddr);
-  Log("CR3 page_directory_base is: 0x%x", cpu.cr3.page_directory_base);
+  // Log("vaddr is: 0x%x", vaddr);
+  // Log("CR3 page_directory_base is: 0x%x", cpu.cr3.page_directory_base);
 
   // 获取页目录索引，页表索引，页内偏移
   uint32_t pde_index = (vaddr>>22)&0x3ff;
   uint32_t pte_index = (vaddr>>12)&0x3ff;
   uint32_t off = vaddr & 0xfff;
-  Log("页目录索引 is: 0x%x", pde_index);
-  Log("页表索引 is: 0x%x", pte_index);
-  Log("页内偏移 is: 0x%x", off);
+  // Log("页目录索引 is: 0x%x", pde_index);
+  // Log("页表索引 is: 0x%x", pte_index);
+  // Log("页内偏移 is: 0x%x", off);
 
 
   // 查页目录,获取页表基址
@@ -83,12 +83,12 @@ paddr_t page_translate(vaddr_t vaddr， bool is_write) {
   uint32_t pde = (pde_base<<12) + (pde_index<<2);
   uint32_t pte_base = paddr_read(pde, 4);
   assert(pte_base & 0x1);
-  Log("pde is 0x%x,  pde val is: 0x%x", pde, pte_base);
+  // Log("pde is 0x%x,  pde val is: 0x%x", pde, pte_base);
 
   // 查页表，获取页框号
   uint32_t pte = (pte_base & 0xfffff000) + (pte_index<<2);
   uint32_t pte_val = paddr_read(pte, 4);
-  Log("pte is 0x%x,  pte val is: 0x%x", pte, pte_val);
+  // Log("pte is 0x%x,  pte val is: 0x%x", pte, pte_val);
   assert(pte_val & 0x1);
 
   // 获取accessed位
@@ -112,7 +112,7 @@ paddr_t page_translate(vaddr_t vaddr， bool is_write) {
   }
 
   uint32_t paddr = (pte_val & 0xfffff000) + off;
-  Log("paddr is: 0x%x", paddr);
+  // Log("paddr is: 0x%x", paddr);
 
   return paddr;
 
