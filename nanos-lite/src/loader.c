@@ -12,24 +12,30 @@ extern void* new_page(void);
 
 uintptr_t loader(_Protect *as, const char *filename) {
   // TODO();
+  // ramdisk_read(DEFAULT_ENTRY, 0, (ramdisk_end-ramdisk_start));
+
+  //int fd = fs_open(filename, 0, 0);
+  //fs_read(fd, DEFAULT_ENTRY, fs_filesz(fd)); 
+  //fs_close(fd); 
+
   // 打开待装入的文件后，还需要获取文件大小
   int fd = fs_open(filename, 0, 0);
   uint32_t file_size = fs_filesz(fd);
+  uint32_t page_num = ((file_size - 1)>>12) + 1;
 
   void *pa;
   void *va = DEFAULT_ENTRY;
 
-  while (file_size > 0) {
-  	// 获取一个空闲物理页(page)
+  for (; page_num; page_num--) {
+  	// 获取一个空闲物理页
 	pa = new_page();
 
   	Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
 	_map(as, va, pa);
 	fs_read(fd, pa, PGSIZE);
 
-	// 更新虚拟地址和文件大小
+	// 更新虚拟地址
 	va += PGSIZE;
-	file_size -= PGSIZE;
   }
   fs_close(fd);
 
