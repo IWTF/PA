@@ -42,6 +42,8 @@ uintptr_t loader(_Protect *as, const char *filename) {
 	if ((file_size - PGSIZE) < 0)
 		break;
 	file_size = file_size - PGSIZE;
+    Log("file size is: %d", file_size);
+
   }
 
   if (file_size > 0) {
