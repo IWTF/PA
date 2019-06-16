@@ -34,9 +34,23 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
   if(cpu.cr0.paging) {            // 判断是否开启了分页机制
     bool overflow_page = (addr >> 12) != ((addr + len - 1) >> 12);
     if (overflow_page) {        // 特殊情况： 数据位于两个页
-       // this is a special case, you can handle it later. 
-      assert(0);
-      // cross_page_rw(addr, len, 0);
+      // this is a special case, you can handle it later. 
+       
+      // 前一页的大小
+      uint32_t pre_page_size = 0x1000 - (addr & 0xfff);
+      paddr_t pre_paddr = page_translate(addr, false);
+
+      // 后一页的虚拟地址
+      uint32_t nxt_page = addr + pre_page_size;
+      paddr_t nxt_paddr = page_translate(nxt_page, false);
+     
+      
+      // 前后两页中读出的数据
+      uint32_t pre_data = paddr_read(pre_paddr, pre_page_size);
+      uint32_t nxt_data = paddr_read(nxt_paddr, (len-pre_page_size));
+
+      // 小端拼接并返回
+      return pre_data | (nxt_data<<(pre_page_size*8)); 
     }
     else {                      // 虚拟地址到物理地址的转换，返回
       paddr_t paddr = page_translate(addr, false);
@@ -56,8 +70,20 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
     
     if (overflow_page) {        // 特殊情况： 数据位于两个页
       /* this is a special case, you can handle it later. */
-      assert(0);
-      // cross_page_rw(addr, len, data);
+       
+      // 前一页的大小
+      uint32_t pre_page_size = 0x1000 - (addr & 0xfff);
+      paddr_t pre_paddr = page_translate(addr, false);
+
+      // 后一页的虚拟地址
+      uint32_t nxt_page = addr + pre_page_size;
+      paddr_t nxt_paddr = page_translate(nxt_page, false);
+     
+      
+      // 将data分成两部分,f分别写入内存
+      uint32_t nxt_data = data >> (32 - pre_page_size * 8);
+      paddr_write(pre_paddr, pre_page_size, data);
+      paddr_write(nxt_paddr, (len - pre_page_size), nxt_data);
     }
     else {                      // 虚拟地址到物理地址的转换，返回
       paddr_t paddr = page_translate(addr, true);
