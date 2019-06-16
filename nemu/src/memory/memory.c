@@ -31,16 +31,14 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
   if(cpu.cr0.paging) {   // 判断是否开启了分页机制
-      // if (data cross the page boundary) {   // 特殊情况： 数据位于两个页
-      //     /* this is a special case, you can handle it later. */
-      //     assert(0);
-      // }
-      // else {      // 虚拟地址到物理地址的转换，返回
-      //     paddr_t paddr = page_translate(addr);
-      //     return paddr_read(paddr, len);
-      // }
-    paddr_t paddr = page_translate(addr);
-    return paddr_read(paddr, len);
+      if (PT_SIZE < len) {   // 特殊情况： 数据位于两个页
+          /* this is a special case, you can handle it later. */
+          assert(0);
+      }
+      else {      // 虚拟地址到物理地址的转换，返回
+          paddr_t paddr = page_translate(addr);
+          return paddr_read(paddr, len);
+      }
   }
   else
       return paddr_read(addr, len);
@@ -49,16 +47,14 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   // paddr_write(addr, len, data);
   if(cpu.cr0.paging) {   // 判断是否开启了分页机制
-      // if (data cross the page boundary) {   // 特殊情况： 数据位于两个页
-      //     /* this is a special case, you can handle it later. */
-      //     assert(0);
-      // }
-      // else {      // 虚拟地址到物理地址的转换，返回
-      //     paddr_t paddr = page_translate(addr);
-      //     return paddr_write(paddr, len, data);
-      // }
-    paddr_t paddr = page_translate(addr);
-    return paddr_write(paddr, len, data);
+      if (PT_SIZE < len) {   // 特殊情况： 数据位于两个页
+          /* this is a special case, you can handle it later. */
+          assert(0);
+      }
+      else {      // 虚拟地址到物理地址的转换，返回
+          paddr_t paddr = page_translate(addr);
+          return paddr_write(paddr, len, data);
+      }
   }
   else
       return paddr_write(addr, len, data);
@@ -73,29 +69,27 @@ paddr_t page_translate(vaddr_t vaddr) {
   Log("vaddr is: 0x%x", vaddr);
   Log("CR3 val is: 0x%x", cpu.cr3.val);
   Log("CR3 page_directory_base is: 0x%x", cpu.cr3.page_directory_base);
-  assert(0);
-  
-  // 获取页目录索引和页表索引
-  // uint32_t pde_index = vaddr>>22;
-  // uint32_t pte_index = vaddr>>12 & 0x3ff;
 
-  // // 获取页表基址
-  // uint32_t pde_addr  = (cpu.cr3.page_directory_base<<12) + (pde_index<<2);
-  // Log("pde_addr is: 0x%x", pde_addr);
-  // // 读数据，判断物理页是否可用
-  // uint32_t pde = paddr_read(pde_addr, 4);
-  // assert((pde>>31)&0x1);
-
-  // 计算页表的物理地址
-  // uint32_t pte_addr = (pde & 0xfffff000) + (pte_index<<2);
-  // uint32_t pte = paddr_read(pte_addr, 4);
-  // if (pde.)
+  // 获取页目录索引，页表索引，页内偏移
+  uint32_t pde_index = (vaddr>>22)&0x3ff;
+  uint32_t pte_index = (vaddr>>12)&0x3ff;
+  uint32_t off = vaddr & 0xfff;
+  Log("页目录索引 is: 0x%x", pde_index);
+  Log("页表索引 is: 0x%x", pte_index);
+  Log("页内偏移 is: 0x%x", off);
 
 
-  // Log("dic_addr is: 0x%x", pde_addr);
+  // 查页目录,获取页表基址
+  uint32_t pde_base = cpu.cr3.page_directory_base;
+  uint32_t pte_base = paddr_read((pde_base<<12) + (pde_index<<2), 4);
+  assert(pte_base & 0x1);
 
-  assert(0);
+  // 查页表，获取页框号
+  uint32_t paddr = paddr_read((pte_base & 0xfffff000) + (pte_index<<2), 4);
+  assert(paddr & 0x1);
 
-  return 0;
+  // 检验assern位
+
+  return (paddr & 0xfffff000) + off;
 
 }
