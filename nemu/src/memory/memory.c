@@ -120,13 +120,13 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write) {
   PDE pte_base;
   pte_base.val = paddr_read(pde, 4);
   assert(pte_base.present);
-  // Log("pde is 0x%x,  pde val is: 0x%x", pde, pte_base);
+  // Log("pde is 0x%x,  pde val is: 0x%x", pde, pte_base.val);
 
   // 查页表，获取页框号
   uint32_t pte = (pte_base.val & 0xfffff000) + (pte_index<<2);
   PTE pte_val;
   pte_val.val = paddr_read(pte, 4);
-  // Log("pte is 0x%x,  pte val is: 0x%x", pte, pte_val);
+  // Log("pte is 0x%x,  pte val is: 0x%x", pte, pte_val.val);
   assert(pte_val.present);
 
   // 获取accessed位
