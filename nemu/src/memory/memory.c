@@ -98,7 +98,6 @@ paddr_t page_translate(vaddr_t vaddr, bool is_write) {
 
   // 检验 PDE 的 accessed 位
   // if (pde_accessed == 0) {
-  //   Log("pde_accessed = 0");
   //   pde_accessed = 1;
   //   paddr_write(pde, 4, pde_base + (pde_accessed<<5));
   // }
