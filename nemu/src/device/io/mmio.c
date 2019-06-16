@@ -43,6 +43,7 @@ int is_mmio(paddr_t addr) {
   return -1;
 }
 
+// 内存映射 I/O 的访问需要调用 mmio_read() 或 mmio_write()
 uint32_t mmio_read(paddr_t addr, int len, int map_NO) {
   assert(len >= 1 && len <= 4);
   MMIO_t *map = &maps[map_NO];
