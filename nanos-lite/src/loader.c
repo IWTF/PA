@@ -29,25 +29,25 @@ uintptr_t loader(_Protect *as, const char *filename) {
   	// 获取一个空闲物理页
 	pa = new_page();
 
-  	Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
-	_map(as, va, pa);
-	fs_read(fd, pa, PGSIZE);
+  	// Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
+  	_map(as, va, pa);
+  	fs_read(fd, pa, PGSIZE);
 
-	// 更新虚拟地址
-	va += PGSIZE;
+  	// 更新虚拟地址
+  	va += PGSIZE;
 
-	// 当file_size不足一页大小时，跳出循环处理
-	if ((file_size - PGSIZE) < 0)
-		break;
-	file_size = file_size - PGSIZE;
+  	// 当file_size不足一页大小时，跳出循环处理
+  	if ((file_size - PGSIZE) < 0)
+  		break;
+  	file_size = file_size - PGSIZE;
   }
 
   if (file_size > 0) {
   	pa = new_page();
 
   	// Log("Map va to pa: 0x%08x to 0x%08x", va, pa);
-	_map(as, va, pa);
-	fs_read(fd, pa, file_size);
+  	_map(as, va, pa);
+  	fs_read(fd, pa, file_size);
   }
   fs_close(fd);
 
