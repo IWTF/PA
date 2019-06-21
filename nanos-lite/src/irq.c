@@ -5,6 +5,8 @@ extern _RegSet* schedule(_RegSet *prev);
 
 static _RegSet* do_event(_Event e, _RegSet* r) {
   _RegSet *ret = NULL;
+  Log("%d\n", e.event);
+  Log("%d\n", _EVENT_TRAP);
   switch (e.event) {
   	case _EVENT_SYSCALL: do_syscall(r); break;
   	case _EVENT_TRAP: ret = schedule(r); break;
