@@ -32,7 +32,7 @@ void switch_game() {
 }
 
 _RegSet* schedule(_RegSet *prev) {
-  // return NULL;
+  return NULL;
   current->tf = prev;
 
   current = (current == current_game ? &pcb[1] : current_game);
