@@ -31,19 +31,21 @@ void load_prog(const char *filename) {
 static int num = 0;
 
 _RegSet* schedule(_RegSet *prev) {
-  return NULL;
+  // return NULL;
   // save the context pointer
   current->tf = prev;
   num++;
 
   // current 指针指向当前运行进程的 PCB
+  current = &pcb[0];
+  
   // 轮流返回仙剑奇侠传和 hello
-  if (num % 200 == 0) {
-    current = &pcb[1];
-  }
-  else {
-    current = &pcb[0];
-  }
+  // if (num % 200 == 0) {
+  //   current = &pcb[1];
+  // }
+  // else {
+  //   current = &pcb[0];
+  // }
 
   // TODO: switch to the new address space,
   _switch(&current->as);
