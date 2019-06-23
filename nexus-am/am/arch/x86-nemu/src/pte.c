@@ -82,24 +82,19 @@ void _unmap(_Protect *p, void *va) {
 
 _RegSet *_umake(_Protect *p, _Area ustack, _Area kstack, void *entry, char *const argv[], char *const envp[]) {
   // return NULL;
-  uint32_t *stack = (uint32_t*)ustack.end;
-  *(--stack) = 0x0;   //argc
-  *(--stack) = 0x0;   //argv
-  *(--stack) = 0x0;   //envp
-  *(--stack) = 0x0;   //_start ret_address
-  *(--stack) = 0x202; //eflags
-  *(--stack) = 0x8;   //cs
-  *(--stack) = (uint32_t)entry; //eip
-  *(--stack) = 0x0;   //error_code
-  *(--stack) = 0x81;  //irq
-  *(--stack) = 0x0;   //eax
-  *(--stack) = 0x0;   //ecx
-  *(--stack) = 0x0;   //edx
-  *(--stack) = 0x0;   //ebx
-  *(--stack) = 0x0;   //esp
-  *(--stack) = (uint32_t)ustack.end; //ebp
-  *(--stack) = 0x0;   //esi
-  *(--stack) = 0x0;   //edi
+    uint32_t *ptr = ustack.end;
+  for (int i = 0; i < 8; i++) 
+    *ptr-- = 0x0; 
 
-  return (_RegSet*)stack;
+  *ptr-- = 0x2; //eflags
+  *ptr-- = 0x8; //cs
+  *ptr-- = (uint32_t)entry; //eip 
+  *ptr-- = 0x0; //error code
+  *ptr-- = 0x81; //irq id
+
+  for (int i = 0; i < 8; i++)
+    *ptr-- = 0x0;
+  ptr++;
+  
+  return (_RegSet *)ptr;
 }
