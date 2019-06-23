@@ -35,10 +35,10 @@ _RegSet* schedule(_RegSet *prev) {
   // current 指针指向当前运行进程的 PCB
   // current = (current == current_game ? &pcb[1] : current_game);
   // always select pcb[0] as the new process
-  current = &pcb[0];
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 
   // TODO: switch to the new address space,
   // then return the new context
-  // _switch(&current->as);
+  _switch(&current->as);
   return current->tf;
 }
