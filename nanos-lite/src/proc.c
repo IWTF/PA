@@ -26,10 +26,6 @@ void load_prog(const char *filename) {
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
-static PCB *current_game = &pcb[0];
-void switch_game() {
-  current_game = (current_game == &pcb[0] ? &pcb[1] : &pcb[0]);
-}
 
 _RegSet* schedule(_RegSet *prev) {
   // return NULL;
