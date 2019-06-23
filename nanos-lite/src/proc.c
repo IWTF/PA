@@ -45,13 +45,6 @@ _RegSet* schedule(_RegSet *prev) {
   // 优先级调度
   current = ((num++)%200 == 0 ? &pcb[1] : &pcb[0]);
 
-  // if (num % 200 == 0) {
-  //   current = &pcb[1];
-  // }
-  // else {
-  //   current = &pcb[0];
-  // }
-
   // TODO: switch to the new address space,
   _switch(&current->as);
 

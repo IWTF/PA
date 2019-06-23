@@ -8,7 +8,8 @@ static _RegSet* do_event(_Event e, _RegSet* r) {
   // Log("_EVENT_SYSCALL is:%d\n", _EVENT_SYSCALL);
   // Log("_EVENT_TRAP is:%d\n", _EVENT_IRQ_TIME);
   switch (e.event) {
-  	case _EVENT_SYSCALL: return schedule(do_syscall(r)); break;
+  	case _EVENT_SYSCALL: return do_syscall(r); break;
+    case _EVENT_IRQ_TIME: printf("reach irq_timer\n");
   	case _EVENT_TRAP: return schedule(r); break;
     default: panic("Unhandled event ID = %d", e.event);
   }

@@ -15,6 +15,8 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   rtl_push((rtlreg_t *)&cpu.CS);
   rtl_push((rtlreg_t *)&ret_addr);
 
+  cpu.eflags.IF = 0;
+  
   // 从IDTR中读出IDT的收地址
   uint32_t IDT_BASE = cpu.IDTR.IDT_BASE;
   
@@ -32,4 +34,5 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
 }
 
 void dev_raise_intr() {
+  cpu.INTR = 1;
 }

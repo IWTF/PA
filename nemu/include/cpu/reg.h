@@ -49,6 +49,7 @@ typedef union {
         unsigned :20;
       };
     }eflags;
+    volatile bool INTR;
     unsigned int CS;
     struct 
     {
