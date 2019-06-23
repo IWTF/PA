@@ -34,7 +34,7 @@ _RegSet* schedule(_RegSet *prev) {
   // return NULL;
   // save the context pointer
   current->tf = prev;
-  num++;
+  // num++;
 
   // current 指针指向当前运行进程的 PCB
   // current = &pcb[0];
@@ -43,7 +43,7 @@ _RegSet* schedule(_RegSet *prev) {
   current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 
   // 优先级调度
-  current = (current == &pcb[0] && (num++)%200 == 0 ? &pcb[1] : &pcb[0]);
+  current = ((num++)%200 == 0 ? &pcb[1] : &pcb[0]);
 
   // if (num % 200 == 0) {
   //   current = &pcb[1];
