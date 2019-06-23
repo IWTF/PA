@@ -70,5 +70,5 @@ _RegSet* do_syscall(_RegSet *r) {
   }
   SYSCALL_ARG1(r) = ret;
 
-  return NULL;
+  return r;
 }
