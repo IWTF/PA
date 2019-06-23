@@ -38,7 +38,7 @@ _RegSet* schedule(_RegSet *prev) {
   // current 指针指向当前运行进程的 PCB
   // 轮流返回仙剑奇侠传和 hello
   current = (((current == &pcb[0]) && (num++ == 200)) ? &pcb[1] : &pcb[0]);
-  if (num == 201)
+  if (num == 200)
     num = 0;
 
   // TODO: switch to the new address space,
