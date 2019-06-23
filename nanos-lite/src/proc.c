@@ -33,11 +33,16 @@ void switch_game() {
 
 _RegSet* schedule(_RegSet *prev) {
   // return NULL;
+  // save the context pointer
   current->tf = prev;
 
   // current 指针指向当前运行进程的 PCB
-  current = (current == current_game ? &pcb[1] : current_game);
+  // current = (current == current_game ? &pcb[1] : current_game);
+  // always select pcb[0] as the new process
+  current = &pcb[0];
 
-  _switch(&current->as);
+  // TODO: switch to the new address space,
+  // then return the new context
+  // _switch(&current->as);
   return current->tf;
 }
