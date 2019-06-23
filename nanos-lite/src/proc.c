@@ -26,6 +26,7 @@ void load_prog(const char *filename) {
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
+static int num = 0;
 
 _RegSet* schedule(_RegSet *prev) {
   // return NULL;
@@ -33,12 +34,14 @@ _RegSet* schedule(_RegSet *prev) {
   current->tf = prev;
 
   // current 指针指向当前运行进程的 PCB
-  // always select pcb[0] as the new process
-  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+  // 轮流返回仙剑奇侠传和 hello
+  current = (((current == &pcb[0]) && (num++ == 200)) ? &pcb[1] : &pcb[0]);
+  if (num == 200)
+    num = 0;
 
   // TODO: switch to the new address space,
   _switch(&current->as);
-  
+
   // then return the new context
   return current->tf;
 }
