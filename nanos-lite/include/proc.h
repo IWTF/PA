@@ -6,6 +6,7 @@
 
 #define STACK_SIZE (8 * PGSIZE)
 
+// 进程控制块(PCB, process control block)的数据结构, 为每一个进程维护一个 PCB
 typedef union {
   uint8_t stack[STACK_SIZE] PG_ALIGN;
   struct {

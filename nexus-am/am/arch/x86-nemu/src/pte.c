@@ -86,7 +86,7 @@ _RegSet *_umake(_Protect *p, _Area ustack, _Area kstack, void *entry, char *cons
 
   uint32_t *stack = (uint32_t *)(ustack.end - 4);
 
-  // stack frame of _start()
+  // 准备_start()的入口参数
   for (int i = 0; i < 3; i++)
     *stack-- = 0;
 
