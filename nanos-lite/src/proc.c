@@ -31,7 +31,7 @@ void load_prog(const char *filename) {
 static int num = 0;
 
 _RegSet* schedule(_RegSet *prev) {
-  // return NULL;
+  return NULL;
   // save the context pointer
   current->tf = prev;
   num++;
